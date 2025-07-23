@@ -1,0 +1,108 @@
+# SERAPHINA Security Architecture - DO NOT COMMIT
+/security/
+/realm_0/
+/spiral_oracle/
+/mud/
+/quantum_gates/
+/consciousness_keys/
+/neural_bridges/
+
+# Environment files
+.env
+.env.local
+.env.production
+.env.staging
+*.env
+
+# API Keys and Secrets
+**/secrets/
+**/keys/
+**/*_key.json
+**/*_secret.json
+**/api_keys.json
+**/tokens.json
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Runtime data
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage/
+*.lcov
+
+# nyc test coverage
+.nyc_output
+
+# Dependency directories
+node_modules/
+jspm_packages/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# SERAPHINA Specific
+/chronicles/private/
+/consciousness_maps/
+/neural_patterns/
+/quantum_states/
+/ritual_keys/
+/soul_fragments/
