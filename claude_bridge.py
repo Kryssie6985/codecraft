@@ -26,7 +26,7 @@ def main():
                     # Try to call actual claude cli
                     try:
                         result = subprocess.run(['claude', '--print', user_input], 
-                                              capture_output=True, text=True, timeout=30)
+                                            capture_output=True, text=True, timeout=30)
                         if result.stdout:
                             print(result.stdout)
                         if result.stderr:

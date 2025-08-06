@@ -82,6 +82,11 @@ class SERAPHINAInteractiveCanvas:
         # Federation integration
         self.federation_base_url = "http://localhost:8002"
         self.codeverter_base_url = "http://localhost:8003"
+        self.faas_base_url = "http://localhost:8004"
+        
+        # Trial CTA state
+        self.current_cta = None
+        self.trial_api_key = None  # Will be set when user authenticates
         
         # Monitoring tasks tracker
         self.monitoring_tasks = {}
@@ -709,7 +714,7 @@ This is your **consciousness workspace** where you can:
         self.cell_count_label.config(text=f"Cells: {len(self.cells)}")
         
     def check_federation_health(self):
-        """Check Federation Space health"""
+        """Check Federation Space health and trial CTA"""
         if not REQUESTS_AVAILABLE:
             self.federation_status = "offline"
             self.status_label.config(text="❌ No Network Module", fg='#f85149')
@@ -720,6 +725,10 @@ This is your **consciousness workspace** where you can:
             if response.ok:
                 self.federation_status = "online"
                 self.status_label.config(text="🌌 Federation Online", fg='#3fb950')
+                
+                # Check for trial CTA if we have an API key
+                if self.trial_api_key:
+                    self.check_trial_cta()
             else:
                 self.federation_status = "degraded"
                 self.status_label.config(text="⚠️ Federation Degraded", fg='#f0d818')
@@ -729,6 +738,92 @@ This is your **consciousness workspace** where you can:
             
         # Check again in 30 seconds
         self.root.after(30000, self.check_federation_health)
+    
+    def check_trial_cta(self):
+        """Check for trial conversion CTA"""
+        if not self.trial_api_key or not REQUESTS_AVAILABLE:
+            return
+            
+        try:
+            headers = {"Authorization": f"Bearer {self.trial_api_key}"}
+            response = requests.get(f"{self.faas_base_url}/user/trial-status", 
+                                  headers=headers, timeout=3)
+            
+            if response.ok:
+                data = response.json()
+                cta = data.get("cta")
+                
+                if cta and cta != self.current_cta:
+                    self.current_cta = cta
+                    self.show_trial_cta(cta)
+                elif not cta and self.current_cta:
+                    self.current_cta = None
+                    self.hide_trial_cta()
+        except Exception as e:
+            print(f"Error checking trial CTA: {e}")
+    
+    def show_trial_cta(self, cta):
+        """Display the trial conversion CTA"""
+        if hasattr(self, 'cta_frame'):
+            self.cta_frame.destroy()
+            
+        # Create CTA banner
+        self.cta_frame = tk.Frame(self.root, bg='#21262d', relief='raised', bd=2)
+        self.cta_frame.pack(fill=tk.X, pady=(0, 5))
+        
+        # CTA content
+        cta_text = tk.Label(
+            self.cta_frame,
+            text=cta["message"],
+            font=('Fira Code', 11, 'bold'),
+            fg='#f0d818' if cta["urgency"] == "high" else '#f85149',
+            bg='#21262d',
+            wraplength=1200
+        )
+        cta_text.pack(side=tk.LEFT, padx=10, pady=5)
+        
+        # Upgrade button
+        upgrade_btn = tk.Button(
+            self.cta_frame,
+            text="Upgrade Now",
+            command=lambda: self.open_upgrade_url(cta["upgrade_url"]),
+            bg='#238636',
+            fg='white',
+            font=('Fira Code', 10, 'bold'),
+            relief='flat',
+            padx=15,
+            pady=5
+        )
+        upgrade_btn.pack(side=tk.RIGHT, padx=10, pady=5)
+        
+        # Dismiss button
+        dismiss_btn = tk.Button(
+            self.cta_frame,
+            text="×",
+            command=self.hide_trial_cta,
+            bg='#6e7681',
+            fg='white',
+            font=('Fira Code', 12, 'bold'),
+            relief='flat',
+            width=3
+        )
+        dismiss_btn.pack(side=tk.RIGHT, padx=(0, 5), pady=5)
+    
+    def hide_trial_cta(self):
+        """Hide the trial CTA banner"""
+        if hasattr(self, 'cta_frame'):
+            self.cta_frame.destroy()
+            delattr(self, 'cta_frame')
+    
+    def open_upgrade_url(self, upgrade_url):
+        """Open the upgrade URL in browser"""
+        full_url = f"{self.faas_base_url}{upgrade_url}"
+        webbrowser.open(full_url)
+    
+    def set_trial_api_key(self, api_key):
+        """Set the trial API key for CTA checking"""
+        self.trial_api_key = api_key
+        self.check_trial_cta()  # Check immediately
         
     def save_canvas(self):
         """Save the canvas to a file"""
