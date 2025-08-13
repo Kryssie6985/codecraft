@@ -9,7 +9,8 @@
       "typescript": "rituals\\brandyGauntletResponse.ts",
       "markdown": "rituals\\brandy_gauntlet_response.md",
       "json_schema": "rituals\\brandy_gauntlet_response.schema.json",
-      "prompt": "rituals\\brandy_gauntlet_response.prompt.txt"
+      "prompt": "rituals\\brandy_gauntlet_response.prompt.txt",
+      "lisp": "rituals\\brandy_gauntlet_response.lisp"
     },
     "mnemonic": "::ritual.brandy_gauntlet_response::"
   }

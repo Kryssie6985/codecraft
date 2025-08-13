@@ -16,7 +16,8 @@ from .generators import (
     TypeScriptGenerator,
     MarkdownGenerator,
     JSONSchemaGenerator,
-    PromptGenerator
+    PromptGenerator,
+    LispGenerator
 )
 
 logger = logging.getLogger(__name__)
@@ -49,7 +50,8 @@ class UniversalRitualTranslator:
             'typescript': TypeScriptGenerator(),
             'markdown': MarkdownGenerator(),
             'json_schema': JSONSchemaGenerator(),
-            'prompt': PromptGenerator()
+            'prompt': PromptGenerator(),
+            'lisp': LispGenerator()
         }
     
     def translate(self, ritual_path: Path, output_dir: Path = None) -> Dict[str, Path]:

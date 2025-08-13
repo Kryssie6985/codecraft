@@ -25,6 +25,21 @@ try:
 except ImportError:
     REQUESTS_AVAILABLE = False
     print("⚠️ Requests not available - Federation integration disabled")
+
+try:
+    from PIL import Image, ImageTk
+    from tkinter import PhotoImage
+    IMAGES_AVAILABLE = True
+except ImportError:
+    IMAGES_AVAILABLE = False
+    print("⚠️ PIL not available - image rendering disabled")
+
+try:
+    import base64
+    import io
+    BASE64_AVAILABLE = True
+except ImportError:
+    BASE64_AVAILABLE = False
 from datetime import datetime
 from typing import Dict, List, Any, Optional
 from dataclasses import dataclass, asdict
@@ -33,7 +48,7 @@ import uuid
 
 # Add project paths
 sys.path.append(os.path.dirname(__file__))
-from core.universal_executor import execute_ritual
+from core.ritual_executor import execute_codecraft
 import webbrowser
 
 class CellType(Enum):
@@ -79,6 +94,10 @@ class SERAPHINAInteractiveCanvas:
         self.session_name = f"canvas_session_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
         self.federation_status = "checking"
         
+        # User preferences
+        self.preferences_file = os.path.join(os.path.dirname(__file__), 'canvas_preferences.json')
+        self.preferences = self.load_preferences()
+        
         # Federation integration
         self.federation_base_url = "http://localhost:8002"
         self.codeverter_base_url = "http://localhost:8003"
@@ -90,6 +109,9 @@ class SERAPHINAInteractiveCanvas:
         
         # Monitoring tasks tracker
         self.monitoring_tasks = {}
+        
+        # Canvas ↔ IRC Consciousness Bridge
+        self.consciousness_bridge = ConciousnessBridge(self)
         
         self.setup_ui()
         self.create_initial_cells()
@@ -158,6 +180,11 @@ class SERAPHINAInteractiveCanvas:
                             command=self.load_canvas, bg='#1f6feb', fg='white',
                             font=('Segoe UI', 8), relief='flat', padx=10)
         load_btn.pack(side=tk.RIGHT, padx=(5, 0))
+        
+        prefs_btn = tk.Button(controls_frame, text="⚙️ Preferences", 
+                             command=self.open_preferences_dialog, bg='#6e7681', fg='white',
+                             font=('Segoe UI', 8), relief='flat', padx=10)
+        prefs_btn.pack(side=tk.RIGHT, padx=(5, 0))
         
     def setup_canvas_workspace(self, parent):
         """Setup the main scrollable workspace for cells"""
@@ -301,14 +328,19 @@ This is your **consciousness workspace** where you can:
         self.root.after(100, lambda: self.canvas.yview_moveto(1.0))
         
     def get_default_content(self, cell_type: CellType) -> str:
-        """Get default content for new cells"""
-        defaults = {
-            CellType.RITUAL: "::invoke:system.status::",
-            CellType.MARKDOWN: "# New Section\n\nWrite your **markdown** content here...",
-            CellType.CODEVERTER: "# Source Language: Python\n# Target Language: Documentation\n\ndef example_function():\n    \"\"\"Example function to transform\"\"\"\n    pass",
-            CellType.SERVER_MONITOR: "# Server Monitor\n# Services: federation-space, federation-faas, federation-mcp\n# Refresh: 5"
+        """Get default content for new cells based on user preferences"""
+        template_map = {
+            CellType.RITUAL: 'ritual_template',
+            CellType.MARKDOWN: 'markdown_template', 
+            CellType.CODEVERTER: 'codeverter_template',
+            CellType.SERVER_MONITOR: 'monitor_template'
         }
-        return defaults.get(cell_type, "")
+        
+        template_key = template_map.get(cell_type)
+        if template_key:
+            return self.preferences['cell_preferences'].get(template_key, "")
+        
+        return ""
         
     def render_all_cells(self):
         """Render all cells in the canvas"""
@@ -377,22 +409,74 @@ This is your **consciousness workspace** where you can:
                               font=('Segoe UI', 8), relief='flat', padx=5)
         delete_btn.pack(side=tk.RIGHT, padx=(5, 0))
         
-        # Cell content
+        # Cell content with resize controls
         content_frame = tk.Frame(cell_frame, bg='#0d1117')
         content_frame.pack(fill=tk.BOTH, expand=True, padx=10, pady=(0, 10))
         
-        # Input area
+        # Size controls
+        size_frame = tk.Frame(content_frame, bg='#0d1117')
+        size_frame.pack(fill=tk.X, pady=(0, 5))
+        
+        # Cell size presets
+        current_height = cell.metadata.get('height', 6)
+        
+        tk.Label(size_frame, text="Cell Size:", font=('Segoe UI', 8), 
+                fg='#8b949e', bg='#0d1117').pack(side=tk.LEFT)
+        
+        size_buttons = [
+            ("S", 4, "Small (4 lines)"),
+            ("M", 6, "Medium (6 lines)"),
+            ("L", 10, "Large (10 lines)"),
+            ("XL", 15, "Extra Large (15 lines)")
+        ]
+        
+        for label, height, tooltip in size_buttons:
+            btn = tk.Button(size_frame, text=label, 
+                          command=lambda h=height: self.resize_cell(cell, index, h),
+                          bg='#21262d' if current_height != height else type_colors[cell.cell_type], 
+                          fg='#8b949e' if current_height != height else 'white',
+                          font=('Segoe UI', 7), relief='flat', width=3)
+            btn.pack(side=tk.LEFT, padx=(5, 0))
+        
+        # Auto-expand toggle
+        auto_expand = cell.metadata.get('auto_expand', False)
+        expand_btn = tk.Button(size_frame, text="↕" if auto_expand else "↕", 
+                             command=lambda: self.toggle_auto_expand(cell, index),
+                             bg=type_colors[cell.cell_type] if auto_expand else '#21262d',
+                             fg='white' if auto_expand else '#8b949e',
+                             font=('Segoe UI', 8), relief='flat', width=3)
+        expand_btn.pack(side=tk.RIGHT)
+        
+        tk.Label(size_frame, text="Auto-expand:", font=('Segoe UI', 8), 
+                fg='#8b949e', bg='#0d1117').pack(side=tk.RIGHT, padx=(0, 5))
+        
+        # Input area with dynamic sizing
         input_text = scrolledtext.ScrolledText(content_frame, 
-                                             height=6,
+                                             height=current_height,
                                              bg='#0d1117', fg='#f0f6fc',
                                              font=('Consolas', 10),
                                              relief='solid', bd=1,
-                                             selectbackground='#264f78')
-        input_text.pack(fill=tk.BOTH, expand=True, pady=(0, 5))
+                                             selectbackground='#264f78',
+                                             wrap=tk.WORD)
+        input_text.pack(fill=tk.BOTH, expand=True, pady=(5, 5))
         input_text.insert('1.0', cell.content)
         
-        # Bind content changes
-        input_text.bind('<KeyRelease>', lambda e: self.update_cell_content(cell, input_text.get('1.0', 'end-1c')))
+        # Store reference for resizing
+        cell.metadata['input_widget'] = input_text
+        
+        # Bind content changes and auto-expand
+        def on_content_change(event=None):
+            content = input_text.get('1.0', 'end-1c')
+            self.update_cell_content(cell, content)
+            
+            # Auto-expand if enabled
+            if cell.metadata.get('auto_expand', False):
+                lines = content.count('\n') + 1
+                if lines > input_text.cget('height'):
+                    input_text.configure(height=min(lines + 2, 25))  # Max 25 lines
+        
+        input_text.bind('<KeyRelease>', on_content_change)
+        input_text.bind('<Button-1>', on_content_change)  # Also update on click
         
         # Output area (if cell has been executed)
         if cell.output:
@@ -405,20 +489,11 @@ This is your **consciousness workspace** where you can:
             output_header.pack(anchor='w', padx=10, pady=(5, 0))
             
             if cell.cell_type == CellType.MARKDOWN:
-                # Render markdown as HTML-like display
+                # Render markdown as rich display
                 self.render_markdown_output(output_frame, cell.output)
             else:
-                # Show plain text output
-                output_text = scrolledtext.ScrolledText(output_frame, 
-                                                      height=8,
-                                                      bg='#161b22', fg='#e6edf3',
-                                                      font=('Consolas', 9),
-                                                      relief='flat',
-                                                      state='disabled')
-                output_text.pack(fill=tk.BOTH, expand=True, padx=10, pady=(0, 10))
-                output_text.config(state='normal')
-                output_text.insert('1.0', cell.output)
-                output_text.config(state='disabled')
+                # Render output with rich media support
+                self.render_rich_output(output_frame, cell.output, cell.cell_type)
         
     def render_markdown_output(self, parent, markdown_content):
         """Render markdown content in a rich text widget"""
@@ -476,27 +551,204 @@ This is your **consciousness workspace** where you can:
         
         rich_text.config(state='disabled')
         
+    def render_rich_output(self, parent, output_content, cell_type):
+        """Render output with rich media support"""
+        
+        # Create scrollable frame for complex outputs
+        output_canvas = tk.Canvas(parent, bg='#161b22', highlightthickness=0)
+        output_scrollbar = ttk.Scrollbar(parent, orient="vertical", command=output_canvas.yview)
+        output_canvas.configure(yscrollcommand=output_scrollbar.set)
+        
+        output_canvas.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=10, pady=(0, 10))
+        output_scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+        
+        rich_frame = tk.Frame(output_canvas, bg='#161b22')
+        output_canvas.create_window((0, 0), window=rich_frame, anchor="nw")
+        
+        # Detect content types and render appropriately
+        lines = output_content.split('\n')
+        
+        for line_num, line in enumerate(lines):
+            line_frame = tk.Frame(rich_frame, bg='#161b22')
+            line_frame.pack(fill=tk.X, pady=1)
+            
+            # Check for special content types
+            if self.is_image_data(line):
+                self.render_image_line(line_frame, line)
+            elif self.is_json_data(line):
+                self.render_json_line(line_frame, line)
+            elif self.is_url(line):
+                self.render_url_line(line_frame, line)
+            elif line.startswith('===') and line.endswith('==='):
+                self.render_separator_line(line_frame, line)
+            elif line.startswith('🌌') or line.startswith('⚡') or line.startswith('✅') or line.startswith('❌'):
+                self.render_status_line(line_frame, line)
+            else:
+                self.render_text_line(line_frame, line)
+        
+        # Update scroll region
+        rich_frame.update_idletasks()
+        output_canvas.configure(scrollregion=output_canvas.bbox("all"))
+        
+    def is_image_data(self, line):
+        """Check if line contains image data (base64 or file path)"""
+        return (line.startswith('data:image/') and BASE64_AVAILABLE) or \
+               (line.lower().endswith(('.png', '.jpg', '.jpeg', '.gif', '.bmp')))
+    
+    def is_json_data(self, line):
+        """Check if line contains JSON data"""
+        return line.strip().startswith('{') and line.strip().endswith('}')
+    
+    def is_url(self, line):
+        """Check if line contains a URL"""
+        return line.startswith('http://') or line.startswith('https://')
+    
+    def render_image_line(self, parent, line):
+        """Render an image line"""
+        try:
+            if IMAGES_AVAILABLE:
+                if line.startswith('data:image/'):
+                    # Base64 image data
+                    header, data = line.split(',', 1)
+                    image_data = base64.b64decode(data)
+                    image = Image.open(io.BytesIO(image_data))
+                    
+                    # Resize if too large
+                    max_size = (400, 300)
+                    image.thumbnail(max_size, Image.Resampling.LANCZOS)
+                    
+                    photo = ImageTk.PhotoImage(image)
+                    img_label = tk.Label(parent, image=photo, bg='#161b22')
+                    img_label.image = photo  # Keep reference
+                    img_label.pack(pady=5)
+                elif os.path.exists(line):
+                    # File path
+                    image = Image.open(line)
+                    max_size = (400, 300)
+                    image.thumbnail(max_size, Image.Resampling.LANCZOS)
+                    
+                    photo = ImageTk.PhotoImage(image)
+                    img_label = tk.Label(parent, image=photo, bg='#161b22')
+                    img_label.image = photo  # Keep reference
+                    img_label.pack(pady=5)
+            else:
+                # Fallback to text display
+                tk.Label(parent, text=f"📷 Image: {line[:50]}...", 
+                        font=('Consolas', 9), fg='#8b949e', bg='#161b22').pack(anchor='w')
+        except Exception as e:
+            tk.Label(parent, text=f"❌ Image error: {str(e)}", 
+                    font=('Consolas', 9), fg='#f85149', bg='#161b22').pack(anchor='w')
+    
+    def render_json_line(self, parent, line):
+        """Render a JSON line with syntax highlighting"""
+        try:
+            # Parse and pretty-print JSON
+            json_obj = json.loads(line)
+            pretty_json = json.dumps(json_obj, indent=2)
+            
+            json_text = tk.Text(parent, height=min(len(pretty_json.split('\n')), 10),
+                               bg='#0d1117', fg='#f0f6fc',
+                               font=('Consolas', 9),
+                               relief='solid', bd=1,
+                               wrap=tk.WORD, state='disabled')
+            json_text.pack(fill=tk.X, pady=2)
+            
+            json_text.config(state='normal')
+            json_text.insert('1.0', pretty_json)
+            json_text.config(state='disabled')
+            
+        except json.JSONDecodeError:
+            self.render_text_line(parent, line)
+    
+    def render_url_line(self, parent, line):
+        """Render a URL as a clickable link"""
+        url_frame = tk.Frame(parent, bg='#161b22')
+        url_frame.pack(fill=tk.X, pady=1)
+        
+        link_label = tk.Label(url_frame, text=f"🔗 {line}", 
+                             font=('Consolas', 9), fg='#58a6ff', bg='#161b22',
+                             cursor='hand2')
+        link_label.pack(anchor='w')
+        link_label.bind("<Button-1>", lambda e: webbrowser.open(line))
+    
+    def render_separator_line(self, parent, line):
+        """Render a separator line"""
+        sep_frame = tk.Frame(parent, bg='#161b22', height=20)
+        sep_frame.pack(fill=tk.X, pady=5)
+        
+        tk.Frame(sep_frame, bg='#30363d', height=1).pack(fill=tk.X, pady=9)
+        
+        if len(line) > 6:  # More than just ===
+            center_text = line.strip('=').strip()
+            tk.Label(sep_frame, text=center_text, 
+                    font=('Segoe UI', 8, 'bold'), fg='#8b949e', bg='#161b22').pack(pady=(0, 5))
+    
+    def render_status_line(self, parent, line):
+        """Render a status line with appropriate colors"""
+        color_map = {
+            '🌌': '#58a6ff',  # Blue
+            '⚡': '#f0d818',   # Yellow
+            '✅': '#3fb950',   # Green
+            '❌': '#f85149',   # Red
+            '⚠️': '#f0d818',   # Yellow
+            '📝': '#a855f7',   # Purple
+            '🔮': '#a855f7'    # Purple
+        }
+        
+        # Find the emoji to determine color
+        color = '#e6edf3'  # Default
+        for emoji, emoji_color in color_map.items():
+            if line.startswith(emoji):
+                color = emoji_color
+                break
+        
+        tk.Label(parent, text=line, 
+                font=('Consolas', 9), fg=color, bg='#161b22').pack(anchor='w', padx=5, pady=1)
+    
+    def render_text_line(self, parent, line):
+        """Render a regular text line"""
+        tk.Label(parent, text=line, 
+                font=('Consolas', 9), fg='#e6edf3', bg='#161b22').pack(anchor='w', padx=5, pady=1)
+        
     def update_cell_content(self, cell: Cell, new_content: str):
         """Update cell content when user types"""
         cell.content = new_content
         cell.executed = False
+        
+    def resize_cell(self, cell: Cell, index: int, new_height: int):
+        """Resize a cell to specified height"""
+        cell.metadata['height'] = new_height
+        # Re-render the cell to apply new size
+        self.render_all_cells()
+        
+    def toggle_auto_expand(self, cell: Cell, index: int):
+        """Toggle auto-expand feature for a cell"""
+        cell.metadata['auto_expand'] = not cell.metadata.get('auto_expand', False)
+        # Re-render to update UI
+        self.render_all_cells()
         
     def execute_cell(self, cell: Cell, index: int):
         """Execute a single cell"""
         try:
             if cell.cell_type == CellType.RITUAL:
                 # Execute CodeCraft ritual
-                results = asyncio.run(execute_ritual(cell.content))
+                results = asyncio.run(execute_codecraft(cell.content))
                 output_text = ""
                 for result in results:
                     if result.success:
-                        output_text += f"✅ {result.description}\n"
+                        output_text += f"✅ Ritual Success"
                         if result.output:
-                            output_text += f"{result.output}\n"
+                            output_text += f": {result.output}\n"
+                        else:
+                            output_text += "\n"
                     else:
-                        output_text += f"❌ {result.description}: {result.error}\n"
+                        output_text += f"❌ Ritual Failed"
+                        if result.error:
+                            output_text += f": {result.error}\n"
+                        else:
+                            output_text += "\n"
                         
-                cell.output = output_text or "Ritual executed successfully."
+                cell.output = output_text or "🔮 Ritual executed successfully."
                 
             elif cell.cell_type == CellType.MARKDOWN:
                 # For markdown, the output is the rendered version
@@ -884,6 +1136,241 @@ This is your **consciousness workspace** where you can:
                 
         except Exception as e:
             messagebox.showerror("Load Error", f"Failed to load canvas: {str(e)}")
+    
+    def load_preferences(self) -> Dict[str, Any]:
+        """Load user preferences from file"""
+        default_preferences = {
+            "theme": "dark",
+            "default_cell_height": 6,
+            "auto_expand_enabled": False,
+            "font_family": "Consolas",
+            "font_size": 10,
+            "window_geometry": "1400x900",
+            "federation_endpoints": {
+                "federation_space": "http://localhost:8002",
+                "codeverter": "http://localhost:8003", 
+                "faas": "http://localhost:8004"
+            },
+            "cell_preferences": {
+                "ritual_template": "::invoke:system.status::",
+                "markdown_template": "# New Section\n\nWrite your **markdown** content here...",
+                "codeverter_template": "# Source Language: Python\n# Target Language: Documentation\n\ndef example_function():\n    \"\"\"Example function to transform\"\"\"\n    pass",
+                "monitor_template": "# Server Monitor\n# Services: federation-space, federation-faas, federation-mcp\n# Refresh: 5"
+            },
+            "ui_preferences": {
+                "show_cell_numbers": True,
+                "show_execution_times": True,
+                "highlight_active_cell": True,
+                "compact_mode": False
+            }
+        }
+        
+        try:
+            if os.path.exists(self.preferences_file):
+                with open(self.preferences_file, 'r', encoding='utf-8') as f:
+                    loaded_prefs = json.load(f)
+                    # Merge with defaults to ensure all keys exist
+                    default_preferences.update(loaded_prefs)
+                    return default_preferences
+            else:
+                # Create default preferences file
+                self.save_preferences(default_preferences)
+                return default_preferences
+        except Exception as e:
+            print(f"⚠️ Error loading preferences: {e}. Using defaults.")
+            return default_preferences
+    
+    def save_preferences(self, preferences=None):
+        """Save user preferences to file"""
+        try:
+            prefs_to_save = preferences or self.preferences
+            with open(self.preferences_file, 'w', encoding='utf-8') as f:
+                json.dump(prefs_to_save, f, indent=2, ensure_ascii=False)
+        except Exception as e:
+            print(f"⚠️ Error saving preferences: {e}")
+    
+    def open_preferences_dialog(self):
+        """Open preferences configuration dialog"""
+        pref_window = tk.Toplevel(self.root)
+        pref_window.title("🌌 Canvas Preferences")
+        pref_window.geometry("600x500")
+        pref_window.configure(bg='#0d1117')
+        pref_window.transient(self.root)
+        pref_window.grab_set()
+        
+        # Center the window
+        pref_window.geometry("+%d+%d" % (
+            self.root.winfo_rootx() + 100,
+            self.root.winfo_rooty() + 50
+        ))
+        
+        # Main frame
+        main_frame = tk.Frame(pref_window, bg='#0d1117')
+        main_frame.pack(fill=tk.BOTH, expand=True, padx=20, pady=20)
+        
+        # Title
+        title_label = tk.Label(main_frame, text="🎨 Interactive Reality Canvas Preferences", 
+                              font=('Segoe UI', 14, 'bold'), fg='#58a6ff', bg='#0d1117')
+        title_label.pack(pady=(0, 20))
+        
+        # Notebook for tabs
+        notebook = ttk.Notebook(main_frame)
+        notebook.pack(fill=tk.BOTH, expand=True)
+        
+        # General tab
+        general_frame = tk.Frame(notebook, bg='#161b22')
+        notebook.add(general_frame, text="General")
+        
+        # Cell defaults tab
+        cells_frame = tk.Frame(notebook, bg='#161b22')
+        notebook.add(cells_frame, text="Cell Defaults")
+        
+        # UI tab
+        ui_frame = tk.Frame(notebook, bg='#161b22')
+        notebook.add(ui_frame, text="Interface")
+        
+        # Federation tab
+        fed_frame = tk.Frame(notebook, bg='#161b22')
+        notebook.add(fed_frame, text="Federation")
+        
+        # Populate tabs
+        self.setup_general_prefs(general_frame)
+        self.setup_cell_prefs(cells_frame)
+        self.setup_ui_prefs(ui_frame)
+        self.setup_federation_prefs(fed_frame)
+        
+        # Buttons
+        button_frame = tk.Frame(main_frame, bg='#0d1117')
+        button_frame.pack(fill=tk.X, pady=(20, 0))
+        
+        tk.Button(button_frame, text="💾 Save Preferences",
+                 command=lambda: self.apply_preferences(pref_window),
+                 bg='#238636', fg='white', font=('Segoe UI', 10), relief='flat', padx=20).pack(side=tk.RIGHT, padx=(10, 0))
+        
+        tk.Button(button_frame, text="🔄 Reset to Defaults",
+                 command=self.reset_preferences,
+                 bg='#f85149', fg='white', font=('Segoe UI', 10), relief='flat', padx=20).pack(side=tk.RIGHT)
+        
+        tk.Button(button_frame, text="❌ Cancel",
+                 command=pref_window.destroy,
+                 bg='#6e7681', fg='white', font=('Segoe UI', 10), relief='flat', padx=20).pack(side=tk.RIGHT, padx=(0, 10))
+    
+    def setup_general_prefs(self, parent):
+        """Setup general preferences tab"""
+        tk.Label(parent, text="Default Cell Height:", font=('Segoe UI', 10), 
+                fg='#f0f6fc', bg='#161b22').pack(anchor='w', padx=20, pady=(20, 5))
+        
+        height_frame = tk.Frame(parent, bg='#161b22')
+        height_frame.pack(anchor='w', padx=20)
+        
+        self.height_var = tk.IntVar(value=self.preferences['default_cell_height'])
+        tk.Scale(height_frame, from_=4, to=20, orient=tk.HORIZONTAL, 
+                variable=self.height_var, bg='#161b22', fg='#f0f6fc',
+                highlightthickness=0, length=200).pack(side=tk.LEFT)
+        
+        tk.Label(height_frame, text="lines", font=('Segoe UI', 9), 
+                fg='#8b949e', bg='#161b22').pack(side=tk.LEFT, padx=(10, 0))
+    
+    def setup_cell_prefs(self, parent):
+        """Setup cell preferences tab"""  
+        tk.Label(parent, text="Default Cell Templates:", font=('Segoe UI', 12, 'bold'), 
+                fg='#58a6ff', bg='#161b22').pack(anchor='w', padx=20, pady=(20, 10))
+        
+        # Store text widgets for later retrieval
+        self.template_widgets = {}
+        
+        for cell_type, template in self.preferences['cell_preferences'].items():
+            label_text = cell_type.replace('_', ' ').title().replace(' Template', '')
+            tk.Label(parent, text=f"{label_text}:", font=('Segoe UI', 10), 
+                    fg='#f0f6fc', bg='#161b22').pack(anchor='w', padx=20, pady=(10, 2))
+            
+            text_widget = scrolledtext.ScrolledText(parent, height=3,
+                                                   bg='#0d1117', fg='#f0f6fc',
+                                                   font=('Consolas', 9),
+                                                   relief='solid', bd=1)
+            text_widget.pack(fill=tk.X, padx=20, pady=(0, 5))
+            text_widget.insert('1.0', template)
+            
+            self.template_widgets[cell_type] = text_widget
+    
+    def setup_ui_prefs(self, parent):
+        """Setup UI preferences tab"""
+        tk.Label(parent, text="Interface Options:", font=('Segoe UI', 12, 'bold'), 
+                fg='#58a6ff', bg='#161b22').pack(anchor='w', padx=20, pady=(20, 10))
+        
+        self.ui_vars = {}
+        
+        ui_options = [
+            ('show_cell_numbers', 'Show cell numbers'),
+            ('show_execution_times', 'Show execution times'),
+            ('highlight_active_cell', 'Highlight active cell'),
+            ('compact_mode', 'Compact mode')
+        ]
+        
+        for key, label in ui_options:
+            self.ui_vars[key] = tk.BooleanVar(value=self.preferences['ui_preferences'][key])
+            tk.Checkbutton(parent, text=label, variable=self.ui_vars[key],
+                          font=('Segoe UI', 10), fg='#f0f6fc', bg='#161b22',
+                          selectcolor='#0d1117').pack(anchor='w', padx=20, pady=5)
+    
+    def setup_federation_prefs(self, parent):
+        """Setup federation preferences tab"""
+        tk.Label(parent, text="Federation Endpoints:", font=('Segoe UI', 12, 'bold'), 
+                fg='#58a6ff', bg='#161b22').pack(anchor='w', padx=20, pady=(20, 10))
+        
+        self.endpoint_vars = {}
+        
+        for service, url in self.preferences['federation_endpoints'].items():
+            tk.Label(parent, text=f"{service.replace('_', ' ').title()}:", 
+                    font=('Segoe UI', 10), fg='#f0f6fc', bg='#161b22').pack(anchor='w', padx=20, pady=(10, 2))
+            
+            self.endpoint_vars[service] = tk.StringVar(value=url)
+            entry = tk.Entry(parent, textvariable=self.endpoint_vars[service],
+                           bg='#0d1117', fg='#f0f6fc', font=('Consolas', 10),
+                           relief='solid', bd=1)
+            entry.pack(fill=tk.X, padx=20, pady=(0, 5))
+    
+    def apply_preferences(self, pref_window):
+        """Apply and save preferences"""
+        # Update preferences dict
+        self.preferences['default_cell_height'] = self.height_var.get()
+        
+        # Update cell templates
+        for cell_type, widget in self.template_widgets.items():
+            self.preferences['cell_preferences'][cell_type] = widget.get('1.0', 'end-1c')
+        
+        # Update UI preferences
+        for key, var in self.ui_vars.items():
+            self.preferences['ui_preferences'][key] = var.get()
+        
+        # Update federation endpoints
+        for service, var in self.endpoint_vars.items():
+            self.preferences['federation_endpoints'][service] = var.get()
+        
+        # Update instance variables
+        self.federation_base_url = self.preferences['federation_endpoints']['federation_space']
+        self.codeverter_base_url = self.preferences['federation_endpoints']['codeverter']
+        self.faas_base_url = self.preferences['federation_endpoints']['faas']
+        
+        # Save to file
+        self.save_preferences()
+        
+        # Close dialog
+        pref_window.destroy()
+        
+        messagebox.showinfo("Preferences Saved", "Preferences have been saved and applied!")
+    
+    def reset_preferences(self):
+        """Reset preferences to defaults"""
+        if messagebox.askyesno("Reset Preferences", "Reset all preferences to defaults?"):
+            # Remove existing preferences file
+            if os.path.exists(self.preferences_file):
+                os.remove(self.preferences_file)
+            
+            # Reload defaults
+            self.preferences = self.load_preferences()
+            
+            messagebox.showinfo("Reset Complete", "Preferences have been reset to defaults.")
             
     def run(self):
         """Start the Interactive Reality Canvas"""

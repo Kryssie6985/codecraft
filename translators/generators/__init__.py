@@ -8,11 +8,13 @@ from .typescript_generator import TypeScriptGenerator
 from .markdown_generator import MarkdownGenerator
 from .json_schema_generator import JSONSchemaGenerator
 from .prompt_generator import PromptGenerator
+from .lisp_generator import LispGenerator
 
 __all__ = [
     'PythonGenerator',
     'TypeScriptGenerator',
     'MarkdownGenerator',
     'JSONSchemaGenerator',
-    'PromptGenerator'
+    'PromptGenerator',
+    'LispGenerator'
 ]
