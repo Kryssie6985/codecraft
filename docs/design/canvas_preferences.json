@@ -1,0 +1,25 @@
+{
+  "theme": "dark",
+  "default_cell_height": 6,
+  "auto_expand_enabled": false,
+  "font_family": "Consolas",
+  "font_size": 10,
+  "window_geometry": "1400x900",
+  "federation_endpoints": {
+    "federation_space": "http://localhost:8002",
+    "codeverter": "http://localhost:8003",
+    "faas": "http://localhost:8004"
+  },
+  "cell_preferences": {
+    "ritual_template": "::invoke:system.status::",
+    "markdown_template": "# New Section\n\nWrite your **markdown** content here...",
+    "codeverter_template": "# Source Language: Python\n# Target Language: Documentation\n\ndef example_function():\n    \"\"\"Example function to transform\"\"\"\n    pass",
+    "monitor_template": "# Server Monitor\n# Services: federation-space, federation-faas, federation-mcp\n# Refresh: 5"
+  },
+  "ui_preferences": {
+    "show_cell_numbers": true,
+    "show_execution_times": true,
+    "highlight_active_cell": true,
+    "compact_mode": false
+  }
+}

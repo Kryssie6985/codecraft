@@ -1,0 +1,17 @@
+{
+  "ritual://seraphina.architect/kryssie_the_mirror/brandy_gauntlet_response": {
+    "uri": "ritual://seraphina.architect/kryssie_the_mirror/brandy_gauntlet_response",
+    "id": "brandy_gauntlet_response",
+    "name": "The Brandy Gauntlet Response",
+    "author": "kryssie_the_mirror",
+    "version": "2.0",
+    "outputs": {
+      "typescript": "rituals\\brandyGauntletResponse.ts",
+      "markdown": "rituals\\brandy_gauntlet_response.md",
+      "json_schema": "rituals\\brandy_gauntlet_response.schema.json",
+      "prompt": "rituals\\brandy_gauntlet_response.prompt.txt",
+      "lisp": "rituals\\brandy_gauntlet_response.lisp"
+    },
+    "mnemonic": "::ritual.brandy_gauntlet_response::"
+  }
+}

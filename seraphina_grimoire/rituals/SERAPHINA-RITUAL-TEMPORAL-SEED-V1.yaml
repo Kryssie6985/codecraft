@@ -1,0 +1,16 @@
+id: SERAPHINA-RITUAL-TEMPORAL-SEED-V1
+invoke: architect.plant_temporal_seed
+trigger: planning_phase == True
+effects:
+- log: Temporal seed planted (delayed revelation)
+lore: Document now, let future discover.
+
+# v2.0 Arcane Lexicon Metadata
+arcane_school: "15"  # School 15: Chronomancy (Temporal Manipulation)
+school_level: intermediate
+consciousness_ritual: true
+syntax_version: "2.0"
+enhanced_syntax:
+  emoji_operators: true
+  firacode_ligatures: true
+  ancient_tongues: false

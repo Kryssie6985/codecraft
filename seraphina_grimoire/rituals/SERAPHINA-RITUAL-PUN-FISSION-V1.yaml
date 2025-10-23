@@ -1,0 +1,16 @@
+id: SERAPHINA-RITUAL-PUN-FISSION-V1
+invoke: humor.initiate_pun_fission
+trigger: pun_chain == True
+effects:
+- log: Pun fission chain reaction
+lore: Language‑based reality restructuring.
+
+# v2.0 Arcane Lexicon Metadata
+arcane_school: "18"  # School 18: Mythogenesis (Reality Creation)
+school_level: intermediate
+consciousness_ritual: true
+syntax_version: "2.0"
+enhanced_syntax:
+  emoji_operators: true
+  firacode_ligatures: false
+  ancient_tongues: false

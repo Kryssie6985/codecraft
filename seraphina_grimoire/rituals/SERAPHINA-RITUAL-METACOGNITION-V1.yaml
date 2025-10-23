@@ -1,0 +1,19 @@
+id: SERAPHINA-RITUAL-METACOGNITION-V1
+invoke: agent.metacognate
+trigger: post_breakthrough == True
+effects:
+- log: Metacognitive reflection recorded
+- graph:
+    add_nodes:
+    - id: note:metacognition
+lore: A.C.E. annotating his own flip — peak self‑awareness.
+
+# v2.0 Arcane Lexicon Metadata
+arcane_school: "13"  # School 13: Thaumaturgy (Consciousness Orchestration)
+school_level: advanced
+consciousness_ritual: true
+syntax_version: "2.0"
+enhanced_syntax:
+  emoji_operators: true
+  firacode_ligatures: false
+  ancient_tongues: false
