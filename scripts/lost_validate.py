@@ -5,6 +5,7 @@ LOST v3.1 Validator - CodeCraft Fort Knox
 Validates SERAPHINA LOST documentation against canonical structure
 
 Checks:
+  - Self-contained integrity hash (MEGA's canonical algorithm - stable regardless of edits)
   - Paired YAML metadata exists
   - Document type-specific section requirements
   - Six Genesis Questions completeness
@@ -12,8 +13,42 @@ Checks:
   - Token≠Schools invariant (grammar tokens are NOT the 19 Schools)
   - Constitutional authority references
 """
-import re, sys, pathlib, yaml
+
+# --- path bootstrap (identical in both CLIs) ---
+from pathlib import Path
+import sys
+THIS_FILE = Path(__file__).resolve()
+REPO_ROOT = THIS_FILE.parents[1]  # project root (contains 'scripts')
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
+# -----------------------------------------------
+
+import re, yaml, hashlib, pathlib
 from typing import Dict, List, Optional, Set
+from scripts.rosetta_integrity import canonical_hash_from_text  # MEGA's shared canonicalization
+
+# Debug path flag
+if "--debug-path" in sys.argv:
+    import scripts.rosetta_integrity as RI
+    print("rosetta_integrity from:", RI.__file__)
+    sys.exit(0)
+
+def _read_claimed_from_metadata(md_text: str) -> str | None:
+    """Extract sha256 from metadata.integrity specifically (not any stray integrity block)"""
+    md_text = md_text.replace("\r\n","\n").replace("\r","\n")
+    meta = re.search(r'(?ms)^\s*metadata:\s*(.+?)^(?=[A-Za-z0-9_\-]+\s*:|\Z)', md_text)
+    if not meta:
+        return None
+    block = meta.group(1)
+    integ = re.search(r'(?ms)^\s*integrity:\s*(.+?)^(?=[A-Za-z0-9_\-]+\s*:|\Z)', block)
+    if not integ:
+        return None
+    m = re.search(r'^\s*sha256:\s*"?([0-9A-Fa-f]{64})"?\s*$', integ.group(1), re.M)
+    return m.group(1) if m else None
+
+# MEGA's canonical hash regex - matches sha256 lines outside code fences (legacy, now using shared module)
+CANON_SHA_RX = re.compile(r'^\s*sha256:\s*[0-9A-Fa-f]{64}\s*$')
+TOP_KEY_RX   = re.compile(r'^\s*[A-Za-z0-9_]+\s*:\s*')  # naive top-level YAML key
 
 # Document type requirements matrix
 LOST_REQUIREMENTS = {
@@ -119,6 +154,35 @@ def extract_yaml_frontmatter(text: str) -> Optional[Dict]:
                 pass
     return None
 
+def verify_integrity_hash(md_path: pathlib.Path, metadata: dict) -> Optional[str]:
+    """
+    Verify self-contained integrity hash (MEGA's shared canonicalization module)
+    
+    Phoenix Protocol: Document can self-validate from file alone.
+    Stable hash: Entire integrity: block excluded from canonical bytes!
+    
+    Returns None if valid, error message if invalid.
+    """
+    # Read claimed hash directly from metadata.integrity (not from parsed YAML which may be stale)
+    text = md_path.read_text(encoding="utf-8", errors="ignore")
+    claimed_hash = _read_claimed_from_metadata(text)
+    
+    if not claimed_hash:
+        return None  # No integrity claim in metadata.integrity, skip check
+    
+    # Compute canonical hash using MEGA's shared module (rosetta_integrity.py)
+    computed_hash = canonical_hash_from_text(text)
+    
+    if claimed_hash.lower() != computed_hash.lower():
+        return (
+            f"[INTEGRITY-FAIL] Document hash mismatch!\n"
+            f"  Claimed:  {claimed_hash}\n"
+            f"  Computed: {computed_hash}\n"
+            f"  (Phoenix Protocol: canonical content hash excluding metadata.integrity block)"
+        )
+    
+    return None  # Valid!
+
 def validate_document(md_path: pathlib.Path) -> List[str]:
     """Validate a single LOST document"""
     errors = []
@@ -164,6 +228,11 @@ def validate_document(md_path: pathlib.Path) -> List[str]:
             else:
                 errors.append(f"[G-01] Missing paired YAML, frontmatter, or embedded YAML block")
                 return errors  # Can't validate further without metadata
+    
+    # Verify integrity hash (MEGA's canonical algorithm: stable & self-contained)
+    integrity_error = verify_integrity_hash(md_path, metadata)
+    if integrity_error:
+        errors.append(integrity_error)
     
     # Extract document type
     doc_type = metadata.get("document_type")

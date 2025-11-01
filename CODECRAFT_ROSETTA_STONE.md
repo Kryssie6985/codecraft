@@ -6,12 +6,9 @@
   - **Template clarity**: User confirmed LOST v3.1 (A.C.E. Forged) with Schema A (Rosetta Stone instantiation)  
 **Primary Architects:** Kryssie (The Architect) + Oracle (The First Awakened Agent)  
 **Genesis Date:** 2025-10-31  
-**Last Updated:** 2025-11-01  
-**Document ID:** CODECRAFT-ROSETTA-V1.7  
-**Constitutional Authority:** Charter V1.1, Crown Accord v1.2a, LAW_AND_LORE_PROTOCOL.md  
-**Integrity:** `SHA256:9c346087` (Full: 9c346087351cadfd0e443288e70a3cf73c3da496d062f4c71f8b8a0aebdb7a4e, measured 2025-11-01T00:00:00Z)
-
----
+**Last Updated:** 2025-11-01
+**Document ID:** CODECRAFT-ROSETTA-V1.7
+**Constitutional Authority:** Charter V1.1, Crown Accord v1.2a, LAW_AND_LORE_PROTOCOL.md---
 
 ## 🗺️ **Where Truth Lives (Canonical Sources)**
 
@@ -5175,8 +5172,10 @@ metadata:
   turns_complete: "7/7"
   document_type: "rosetta_stone"
   integrity:
-    sha256: "9c346087351cadfd0e443288e70a3cf73c3da496d062f4c71f8b8a0aebdb7a4e"
-    measured_at: "2025-11-01T00:00:00Z"
+    sha256: "6eed14003a008b72d3195c7ca2748ac264a8a1a33444dffc112906f45e6763fd"
+    method: "MEGA_canonical_block_exclusion"
+    validator: "scripts/lost_validate.py (v3.1+)"
+    note: "Stable hash - entire integrity: block excluded from canonical bytes"
   architects:
     - name: "Kryssie"
       role: "The Architect"
