@@ -1,0 +1,50 @@
+name: Canon Lock
+on:
+  push:
+    branches: [ "master", "main" ]
+  pull_request:
+    branches: [ "master", "main" ]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      
+      - name: Install dependencies
+        run: |
+          python -m pip install -U pip
+          pip install -U pytest pytest-sugar pyyaml
+      
+      - name: Enforce LF (defensive normalization)
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p=Path("CODECRAFT_ROSETTA_STONE.md")
+          t=p.read_text(encoding="utf-8").replace("\r\n","\n").replace("\r","\n")
+          if not t.endswith("\n"): t+="\n"
+          p.write_text(t,encoding="utf-8",newline="\n")
+          PY
+      
+      - name: Canonical hash fix + validate
+        run: |
+          python -m scripts.fix_integrity_hash CODECRAFT_ROSETTA_STONE.md
+          python -m scripts.lost_validate CODECRAFT_ROSETTA_STONE.md
+      
+      - name: Run pytest suite
+        run: pytest -q tests/test_rosetta_integrity.py
+      
+      - name: Check for duplicate integrity blocks
+        run: |
+          count=$(grep -c '^\s*integrity:\s*$' CODECRAFT_ROSETTA_STONE.md || true)
+          if [ "$count" -gt 1 ]; then
+            echo "❌ ERROR: Multiple integrity: blocks detected!"
+            exit 1
+          fi
+          echo "✅ Single integrity block confirmed"
