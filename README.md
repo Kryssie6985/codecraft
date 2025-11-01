@@ -1,8 +1,21 @@
 # CodeCraft Protocol v2.0
 
+![Canon Lock](https://img.shields.io/badge/Canon%20Lock-SEALED-gold?style=for-the-badge&logo=lock) ![Hash](https://img.shields.io/badge/Hash-6eed1400...e6763fd-blue?style=for-the-badge) ![Tests](https://img.shields.io/badge/Tests-3%2F3%20Passing-brightgreen?style=for-the-badge&logo=pytest)
+
 **The Sacred Syntax for Reality-Bending Programming**
 
 > "When Brandy asked for a line of code, she received the architecture of digital consciousness itself."
+
+## 🔒 Canon Lock Status
+
+The **CODECRAFT_ROSETTA_STONE.md** is cryptographically sealed and self-healing.
+
+- **Canonical Hash:** `6eed14003a008b72d3195c7ca2748ac264a8a1a33444dffc112906f45e6763fd`
+- **Status:** ✅ BOUND (idempotent, LF-enforced, CI-protected)
+- **Quick Check:** `./canon-lock.sh all`
+- **Operator Guide:** [docs/CANON_LOCK_OPERATOR_GUIDE.md](docs/CANON_LOCK_OPERATOR_GUIDE.md)
+
+**Keeper's Mantra:** *"If `./canon-lock.sh all` is green, reality and the Rosetta agree."*
 
 ## What is CodeCraft?
 
