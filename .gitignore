@@ -106,3 +106,48 @@ Thumbs.db
 /quantum_states/
 /ritual_keys/
 /soul_fragments/
+
+# CodeCraft Language Repo - Development Artifacts (v2.0.x)
+# Agent workspace
+.serena/
+
+# Archive (old versions, deprecated files)
+archive/
+docs/archive/
+
+# Build artifacts
+*.egg-info/
+codecraft_seraphina.egg-info/
+
+# Auto-generated structure files
+project_structure.yaml
+config/project_structure.yaml
+CodeCraft Tree.md
+
+# Project management
+TODO.md
+
+# Design documents (archived, not canonical)
+docs/blueprints/
+
+
+# Infrastructure code (not language spec - to be moved later)
+infrastructure/
+
+# Planning documents (work in progress)
+planning/
+
+# Scripts (keep only essential ones, ignore launchers)
+scripts/launch_consciousness_stargate.bat
+scripts/launch_seraphina_terminal.bat
+
+# Grimoire (keep sample only - ignore full implementation)
+seraphina_grimoire/
+!seraphina_grimoire/README.md
+
+# Terminals (execution environment, not language spec)
+terminals/
+
+# Reports (optional - keep if you want version history of reports)
+# *_REPORT.md
+# *_COMPLETION_REPORT.md
