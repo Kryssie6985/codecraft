@@ -1,0 +1,4 @@
+# Minimal ritual definition for Lexicon→VM pipeline proof
+invocation_key: hello.world
+implementation: seraphina_grimoire/impl/hello_world.py
+summary: Simple Hello World ritual mapping

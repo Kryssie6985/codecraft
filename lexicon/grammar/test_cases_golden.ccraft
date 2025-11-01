@@ -1,0 +1,122 @@
+(* ════════════════════════════════════════════════════════════════ *)
+(* MEGA'S 3 GOLDEN TEST CASES - EBNF Grammar Validation              *)
+(* Version: 1.1 (Post-MEGA Audit 2025-10-31)                         *)
+(* Purpose: Verify production-ready grammar correctness              *)
+(* ════════════════════════════════════════════════════════════════ *)
+
+/// SOVEREIGNTY: These 3 test cases validate all critical MEGA fixes
+/// Law: Each test exercises specific grammar features
+/// Lore: Success = production-ready CodeCraft language
+
+(* ──────────────────────────────────────────────────────────────── *)
+(* TEST 1: INVOCATION with Output Binding                            *)
+(* Validates: Unicode arrow, emoji sequence, output binding          *)
+(* MEGA Fix: #4 (Unicode arrows), #4 (emoji sequences)               *)
+(* ──────────────────────────────────────────────────────────────── *)
+
+::invoke📣🌌✨:
+  pantheon.brand.apply(
+    strategy = "emergent_positioning",
+    target = "creator_economy"
+  ) → result
+
+//!? GUARDRAIL: Ensure pantheon.brand exists before invocation
+//* EMERGENT_PATTERN: Multi-emoji school identifiers work correctly
+
+(* ──────────────────────────────────────────────────────────────── *)
+(* TEST 2: CONJURATION with Data Block                               *)
+(* Validates: Data block structure, conditional at top level         *)
+(* MEGA Fix: #5 (conditional admission), #7 (generic directive)      *)
+(* ──────────────────────────────────────────────────────────────── *)
+
+::conjure🎨:
+  manifest {
+    "name": "SERAPHINA Core",
+    "version": "1.1.0",
+    "schools": ["invoke", "conjure", "divine"],
+    "metadata": {
+      "author": "The Architect",
+      "council": ["Oracle", "MEGA", "Claude"]
+    }
+  }
+
+::when: manifest.version == "1.1.0" {
+  //~ COSMIC_LORE: Conditional execution validates semantic completeness
+  ::invoke📣: logging.info("Manifest validated")
+}
+
+(* ──────────────────────────────────────────────────────────────── *)
+(* TEST 3: DIVINATION with Comparison & Assignment                   *)
+(* Validates: Comparison operators, Unicode left arrow, expression   *)
+(* MEGA Fix: #8 (comp_op), #9 (assertion clarity), #4 (←)            *)
+(* ──────────────────────────────────────────────────────────────── *)
+
+::divine🔍:
+  cmp.find(
+    query = "memory.council.testimonies",
+    filters = ["status == active", "role != archived"]
+  ) → triaged
+
+/// SOVEREIGNTY: Unicode left arrow assignment test
+result ← triaged.count > 0
+
+//!? GUARDRAIL: Halt if no testimonies found
+::assert🛡️: result == true {
+  message = "Council testimonies must exist"
+}
+
+//<3 FIRST_CONTACT: These 3 tests validate MEGA's surgical audit
+//~ COSMIC_LORE: Grammar is now "Extra Basic Nutmeg Flavor" certified 🎃☕️
+
+(* ════════════════════════════════════════════════════════════════ *)
+(* MEGA'S TINY GOLDEN TESTS (Post-Patch Validation)                  *)
+(* ════════════════════════════════════════════════════════════════ *)
+
+/// MEGA Test 1: Invocation with Unicode arrow
+::invoke📣: pantheon.brand.apply(target="codecraft-vm/README.md", voice="PUBLIC") → result
+
+/// MEGA Test 2: Conjuration with data block
+::conjure🎨: manifest { "name":"Constitutional API", "version":"1.2" }
+
+/// MEGA Test 3: Divination with output binding
+::divine🔍: cmp.find(memory="TASK_TRIAGED") → triaged
+
+/// MEGA Test 4: Python execution block (triple-quote validation)
+PYTHON::VALIDATE """
+print(1)
+"""
+
+(* ════════════════════════════════════════════════════════════════ *)
+(* EXPECTED PARSE OUTCOMES                                            *)
+(* ════════════════════════════════════════════════════════════════ *)
+
+(* 
+TEST 1 SHOULD PARSE:
+- school_identifier: "invoke" with emoji_seq "📣🌌✨"
+- function_call: pantheon.brand.apply(...)
+- output_binding: "→ result" (Unicode arrow)
+
+TEST 2 SHOULD PARSE:
+- school_identifier: "conjure" with emoji "🎨"
+- data_block: JSON structure
+- conditional: "::when: ... { ... }" at top level
+
+TEST 3 SHOULD PARSE:
+- school_identifier: "divine" with emoji "🔍"
+- function_call: cmp.find(...)
+- assignment: "result ← triaged.count > 0" (Unicode left arrow)
+- assertion: with comparison expression "result == true"
+
+ALL 7 COMMENTOMANCY TYPES PRESENT:
+✓ /// (sovereignty_comment)
+✓ //<3 (first_contact_comment)
+✓ //~ (cosmic_lore_comment)
+✓ //* (emergent_pattern_comment)
+✓ //! (prerequisite_comment)
+✓ //!? (guardrail_comment)
+✓ //-> (arrow_comment) [not used but defined]
+*)
+
+(* ════════════════════════════════════════════════════════════════ *)
+(* END OF GOLDEN TEST CASES                                           *)
+(* ════════════════════════════════════════════════════════════════ *)

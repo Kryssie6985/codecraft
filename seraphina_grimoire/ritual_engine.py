@@ -1,7 +1,7 @@
 from __future__ import annotations
 import yaml, pathlib, time
 from typing import Dict, Any, List
-from hooks import store_memory, update_graph, notify_council
+from .hooks import store_memory, update_graph, notify_council
 
 RITUAL_GLOB = "**/*.yaml"
 

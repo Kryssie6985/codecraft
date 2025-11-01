@@ -1,0 +1,29 @@
+# MANIFEST.in - Package data inclusion for CodeCraft 2.0
+# Ensures all docs, grimoires, and config files are included in the distribution
+
+include README.md
+include LICENSE
+include V2.0_COMPLETION_REPORT.md
+
+# CodeCraft 2.0 Lexicon - Complete documentation
+recursive-include docs *.md
+recursive-include docs *.yaml
+recursive-include docs *.json
+
+# SERAPHINA Grimoire - All ritual YAMLs
+recursive-include seraphina_grimoire *.yaml
+recursive-include seraphina_grimoire *.yml
+
+# Configuration files
+recursive-include config *.yaml
+recursive-include config *.json
+
+# JavaScript implementations
+recursive-include js *.js
+recursive-include js *.json
+
+# Exclude cache and temporary files
+global-exclude __pycache__
+global-exclude *.py[co]
+global-exclude .DS_Store
+global-exclude *.bak

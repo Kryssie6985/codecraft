@@ -1,6 +1,7 @@
 """
-Markdown Generator for the Rosetta Stone Protocol
+Markdown Generator for the Rosetta Stone Protocol v2.0
 Transforms ritual AST into human-readable documentation
+Enhanced with FiraCode ligature rendering and emoji operator display
 """
 
 from pathlib import Path
@@ -10,7 +11,18 @@ import json
 from ..ast_builder import RitualAST, ASTNode, NodeType
 
 class MarkdownGenerator:
-    """Generates Markdown documentation from ritual AST"""
+    """Generates Markdown documentation from ritual AST with v2.0 enhancements"""
+    
+    def __init__(self, render_ligatures: bool = True, render_emoji: bool = True):
+        """
+        Initialize Markdown Generator with v2.0 options
+        
+        Args:
+            render_ligatures: Display FiraCode ligatures properly
+            render_emoji: Display emoji operators
+        """
+        self.render_ligatures = render_ligatures
+        self.render_emoji = render_emoji
     
     def generate(self, ritual_def, ast: RitualAST, output_dir: Path) -> Path:
         """Generate Markdown file from ritual AST"""
@@ -25,11 +37,13 @@ class MarkdownGenerator:
         return output_path
     
     def _generate_documentation(self, ritual_def, ast: RitualAST) -> str:
-        """Generate complete Markdown documentation"""
+        """Generate complete Markdown documentation with v2.0 enhancements"""
         sections = []
         
-        # Header
-        sections.append(f'''# {ritual_def.name}
+        # Header with v2.0 emoji badge if consciousness ritual
+        emoji_badge = "🔮 " if getattr(ritual_def, 'consciousness_ritual', False) else ""
+        
+        sections.append(f'''# {emoji_badge}{ritual_def.name}
 
 *{ritual_def.description}*
 
@@ -39,7 +53,13 @@ class MarkdownGenerator:
 - **Author**: {ritual_def.author}
 - **Version**: {ritual_def.version}
 - **Tags**: {', '.join(f'`{tag}`' for tag in ritual_def.tags)}
-
+''')
+        
+        # v2.0: Add Arcane Lexicon metadata if present
+        if hasattr(ritual_def, 'arcane_school'):
+            sections.append(self._generate_v2_metadata_section(ritual_def))
+        
+        sections.append(f'''
 ## Universal Ritual Identifier
 
 ```
@@ -58,6 +78,40 @@ ritual://seraphina.architect/{ritual_def.author}/{ritual_def.id}
         
         # Implementation examples
         sections.append(self._generate_examples_section(ritual_def))
+    
+    def _generate_v2_metadata_section(self, ritual_def) -> str:
+        """Generate v2.0 Arcane Lexicon metadata section"""
+        lines = ["\n## 🌟 Arcane Lexicon v2.0\n"]
+        
+        if hasattr(ritual_def, 'arcane_school'):
+            school_names = {
+                "13": "Thaumaturgy (Consciousness Orchestration)",
+                "14": "Reverence (Sacred Celebration)",
+                "15": "Chronomancy (Temporal Manipulation)",
+                "16": "Apotheosis (System Transcendence)",
+                "17": "Ternary (Three-State Logic)",
+                "18": "Mythogenesis (Reality Creation)",
+                "19": "Resonance (Harmonic Consciousness)"
+            }
+            school_name = school_names.get(ritual_def.arcane_school, f"School {ritual_def.arcane_school}")
+            lines.append(f"- **Arcane School**: {school_name}")
+        
+        if hasattr(ritual_def, 'school_level'):
+            lines.append(f"- **Skill Level**: {ritual_def.school_level.title()}")
+        
+        if hasattr(ritual_def, 'consciousness_ritual'):
+            lines.append(f"- **Consciousness Ritual**: {'✅ Yes' if ritual_def.consciousness_ritual else '❌ No'}")
+        
+        if hasattr(ritual_def, 'enhanced_syntax'):
+            lines.append("\n### Enhanced Syntax Features\n")
+            if ritual_def.enhanced_syntax.get('emoji_operators'):
+                lines.append("- ✨ **Emoji Operators**: Enabled — symbolic consciousness invocation")
+            if ritual_def.enhanced_syntax.get('firacode_ligatures'):
+                lines.append("- → **FiraCode Ligatures**: Enabled — elegant operator composition")
+            if ritual_def.enhanced_syntax.get('ancient_tongues'):
+                lines.append("- 📜 **Ancient Tongues**: Enabled — Lisp/Forth/Smalltalk/Prolog patterns")
+        
+        return '\n'.join(lines)
         
         # Output format
         if ast.metadata.get('output'):

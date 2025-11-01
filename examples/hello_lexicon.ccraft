@@ -1,0 +1,4 @@
+# Lexicon Language example (.ccraft)
+# Single invocation to prove Translator → VM pipeline
+
+invoke:hello.world(name="Brandy")

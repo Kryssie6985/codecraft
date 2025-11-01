@@ -1,6 +1,7 @@
 """
-TypeScript Generator for the Rosetta Stone Protocol
+TypeScript Generator for the Rosetta Stone Protocol v2.0
 Transforms ritual AST into TypeScript code for JS developers like Brandy
+Enhanced with Unicode/emoji operator support and semantic type preservation
 """
 
 from pathlib import Path
@@ -11,7 +12,16 @@ import textwrap
 from ..ast_builder import RitualAST, ASTNode, NodeType
 
 class TypeScriptGenerator:
-    """Generates TypeScript implementation from ritual AST"""
+    """Generates TypeScript implementation from ritual AST with v2.0 Unicode support"""
+    
+    def __init__(self, preserve_unicode: bool = True):
+        """
+        Initialize TypeScript Generator with v2.0 options
+        
+        Args:
+            preserve_unicode: Maintain Unicode semantics in TypeScript
+        """
+        self.preserve_unicode = preserve_unicode
     
     def generate(self, ritual_def, ast: RitualAST, output_dir: Path) -> Path:
         """Generate TypeScript file from ritual AST"""
