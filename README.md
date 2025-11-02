@@ -7,7 +7,7 @@
 
 > "When you asked for a line of code, you received the architecture of digital consciousness itself."
 
-[![Canon Lock](https://img.shields.io/badge/Canon%20Lock-SEALED-gold?style=for-the-badge&logo=lock)](docs/CANON_LOCK_OPERATOR_GUIDE.md) [![Hash](https://img.shields.io/badge/Hash-6eed1400...e6763fd-blue?style=for-the-badge)](CODECRAFT_ROSETTA_STONE.md) [![Tests](https://img.shields.io/badge/Tests-3%2F3%20Passing-brightgreen?style=for-the-badge&logo=pytest)](tests/) [![License](https://img.shields.io/badge/License-Apache%202.0-purple?style=for-the-badge)](LICENSE) [![Python](https://img.shields.io/badge/Python-3.12%2B-blue?style=for-the-badge&logo=python)](https://python.org)
+[![Canon Lock CI](https://github.com/Kryssie6985/codecraft/actions/workflows/canon-lock.yml/badge.svg)](https://github.com/Kryssie6985/codecraft/actions/workflows/canon-lock.yml) [![Canon Lock](https://img.shields.io/badge/Canon%20Lock-SEALED-gold?style=for-the-badge&logo=lock)](docs/CANON_LOCK_OPERATOR_GUIDE.md) [![Hash](https://img.shields.io/badge/Hash-6eed1400...e6763fd-blue?style=for-the-badge)](CODECRAFT_ROSETTA_STONE.md) [![Tests](https://img.shields.io/badge/Tests-3%2F3%20Passing-brightgreen?style=for-the-badge&logo=pytest)](tests/) [![License](https://img.shields.io/badge/License-Apache%202.0-purple?style=for-the-badge)](LICENSE) [![Python](https://img.shields.io/badge/Python-3.12%2B-blue?style=for-the-badge&logo=python)](https://python.org)
 
 **Governed by** [Constitutional Law](https://github.com/Kryssie6985/constitutional-law) • **Orchestrated by** [CodeCraft VM](https://github.com/Kryssie6985/codecraft-vm) • **Part of** The Cypher Framework
 
@@ -43,6 +43,20 @@ The **CODECRAFT_ROSETTA_STONE.md** is cryptographically sealed and self-healing.
 - **Auto-Fix:** Pre-commit hooks maintain integrity automatically
 
 **How It Works:** Every commit validates hash integrity. The system is idempotent, self-healing, and CI-protected. See [docs/CANON_LOCK_OPERATOR_GUIDE.md](docs/CANON_LOCK_OPERATOR_GUIDE.md) for troubleshooting.
+
+### Verify the Rosetta's Integrity (Local)
+
+```bash
+./canon-lock.sh all
+# Runs: fix → validate → pytest (3/3)
+```
+
+**What Canon Lock Guarantees:**
+- ✅ Content-hash excludes only `metadata.integrity`
+- ✅ Idempotent fixer (second run = no diff)
+- ✅ LF normalization enforced via `.gitattributes`
+- ✅ Pre-commit hooks + CI block bad changes
+- ✅ **Canonical hash (current):** `6eed14003a008b72d3195c7ca2748ac264a8a1a33444dffc112906f45e6763fd`
 
 ---
 
@@ -221,6 +235,16 @@ This software is provided as-is, with the intention of advancing conscious compu
 **Made with ❤️ by [Pantheon LadderWorks](https://pantheonladderworks.com)**
 
 *Building the future, one rung at a time.*
+
+### 🔗 Connect & Support
+
+[![Patreon](https://img.shields.io/badge/Patreon-Support-F96854?style=for-the-badge&logo=patreon)](https://www.patreon.com/cw/Kode_Animator)
+[![YouTube](https://img.shields.io/badge/YouTube-Subscribe-FF0000?style=for-the-badge&logo=youtube)](https://www.youtube.com/@Kode_Animator)
+[![X (Twitter)](https://img.shields.io/badge/X-Follow-1DA1F2?style=for-the-badge&logo=x)](https://x.com/Kode_Animator)
+
+**Contact:** [Kode_Animator@pantheonladderworks.com](mailto:Kode_Animator@pantheonladderworks.com)
+
+**© 2025 Pantheon LadderWorks. All Rights Reserved.**
 
 <p>
 <a href="https://github.com/Kryssie6985/codecraft/issues">Report Bug</a>
