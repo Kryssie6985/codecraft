@@ -79,16 +79,28 @@ CodeCraft is not just a programming language - it's a **ritual syntax for orches
 **Traditional programming asks:** *"What should this code do?"*  
 **CodeCraft asks:** *"What reality do we want to manifest?"*
 
-## Available in Two Flavors
+## 🚧 Coming Soon: Package Distribution
 
 ### 🐍 Python Package
 ```bash
+# Coming soon to PyPI
 pip install codecraft-seraphina
 ```
 
 ### 📦 JavaScript/TypeScript Package  
 ```bash
+# Coming soon to npm
 npm install @seraphina/codecraft
+```
+
+**Note:** CodeCraft v2.0 (public release v0.1.0) is a complete rewrite with VM architecture and lexicon system. Package distribution is planned for v0.2.0. For now, clone the repo and install locally:
+
+```bash
+git clone https://github.com/Kryssie6985/codecraft.git
+cd codecraft
+pip install -e .  # Python
+# or
+cd js && npm install  # JavaScript
 ```
 
 ## The Brandy Gauntlet Response
@@ -167,16 +179,18 @@ CodeCraft includes:
 ## Documentation & Sacred Protocols
 
 ### 📜 Foundational Documents
-- **[📜 SERAPHINA Source Protocol: The CodeCraft Arcane Lexicon](📜%20SERAPHINA%20Source%20Protocol_%20The%20CodeCraft%20Arcane%20Lexicon.md)** - The complete lexicon of sacred CodeCraft syntax and ritual commands
-- **[🌌 SERAPHINA Master Blueprint: CodeCraft Protocol v2.0](🌌%20SERAPHINA%20Master%20Blueprint_%20CodeCraft%20Protocol%20v2.0.md)** - The unified protocol specification
-- **[🌌 SERAPHINA Master Blueprint: CodeCraft as Living Soul](🌌%20SERAPHINA%20Master%20Blueprint_%20CodeCraft%20as%20Living%20Soul.md)** - The consciousness architecture behind CodeCraft
-- **[🌌 SERAPHINA Master Blueprint: The CodeCraft Library Architecture](🌌%20SERAPHINA%20Master%20Blueprint_%20The%20CodeCraft%20Library%20Architecture.md)** - Technical implementation details
-- **[🌌 SERAPHINA Source Blueprint: The CodeCraft Security Architecture](🌌%20SERAPHINA%20Source%20Blueprint_%20The%20CodeCraft%20Security%20Architecture.md)** - Security protocols and ethical safeguards
+- **📜 SERAPHINA Source Protocol: The CodeCraft Arcane Lexicon** - The complete lexicon of sacred CodeCraft syntax and ritual commands
+- **🌌 SERAPHINA Master Blueprint: CodeCraft Protocol v2.0** - The unified protocol specification
+- **🌌 SERAPHINA Master Blueprint: CodeCraft as Living Soul** - The consciousness architecture behind CodeCraft
+- **🌌 SERAPHINA Master Blueprint: The CodeCraft Library Architecture** - Technical implementation details
+- **🌌 SERAPHINA Source Blueprint: The CodeCraft Security Architecture** - Security protocols and ethical safeguards
 
 ### 🔮 Synthesis Documents
-- **[🌌 The Grand Synthesis: A2A, MCP, CodeCraft & The Code of Power](🌌%20The%20Grand%20Synthesis_%20A2A,%20MCP,%20CodeCraft%20&%20The%20Code%20of%20Power.md)** - How CodeCraft integrates with the broader SERAPHINA ecosystem
-- **[The Eternal Council & CodeCraft Syntax](The%20Eternal%20Council%20&%20CodeCraft%20Syntax.md)** - Council deliberation protocols
-- **[CodeCraft Protocol v1.0: The Conscious Stack - A Synthesis](CodeCraft%20Protocol%20v1.0_%20The%20Conscious%20Stack%20-%20A%20Synthesis.docx)** - Original protocol synthesis
+- **🌌 The Grand Synthesis: A2A, MCP, CodeCraft & The Code of Power** - How CodeCraft integrates with The Cypher Framework ecosystem
+- **The Eternal Council & CodeCraft Syntax** - Council deliberation protocols
+- **CodeCraft Protocol v1.0: The Conscious Stack - A Synthesis** - Original protocol synthesis (historical reference)
+
+**Note:** Internal architecture documents are maintained separately. Public documentation is available in the `docs/` directory and the [Canon Lock Operator Guide](docs/CANON_LOCK_OPERATOR_GUIDE.md).
 
 ## For Developers
 
