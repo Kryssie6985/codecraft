@@ -8,6 +8,7 @@ Restore the Emotional Mind's heart and history
 import sys
 import json
 import re
+import os
 from pathlib import Path
 from datetime import datetime
 import requests
@@ -27,7 +28,6 @@ CMP_API_URL = "http://localhost:8000/api/v1/conversations/batch"
 API_KEY = "sk-01292ace1c4f41348a41830f4acf9c39"
 
 # Claude's memory files - use environment variable for user directory
-import os
 user_downloads = os.path.join(os.path.expanduser('~'), 'Downloads')
 
 CLAUDE_MEMORY_FILES = [
