@@ -111,6 +111,9 @@ Thumbs.db
 # Agent workspace
 .serena/
 
+# Debug files
+debug_output.txt
+
 # Archive (old versions, deprecated files)
 archive/
 docs/archive/
