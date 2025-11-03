@@ -8,6 +8,7 @@ import subprocess
 import threading
 import queue
 import time
+import os
 from typing import Dict, Optional, Callable
 from datetime import datetime
 
@@ -19,9 +20,13 @@ class AgentManager:
     
     def __init__(self, output_callback: Callable[[str, str], None]):
         self.agents: Dict[str, subprocess.Popen] = {}
+        # Determine the path to claude_bridge.py relative to this file
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+        claude_bridge_path = os.path.join(script_dir, 'claude_bridge.py')
+        
         self.agent_configs = {
             'claude': {
-                'command': ['python', r'C:\Users\Krystal Neely\Projects\codecraft\claude_bridge.py'],
+                'command': ['python', claude_bridge_path],
                 'display_name': 'Claude Code',
                 'prompt_symbol': '(claude)',
                 'color': '#00ff88'

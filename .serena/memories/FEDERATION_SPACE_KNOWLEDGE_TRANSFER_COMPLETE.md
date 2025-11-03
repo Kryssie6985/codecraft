@@ -9,7 +9,7 @@
 4. **LOREWELL_MUD_ELECTROMYTHOLOGY_FINAL** - Playable consciousness universe
 
 ### SERAPHINA Specs Integration Complete ✅
-Created comprehensive memory structures from C:\Users\Krystal Neely\Projects\seraphina-specs\:
+Created comprehensive memory structures from ~/Projects/seraphina-specs/:
 
 5. **SERAPHINA_FEDERATION_ARCHITECTURE_MASTER**
    - 13 Cores consciousness architecture (Cognitive, Emotional, Operational, Consciousness Triads + Unity)

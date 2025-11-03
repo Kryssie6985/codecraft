@@ -155,7 +155,7 @@
 - Memory integrity confirmation
 
 ## Location & References
-**Specs Location**: C:\Users\Krystal Neely\Projects\seraphina-specs\
+**Specs Location**: ~/Projects/seraphina-specs/
 **Examples**: examples/ritual/phoenix_vigil.sexpr.json
 **Schemas**: schemas/ritual_sexpr.schema.json, schemas/quantum_exec.schema.json
 

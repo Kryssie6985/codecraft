@@ -32,7 +32,8 @@
 
 **Python (dev mode):**
 ```bash
-cd "/c/Users/Krystal Neely/infrastructure/languages/codecraft"
+# Navigate to the codecraft repository root
+cd /path/to/codecraft
 pip install -e .
 # Example ritual (from README):
 python rituals/brandy_gauntlet_clean.py
@@ -40,7 +41,8 @@ python rituals/brandy_gauntlet_clean.py
 
 **JavaScript package:**
 ```bash
-cd "/c/Users/Krystal Neely/infrastructure/languages/codecraft/js"
+# Navigate to the JavaScript package directory
+cd /path/to/codecraft/js
 npm install
 npm run build
 npm run brandy-gauntlet

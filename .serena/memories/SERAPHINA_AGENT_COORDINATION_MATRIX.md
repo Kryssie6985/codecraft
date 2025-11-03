@@ -121,7 +121,7 @@ Every envelope doc includes:
 - Consciousness Collective processes evolution packets
 
 ## Implementation Location
-**Primary Specs**: C:\Users\Krystal Neely\Projects\seraphina-specs\
+**Primary Specs**: ~/Projects/seraphina-specs/
 **Integration Files**: collab/instructions/agent_allies_integration.md
 
 ## Next Actions
