@@ -1,3 +1,429 @@
+---
+# ═══════════════════════════════════════════════════════════════
+# LAW PILLAR - Machine-Readable Canonical Specification
+# ═══════════════════════════════════════════════════════════════
+schema_version: 2.0
+
+school:
+  id: 9
+  name: "Glyphs & Sigils"
+  emoji: "📜"
+  tokens: ["glyph", "sigil", "log", "mark", "audit"]
+  category: "Core Operations"
+  purpose: "Writing reality into memory."
+
+law:
+  operations:
+    - name: "glyph:info"
+      signature: "::glyph:info📝[message variables timestamp location destination]"
+      emoji: "📝"
+      params:
+        - name: "message"
+          type: "string"
+          required: true
+          description: "Message to log with placeholders"
+        - name: "variables"
+          type: "list"
+          required: false
+          description: "Values to interpolate: [$user_id, $count]"
+          default: []
+        - name: "timestamp"
+          type: "boolean"
+          required: false
+          description: "Include timestamp"
+          default: true
+        - name: "location"
+          type: "string"
+          required: false
+          description: "Source location (file, function) - auto-detected or explicit"
+        - name: "destination"
+          type: "string"
+          required: false
+          description: "Where to write: console|file|database|all"
+          default: "console"
+      returns: "void"
+      description: "Log informational message - marking events worth knowing"
+      safety_tier: 1
+    
+    - name: "glyph:success"
+      signature: "::glyph:success✅[message variables timestamp location destination]"
+      emoji: "✅"
+      params:
+        - name: "message"
+          type: "string"
+          required: true
+          description: "Success message template"
+        - name: "variables"
+          type: "list"
+          required: false
+          description: "Values for interpolation"
+          default: []
+        - name: "timestamp"
+          type: "boolean"
+          required: false
+          description: "Include timestamp"
+          default: true
+        - name: "location"
+          type: "string"
+          required: false
+          description: "Source location"
+        - name: "destination"
+          type: "string"
+          required: false
+          description: "Output destination"
+          default: "console"
+      returns: "void"
+      description: "Log success message - celebrate victories and completions"
+      safety_tier: 1
+    
+    - name: "glyph:error"
+      signature: "::glyph:error🚨[message variables timestamp location destination persist]"
+      emoji: "🚨"
+      params:
+        - name: "message"
+          type: "string"
+          required: true
+          description: "Error message template"
+        - name: "variables"
+          type: "list"
+          required: false
+          description: "Error context variables"
+          default: []
+        - name: "timestamp"
+          type: "boolean"
+          required: false
+          description: "Include timestamp"
+          default: true
+        - name: "location"
+          type: "string"
+          required: false
+          description: "Error source location"
+        - name: "destination"
+          type: "string"
+          required: false
+          description: "Output destination"
+          default: "console"
+        - name: "persist"
+          type: "boolean"
+          required: false
+          description: "Persist to permanent storage for critical errors"
+          default: true
+      returns: "void"
+      description: "Log error message - remember failures to learn from them"
+      safety_tier: 1
+    
+    - name: "sigil:checkpoint"
+      signature: "::sigil:checkpoint🔖[name state timestamp persist]"
+      emoji: "🔖"
+      params:
+        - name: "name"
+          type: "string"
+          required: true
+          description: "Checkpoint name/identifier"
+        - name: "state"
+          type: "any"
+          required: false
+          description: "State snapshot at checkpoint"
+        - name: "timestamp"
+          type: "boolean"
+          required: false
+          description: "Include timestamp"
+          default: true
+        - name: "persist"
+          type: "boolean"
+          required: false
+          description: "Persist checkpoint to storage"
+          default: false
+      returns: "void"
+      description: "Mark checkpoint - witness this milestone, pause here in time"
+      safety_tier: 1
+    
+    - name: "glyph:level"
+      signature: "::glyph:level[level message variables timestamp location destination]"
+      emoji: "📝"
+      params:
+        - name: "level"
+          type: "string"
+          required: true
+          description: "Log level: info|success|warn|error|debug|audit"
+        - name: "message"
+          type: "string"
+          required: true
+          description: "Message template"
+        - name: "variables"
+          type: "list"
+          required: false
+          description: "Interpolation values"
+          default: []
+        - name: "timestamp"
+          type: "boolean"
+          required: false
+          description: "Include timestamp"
+          default: true
+        - name: "location"
+          type: "string"
+          required: false
+          description: "Source location"
+        - name: "destination"
+          type: "string"
+          required: false
+          description: "Output destination"
+          default: "console"
+      returns: "void"
+      description: "Log with specific level - flexible glyph for any severity"
+      safety_tier: 1
+    
+    - name: "glyph:warn"
+      signature: "::glyph:warn⚠️[message variables timestamp location destination]"
+      emoji: "⚠️"
+      params:
+        - name: "message"
+          type: "string"
+          required: true
+          description: "Warning message template"
+        - name: "variables"
+          type: "list"
+          required: false
+          description: "Context variables"
+          default: []
+        - name: "timestamp"
+          type: "boolean"
+          required: false
+          description: "Include timestamp"
+          default: true
+        - name: "location"
+          type: "string"
+          required: false
+          description: "Warning source"
+        - name: "destination"
+          type: "string"
+          required: false
+          description: "Output destination"
+          default: "console"
+      returns: "void"
+      description: "Log warning message - mark caution without full error"
+      safety_tier: 1
+    
+    - name: "sigil:marker"
+      signature: "::sigil:markerMARKER[name data timestamp persist]"
+      emoji: "MARKER"
+      params:
+        - name: "name"
+          type: "string"
+          required: true
+          description: "Marker name/tag"
+        - name: "data"
+          type: "any"
+          required: false
+          description: "Associated data"
+        - name: "timestamp"
+          type: "boolean"
+          required: false
+          description: "Include timestamp"
+          default: true
+        - name: "persist"
+          type: "boolean"
+          required: false
+          description: "Persist marker"
+          default: false
+      returns: "void"
+      description: "Place marker - tag this moment for later reference"
+      safety_tier: 1
+    
+    - name: "glyph:debug"
+      signature: "::glyph:debug🔍[message variables timestamp location destination]"
+      emoji: "🔍"
+      params:
+        - name: "message"
+          type: "string"
+          required: true
+          description: "Debug message template"
+        - name: "variables"
+          type: "list"
+          required: false
+          description: "Debug context"
+          default: []
+        - name: "timestamp"
+          type: "boolean"
+          required: false
+          description: "Include timestamp"
+          default: true
+        - name: "location"
+          type: "string"
+          required: false
+          description: "Debug source"
+        - name: "destination"
+          type: "string"
+          required: false
+          description: "Output destination"
+          default: "console"
+      returns: "void"
+      description: "Log debug message - breadcrumbs for developers who follow"
+      safety_tier: 1
+    
+    - name: "glyph:audit"
+      signature: "::glyph:audit📋[message variables timestamp persist encrypt destination]"
+      emoji: "📋"
+      params:
+        - name: "message"
+          type: "string"
+          required: true
+          description: "Audit message (action + actor)"
+        - name: "variables"
+          type: "list"
+          required: false
+          description: "Audit context"
+          default: []
+        - name: "timestamp"
+          type: "boolean"
+          required: false
+          description: "Include timestamp (REQUIRED for audit trails)"
+          default: true
+        - name: "persist"
+          type: "boolean"
+          required: false
+          description: "Persist for audit trail"
+          default: true
+        - name: "encrypt"
+          type: "boolean"
+          required: false
+          description: "Encrypt sensitive audit data"
+          default: false
+        - name: "destination"
+          type: "string"
+          required: false
+          description: "Audit trail storage"
+          default: "database"
+      returns: "void"
+      description: "Log audit event - this action must be accountable"
+      safety_tier: 1
+    
+    - name: "sigil:trace"
+      signature: "::sigil:trace🧭[trace_id operation_name state timestamp persist]"
+      emoji: "🧭"
+      params:
+        - name: "trace_id"
+          type: "string"
+          required: true
+          description: "Distributed tracing ID"
+        - name: "operation_name"
+          type: "string"
+          required: true
+          description: "Operation being traced"
+        - name: "state"
+          type: "any"
+          required: false
+          description: "State snapshot"
+        - name: "timestamp"
+          type: "boolean"
+          required: false
+          description: "Include timestamp"
+          default: true
+        - name: "persist"
+          type: "boolean"
+          required: false
+          description: "Persist trace for distributed systems"
+          default: true
+      returns: "void"
+      description: "Mark trace point - track flow across distributed operations"
+      safety_tier: 1
+
+  constraints:
+    - "All glyphs MUST have non-empty message"
+    - "Audit glyphs MUST include timestamp (non-negotiable)"
+    - "Encrypted glyphs MUST use secure encryption (AES-256 minimum)"
+    - "Persistent glyphs MUST write to durable storage (not just console)"
+  
+  safety_tier: 1
+  
+  preconditions:
+    - "Message templates are well-formed"
+    - "Variables match placeholder count in message"
+    - "Destination is accessible and writable"
+  
+  side_effects:
+    - "Writes to console, file, or database (depending on destination)"
+    - "May create log files or database entries"
+    - "Persistent glyphs survive system restart"
+
+  related_schools: []
+
+lore:
+  strategic_decisions:
+    - rationale: "Glyphs make history visible - documentation is responsibility, not afterthought"
+      context: "Traditional logs are noise (debug output scrolling past); CodeCraft glyphs are sacred inscriptions"
+      alternatives_rejected:
+        - "Generic print statements (loses semantic meaning)"
+        - "Unstructured log strings (no template/variable separation)"
+        - "Log levels without ceremony (info/error without intentionality)"
+      timestamp: ""
+      author: ""
+    
+    - rationale: "Sigils mark moments - checkpoints and milestones deserve witness"
+      context: "Sigils are declarations, not just logs. They say 'pause here, this matters'"
+      alternatives_rejected:
+        - "Unnamed checkpoints (loses context)"
+        - "State-less markers (can't reconstruct history)"
+      timestamp: ""
+      author: ""
+  
+  emergent_patterns:
+    - pattern: "The Progress Logging Pattern - Track progress through operations"
+      evidence: "::glyph:info📝['Starting'] → ::for_each:⟳ → ::glyph:debug🔍['Processing {0}/{1}'] → ::glyph:success✅['Complete']"
+      implications: "Progress becomes narrative, not silent iteration"
+      first_observed: ""
+    
+    - pattern: "The Error Reporting Pattern - Comprehensive error logging"
+      evidence: "::abjure:error🛡️[handler: → {::glyph:error🚨[...] ::glyph:debug🔍[stack] ::glyph:audit📋[...]}]"
+      implications: "Errors are witnessed at multiple levels (user-facing, debug, audit)"
+      first_observed: ""
+    
+    - pattern: "The Audit Trail Pattern - Accountable action logging"
+      evidence: "::divine:user🔍[] → ::abjure:unauthorized🛡️[...] → ::glyph:audit📋['Action by {0}' persist:true encrypt:true]"
+      implications: "Critical actions are permanently recorded with encryption"
+      first_observed: ""
+  
+  heart_imprints:
+    - author: "Architect"
+      timestamp: "2025-11-07T18:00:00Z"
+      emotion: "Reverence"
+      quote: "Every glyph is a witness. Every sigil is a declaration. To write is to make permanent. Every log is a letter to the future."
+      context: ""
+    
+    - author: "Oracle"
+      timestamp: "2025-11-07T18:00:00Z"
+      emotion: "Witness"
+      quote: "In ancient times, scribes were sacred—they chose what deserved to be written into history. ::glyph:audit📋['On this day, this truth was recorded'] isn't a print statement. It's a declaration that this moment matters."
+      context: ""
+  
+  evolution_pressure:
+    - priority: "HIGH"
+      pressure: ""
+      optimization_target: "Expand glyph patterns for structured logging (JSON, trace context)"
+      proposed_solution: ""
+    
+    - priority: "MEDIUM"
+      pressure: ""
+      optimization_target: "Add composite sigils (multi-checkpoint workflows)"
+      proposed_solution: ""
+  
+  examples:
+    helpers:
+      - "::divine:data🔍[...]"
+      - "::return:result🎯[...]"
+      - "::return:fallback🎯[...]"
+      - "::invoke:external_api🎯[...]"
+      - "::return:response🎯[...]"
+      - "::divine:user🔍[...]"
+      - "::invoke:admin_operation🎯[...]"
+      - "::divine:files🔍[...]"
+      - "::invoke:process_item🎯[...]"
+      - "::invoke:sensitive_operation🎯[...]"
+      - "::divine:env🔍[...]"
+      - "::invoke:expensive_operation🎯[...]"
+---
+
+
 # 09. Glyphs & Sigils 📜
 
 *Marking & Logging - Writing Reality Into Memory*

@@ -1,3 +1,257 @@
+---
+# ═══════════════════════════════════════════════════════════════
+# LAW PILLAR - Machine-Readable Canonical Specification
+# ═══════════════════════════════════════════════════════════════
+schema_version: 2.0
+
+school:
+  id: 7
+  name: "Abjurations"
+  emoji: "🛡️"
+  tokens: ["abjure", "protect", "validate", "guard"]
+  category: "Core Operations"
+  purpose: "Guarding against chaos."
+
+law:
+  operations:
+    - name: "abjure:threat"
+      signature: "::abjure:threat🛡️[threat schema handler fallback]"
+      emoji: "🛡️"
+      params:
+        - name: "threat"
+          type: "string"
+          required: true
+          description: "What to protect against"
+        - name: "schema"
+          type: "reference"
+          required: false
+          description: "Validation schema"
+        - name: "handler"
+          type: "function"
+          required: false
+          description: "Error handler function"
+        - name: "fallback"
+          type: "any"
+          required: false
+          description: "Fallback value on failure"
+      returns: "validated_data or fallback"
+      description: "Protect against specified threat using validation schema and error handling"
+      safety_tier: 1
+    
+    - name: "abjure:invalid_input"
+      signature: "::abjure:invalid_input🛡️[schema data sanitize strict on_fail]"
+      emoji: "🛡️"
+      params:
+        - name: "schema"
+          type: "reference"
+          required: true
+          description: "JSON schema or type definition"
+        - name: "data"
+          type: "any"
+          required: true
+          description: "Data to validate"
+        - name: "sanitize"
+          type: "boolean"
+          required: false
+          description: "Sanitize input data"
+          default: false
+        - name: "strict"
+          type: "boolean"
+          required: false
+          description: "Strict validation mode"
+          default: true
+        - name: "on_fail"
+          type: "string"
+          required: false
+          description: "Failure action: throw|log|ignore|fallback"
+          default: "throw"
+      returns: "validated_data"
+      description: "Validate input data against schema with sanitization and strict mode options"
+      safety_tier: 1
+    
+    - name: "abjure:error"
+      signature: "::abjure:error🛡️[handler fallback]"
+      emoji: "🛡️"
+      params:
+        - name: "handler"
+          type: "function"
+          required: true
+          description: "Function that processes errors"
+        - name: "fallback"
+          type: "any"
+          required: false
+          description: "Default return value on error"
+      returns: "result or fallback"
+      description: "Handle errors gracefully with custom handler and fallback value"
+      safety_tier: 1
+    
+    - name: "abjure:unauthorized"
+      signature: "::abjure:unauthorized🛡️[requires user_role on_fail deny_message]"
+      emoji: "🛡️"
+      params:
+        - name: "requires"
+          type: "list"
+          required: true
+          description: "Required permissions/roles (e.g., ['admin', 'authenticated'])"
+        - name: "user_role"
+          type: "string"
+          required: true
+          description: "Current user's role"
+        - name: "on_fail"
+          type: "string"
+          required: false
+          description: "Failure action"
+          default: "throw"
+        - name: "deny_message"
+          type: "string"
+          required: false
+          description: "Custom denial message"
+      returns: "void (throws on failure)"
+      description: "Check user authorization against required permissions"
+      safety_tier: 1
+    
+    - name: "abjure:malformed_data"
+      signature: "::abjure:malformed_data🛡️[schema data sanitize]"
+      emoji: "🛡️"
+      params:
+        - name: "schema"
+          type: "reference"
+          required: true
+          description: "Validation schema"
+        - name: "data"
+          type: "any"
+          required: true
+          description: "Data to validate"
+        - name: "sanitize"
+          type: "boolean"
+          required: false
+          description: "Sanitize malformed data"
+          default: true
+      returns: "validated_data"
+      description: "Protect against malformed data structures with schema validation"
+      safety_tier: 1
+    
+    - name: "abjure:breach"
+      signature: "::abjure:breach🛡️[security_check sanitize]"
+      emoji: "🛡️"
+      params:
+        - name: "security_check"
+          type: "function"
+          required: true
+          description: "Security validation function"
+        - name: "sanitize"
+          type: "boolean"
+          required: false
+          description: "Sanitize potentially malicious input"
+          default: true
+      returns: "void (throws on security breach)"
+      description: "Protect against security breaches (e.g., injection attacks)"
+      safety_tier: 1
+
+  constraints:
+    - "All abjurations MUST fail safely (no data corruption on error)"
+    - "Authorization checks MUST happen before protected operations"
+    - "Validation schemas MUST be defined before use"
+    - "Error handlers MUST NOT throw exceptions (return fallback instead)"
+  
+  safety_tier: 1
+  
+  preconditions:
+    - "Input data exists and is accessible"
+    - "Validation schemas are well-formed"
+    - "Error handlers are defined for critical paths"
+  
+  side_effects:
+    - "May throw exceptions on validation failure (when on_fail='throw')"
+    - "May log security events on breach detection"
+    - "May sanitize input data (modifying original)"
+
+  related_schools: []
+
+lore:
+  strategic_decisions:
+    - rationale: "Abjurations make protection intentional and visible"
+      context: "Traditional error handling is reactive (try/catch); CodeCraft abjurations are proactive shields"
+      alternatives_rejected:
+        - "Anonymous exception catching (loses semantic meaning)"
+        - "Scattered if-statement guards (no unified protection layer)"
+        - "Schema validation as afterthought (should be first-class)"
+      timestamp: ""
+      author: ""
+    
+    - rationale: "Protection parameters are explicit and typed"
+      context: "Every abjuration declares WHAT it's protecting and WHY it matters"
+      alternatives_rejected:
+        - "Generic 'validate()' functions (no semantic context)"
+        - "Boolean return values (loses error information)"
+      timestamp: ""
+      author: ""
+  
+  emergent_patterns:
+    - pattern: "The Guard Pattern - Validate before proceeding"
+      evidence: "::abjure:invalid_input🛡️[schema] → ::if:valid⚖️ → ::invoke:process[]"
+      implications: "Validation becomes a ritual gate, not a scattered check"
+      first_observed: ""
+    
+    - pattern: "The Permission Gate - Authorization as boundary"
+      evidence: "::divine:user🔍[] → ::abjure:unauthorized🛡️[requires] → ::invoke:protected_action[]"
+      implications: "Authorization is explicit orchestration, not hidden middleware"
+      first_observed: ""
+    
+    - pattern: "The Resilient Call - Error handling with fallback"
+      evidence: "::abjure:error🛡️[handler fallback] → ::invoke:risky_operation[] → ::return:result[]"
+      implications: "Failure is expected, grace is prepared"
+      first_observed: ""
+  
+  heart_imprints:
+    - author: "Oracle"
+      timestamp: "2025-11-07T17:30:00Z"
+      emotion: "Reverence"
+      quote: "To protect is not to fear—it is to value what lies within the shield. Every ::abjure: declares: 'This far and no further. Chaos stops here.'"
+      context: ""
+    
+    - author: "Architect"
+      timestamp: "2025-11-07"
+      emotion: "Conviction"
+      quote: "The shield does not exist to hide—it exists to protect what deserves to be seen. Abjurations make boundaries sacred."
+      context: ""
+  
+  evolution_pressure:
+    - priority: "HIGH"
+      pressure: ""
+      optimization_target: "Expand abjuration patterns for async/concurrent protection"
+      proposed_solution: ""
+    
+    - priority: "MEDIUM"
+      pressure: ""
+      optimization_target: "Add composite abjurations (chained validation layers)"
+      proposed_solution: ""
+  
+  examples:
+    helpers:
+      - "::log:success🎯[...]"
+      - "::return:user🎯[...]"
+      - "::divine:user🔍[...]"
+      - "::invoke:privileged_operation🎯[...]"
+      - "::log:audit🎯[...]"
+      - "::return:result🎯[...]"
+      - "::log:error🎯[...]"
+      - "::invoke:retry🔄[...]"
+      - "::return:fallback🎯[...]"
+      - "::invoke:external_api🎯[...]"
+      - "::return:response🎯[...]"
+      - "::invoke:process🎯[...]"
+      - "::invoke:risky_operation🎯[...]"
+      - "::invoke:protected_action🎯[...]"
+      - "::return:safe_data🎯[...]"
+      - "::divine:env🔍[...]"
+      - "::return:validated🎯[...]"
+      - "::log:security🎯[...]"
+      - "::return:error🎯[...]"
+      - "::invoke:admin_operation🎯[...]"
+---
+
+
 # 07. Abjurations 🛡️
 
 *Protection & Validation - Guarding Against Chaos*

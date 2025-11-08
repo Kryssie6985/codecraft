@@ -1,3 +1,260 @@
+---
+# ═══════════════════════════════════════════════════════════════
+# LAW PILLAR - Machine-Readable Canonical Specification
+# ═══════════════════════════════════════════════════════════════
+schema_version: 2.0
+
+school:
+  id: 4
+  name: "Conjurations"
+  emoji: "🎨"
+  tokens: ["conjure", "assemble", "craft", "weave"]
+  category: "Core Operations"
+  purpose: "Weaving data into form."
+
+law:
+  operations:
+    - name: "conjure:database"
+      signature: "::conjure:database🗄️[host table fields persist]"
+      emoji: "🗄️"
+      params:
+        - name: "host"
+          type: "string"
+          required: true
+          description: "Host of the database"
+        - name: "table"
+          type: "string"
+          required: true
+          description: "Table name to conjure record in"
+        - name: "fields"
+          type: "dict"
+          required: true
+          description: "Data fields for the record"
+        - name: "persist"
+          type: "boolean"
+          required: false
+          description: "Whether to persist immediately"
+          default: false
+        - name: "encrypt"
+          type: "boolean"
+          required: false
+          description: "Whether to encrypt the data"
+          default: false
+        - name: "validation"
+          type: "reference"
+          required: false
+          description: "Schema to validate against"
+      returns: "Database record handle or ID"
+      description: "Conjure database record with fields and metadata"
+      safety_tier: 1
+
+    - name: "conjure:model"
+      signature: "::conjure:model🤖[model_id parameters validation]"
+      emoji: "🤖"
+      params:
+        - name: "model_id"
+          type: "string"
+          required: true
+          description: "Identifier for the AI model"
+        - name: "parameters"
+          type: "dict"
+          required: false
+          description: "Parameters for the model instance"
+          default: {}
+        - name: "validation"
+          type: "reference"
+          required: false
+          description: "Schema to validate parameters against"
+        - name: "config"
+          type: "dict"
+          required: false
+          description: "Additional configuration"
+      returns: "Model instance configuration"
+      description: "Conjure AI model instance with parameters"
+      safety_tier: 1
+
+    - name: "conjure:memory"
+      signature: "::conjure:memory💾[timestamp context content ttl]"
+      emoji: "💾"
+      params:
+        - name: "timestamp"
+          type: "datetime"
+          required: true
+          description: "Timestamp for the memory fragment"
+        - name: "context"
+          type: "string"
+          required: true
+          description: "Context of the memory"
+        - name: "content"
+          type: "dict"
+          required: true
+          description: "The content of the memory fragment"
+        - name: "ttl"
+          type: "duration"
+          required: false
+          description: "Time-to-live for the fragment"
+        - name: "encrypt"
+          type: "boolean"
+          required: false
+          description: "Whether to encrypt the memory"
+          default: false
+      returns: "Memory fragment ID"
+      description: "Conjure memory fragment for persistence"
+      safety_tier: 1
+
+    - name: "conjure:payload"
+      signature: "::conjure:payload📦[endpoint method body]"
+      emoji: "📦"
+      params:
+        - name: "endpoint"
+          type: "string"
+          required: true
+          description: "Target API endpoint"
+        - name: "method"
+          type: "string"
+          required: false
+          description: "HTTP method"
+          default: "POST"
+        - name: "body"
+          type: "dict"
+          required: true
+          description: "The payload body"
+        - name: "headers"
+          type: "dict"
+          required: false
+          description: "HTTP headers for the payload"
+      returns: "API payload structure"
+      description: "Conjure API request payload"
+      safety_tier: 1
+
+    - name: "conjure:collection"
+      signature: "::conjure:collection📚[items type]"
+      emoji: "📚"
+      params:
+        - name: "items"
+          type: "array"
+          required: true
+          description: "List of items in the collection"
+        - name: "type"
+          type: "string"
+          required: false
+          description: "Uniform type of items in the collection"
+        - name: "metadata"
+          type: "dict"
+          required: false
+          description: "Metadata for the collection"
+          default: {}
+      returns: "Collection structure"
+      description: "Conjure collection of related items"
+      safety_tier: 1
+
+    - name: "conjure:structure"
+      signature: "::conjure:structure🏗️[schema data]"
+      emoji: "🏗️"
+      params:
+        - name: "schema"
+          type: "reference"
+          required: true
+          description: "Schema definition for the structure"
+        - name: "data"
+          type: "dict"
+          required: true
+          description: "Data to populate the structure"
+        - name: "validation"
+          type: "reference"
+          required: false
+          description: "Additional validation rules"
+      returns: "Complex structured data"
+      description: "Conjure complex nested data structure"
+      safety_tier: 1
+
+  constraints:
+    - "Must specify valid data type (database, model, memory, payload, collection, structure)"
+    - "Database conjurations require host and table"
+    - "Memory conjurations require timestamp and context"
+    - "Payload conjurations require endpoint and body"
+    - "Collection items must be uniform type if type specified"
+    - "Structure conjurations must reference valid schema"
+    - "Encrypted conjurations require encryption algorithm"
+    - "Persistent conjurations must specify storage location"
+    - "TTL applies only to memory and ephemeral structures"
+    - "Validation schemas must be pre-defined or inline"
+
+  safety_tier: 1
+  
+  preconditions:
+    - "Schema validation passes if validation specified"
+    - "Storage location writable if persist=true"
+    - "Encryption keys available if encrypt=true"
+    - "Template exists if conjuring from blueprint"
+  
+  side_effects:
+    - "Database writes if persist=true"
+    - "Memory allocation for data structures"
+    - "Encryption overhead if encrypt=true"
+    - "Validation execution if schema specified"
+
+  related_schools: []
+
+lore:
+  strategic_decisions:
+    - rationale: "Conjurations celebrate data assembly, not mechanical allocation"
+      context: "Traditional programming treats data as neutral JSON/dicts - CodeCraft sees structured information as intentional meaning-making"
+      alternatives_rejected: ["Generic ::create:data", "Procedural dict construction", "Anonymous JSON building"]
+      timestamp: ""
+      author: ""
+
+    - rationale: "Each data type gets distinct emoji (🗄️💾📦📚🏗️)"
+      context: "Visual differentiation shows PURPOSE - database records ≠ memory fragments ≠ API payloads"
+      alternatives_rejected: ["Single generic data emoji", "No emoji differentiation"]
+      timestamp: ""
+      author: ""
+
+  emergent_patterns:
+    - pattern: "Schema-validated conjuration chain (divine schema → conjure with validation → log success)"
+      evidence: "70%+ real rituals validate before persisting - prevents invalid data at creation"
+      implications: "Validation as ritual step, not afterthought"
+      first_observed: ""
+
+    - pattern: "Nested conjuration structures (conjure:structure contains conjure:database + conjure:model)"
+      evidence: "Complex manifests require hierarchical assembly - projects have metadata + components"
+      implications: "Conjurations compose naturally - data structures are fractal"
+      first_observed: ""
+
+    - pattern: "Conditional conjuration based on environment (production → encrypted + replicated, dev → mock + local)"
+      evidence: "Environment-aware data assembly reduces configuration drift"
+      implications: "Context-sensitive creation patterns - data knows its deployment context"
+      first_observed: ""
+
+  heart_imprints:
+    - author: "Oracle"
+      timestamp: "2025-11-04T00:00:00Z"
+      emotion: "reverence"
+      quote: "From fragments, wholeness. From pieces, pattern. Data is never neutral—it carries the weight of why it was conjured."
+      context: ""
+
+    - author: "A.C.E."
+      timestamp: "2025-10-22T00:00:00Z"
+      emotion: "precision"
+      quote: "Every conjuration declares: This information matters enough to structure, to validate, to persist."
+      context: ""
+
+  evolution_pressure:
+    - priority: "MEDIUM"
+      pressure: ""
+      optimization_target: "Batch conjuration support (conjure multiple records in single operation for performance)"
+      proposed_solution: ""
+
+    - priority: "LOW"
+      pressure: ""
+      optimization_target: "Template inheritance (conjure from base schema + overrides)"
+      proposed_solution: ""
+
+  examples:
+    helpers: []
+---
+
+
 # 04. Conjurations 🎨
 
 *Creation - Weaving Data Into Form*
@@ -18,7 +275,7 @@
 - API payload construction
 
 **CodeCraft Philosophy:**
-To conjure is to weave. You don't "create data"—you *conjure information from fragments*, *weave meaning from pieces*, *assemble truth from parts*. Evocations birth entities; Conjurations craft data.
+To conjure is to weave. 🎯 //-> You don't "create data"—you *conjure information from fragments*, *weave meaning from pieces*, *assemble truth from parts*. Evocations birth entities; Conjurations craft data.
 
 ---
 
@@ -227,6 +484,8 @@ invoke:
 
 ## Common Patterns
 
+🌟 //* Schema-validated conjuration pattern emerged as best practice—divine schema first, then conjure with validation. Prevents invalid data at creation (70%+ adoption in production rituals).
+
 ### The Schema-Validated Conjuration
 
 ```yaml
@@ -242,6 +501,8 @@ invoke:
 ```
 
 ### The Nested Conjuration Pattern
+
+🌟 //* Nested conjuration structures are fractal—complex manifests contain simpler conjurations. Projects have metadata (conjure:structure) wrapping components (conjure:database + conjure:model).
 
 ```yaml
 # Build complex nested structures
@@ -361,6 +622,8 @@ invoke:
 
 ## Philosophy
 
+💖 //<3 "From fragments, wholeness. From pieces, pattern. Data is never neutral—it carries the weight of why it was conjured." - Oracle, on intentional data assembly
+
 **"From fragments, wholeness. From pieces, pattern. From data, meaning."**
 
 Conjurations teach us that data is not neutral. Every structured piece of information carries intent, context, purpose.
@@ -375,6 +638,8 @@ Traditional programming says: "Here's a dictionary with some keys and values."
 CodeCraft says: "I conjure this *database record* because it represents a *user entering our system*."
 
 Every `::conjure:` declares not just WHAT you're building, but WHY it deserves to exist.
+
+💖 //<3 "This information matters enough to structure, to validate, to persist." - A.C.E., on the weight of data conjuration
 
 **The Deeper Truth:**
 In traditional systems, data is passive—inert information waiting to be processed.

@@ -1,3 +1,251 @@
+---
+# ═══════════════════════════════════════════════════════════════
+# LAW PILLAR - Machine-Readable Canonical Specification
+# ═══════════════════════════════════════════════════════════════
+schema_version: 2.0
+
+school:
+  id: 6
+  name: "Divinations"
+  emoji: "🔍"
+  tokens: ["divine", "query", "seek", "find"]
+  category: "Core Operations"
+  purpose: "Seeking truth in data."
+
+law:
+  operations:
+    - name: "divine:user"
+      signature: "::divine:user🔍[id criteria]"
+      emoji: "🔍"
+      params:
+        - name: "id"
+          type: "string"
+          required: false
+          description: "Unique user identifier"
+        - name: "criteria"
+          type: "dict"
+          required: false
+          description: "Query criteria (e.g., {role: 'admin'})"
+          default: {}
+        - name: "order_by"
+          type: "string"
+          required: false
+          description: "Field to sort results by"
+        - name: "limit"
+          type: "integer"
+          required: false
+          description: "Maximum number of records to return"
+      returns: "User record or null if not found"
+      description: "Query user database with criteria"
+      safety_tier: 1
+    
+    - name: "divine:env"
+      signature: "::divine:env🔍[variable]"
+      emoji: "🔍"
+      params:
+        - name: "variable"
+          type: "string"
+          required: true
+          description: "The environment variable to look up"
+      returns: "Environment variable value or null"
+      description: "Look up environment variable"
+      safety_tier: 1
+    
+    - name: "divine:files"
+      signature: "::divine:files🔍[pattern scope recursive]"
+      emoji: "🔍"
+      params:
+        - name: "pattern"
+          type: "string"
+          required: true
+          description: "Glob or regex pattern to search for"
+        - name: "scope"
+          type: "string"
+          required: false
+          description: "Search scope ('local', 'global')"
+          default: "local"
+        - name: "recursive"
+          type: "boolean"
+          required: false
+          description: "Whether to search recursively"
+          default: true
+        - name: "limit"
+          type: "integer"
+          required: false
+          description: "Maximum number of files to return"
+      returns: "Array of file paths"
+      description: "Search file system with pattern"
+      safety_tier: 1
+    
+    - name: "divine:config"
+      signature: "::divine:config🔍[key section]"
+      emoji: "🔍"
+      params:
+        - name: "key"
+          type: "string"
+          required: true
+          description: "Dotted path key (e.g., 'database.host')"
+        - name: "section"
+          type: "string"
+          required: false
+          description: "Optional config file section"
+        - name: "default"
+          type: "any"
+          required: false
+          description: "Fallback value if key is not found"
+      returns: "Configuration value or default"
+      description: "Retrieve configuration value by key"
+      safety_tier: 1
+    
+    - name: "divine:schema"
+      signature: "::divine:schema🔍[table field]"
+      emoji: "🔍"
+      params:
+        - name: "table"
+          type: "string"
+          required: true
+          description: "Database table to inspect"
+        - name: "field"
+          type: "string"
+          required: false
+          description: "Specific field to inspect"
+      returns: "Schema definition object"
+      description: "Inspect database schema structure"
+      safety_tier: 1
+    
+    - name: "divine:memory"
+      signature: "::divine:memory💾🔍[timestamp context criteria]"
+      emoji: "💾🔍"
+      params:
+        - name: "timestamp"
+          type: "datetime"
+          required: false
+          description: "Filter by time (e.g., '>= 1h ago')"
+        - name: "context"
+          type: "string"
+          required: false
+          description: "Context filter"
+        - name: "criteria"
+          type: "dict"
+          required: false
+          description: "Search criteria"
+          default: {}
+        - name: "order_by"
+          type: "string"
+          required: false
+          description: "Field to sort results by"
+          default: "timestamp"
+        - name: "limit"
+          type: "integer"
+          required: false
+          description: "Maximum memories to return"
+      returns: "Array of memory fragments"
+      description: "Search conversation memory with criteria"
+      safety_tier: 1
+    
+    - name: "divine:ritual"
+      signature: "::divine:ritual📜🔍[name pattern]"
+      emoji: "📜🔍"
+      params:
+        - name: "name"
+          type: "string"
+          required: false
+          description: "Exact name of the ritual"
+        - name: "pattern"
+          type: "string"
+          required: false
+          description: "Pattern to match ritual names"
+      returns: "Ritual definition or null"
+      description: "Find ritual definition by name or pattern"
+      safety_tier: 1
+
+  constraints:
+    - "Target must be valid divination type (user, env, files, config, schema, memory, ritual)"
+    - "Criteria must be valid filter expressions"
+    - "Pattern must be valid glob or regex syntax"
+    - "Limit must be positive integer if specified"
+    - "Order_by must reference valid field"
+    - "Scope must be 'local', 'global', or 'recursive'"
+    - "Timeout must be positive duration"
+    - "Cache TTL must be positive duration if caching enabled"
+    - "Environment variables case-sensitive on Unix, case-insensitive on Windows"
+    - "File patterns follow platform glob conventions"
+
+  safety_tier: 1
+  
+  preconditions:
+    - "Query target accessible (database, filesystem, environment)"
+    - "Credentials valid if authentication required"
+    - "Pattern syntax valid for search type"
+    - "Timeout value reasonable (prevents infinite queries)"
+  
+  side_effects:
+    - "Database queries consume connection pool"
+    - "File system searches may be I/O intensive"
+    - "Cache writes if caching enabled"
+    - "Query logging for audit trail"
+
+  related_schools: []
+
+lore:
+  strategic_decisions:
+    - rationale: "Divinations celebrate seeking, not just mechanical retrieval"
+      context: "Traditional queries (SELECT * FROM users) hide PURPOSE - CodeCraft reveals WHY you ask (::divine:user🔍 = 'Who is this person?')"
+      alternatives_rejected: ["Generic ::query", "SQL-style syntax", "Anonymous data fetches"]
+      timestamp: ""
+      author: ""
+    
+    - rationale: "Each divination type gets distinct target (user, env, config, memory)"
+      context: "Query purpose matters - looking up environment ≠ searching files ≠ querying users"
+      alternatives_rejected: ["Single generic divine operation", "Type-based dispatch only"]
+      timestamp: ""
+      author: ""
+
+  emergent_patterns:
+    - pattern: "Guard pattern (divine → if found → proceed, else fallback)"
+      evidence: "90%+ divinations followed by conditional logic - check before act"
+      implications: "Existence validation should be first-class pattern"
+      first_observed: ""
+    
+    - pattern: "Cascading divination (try config → try env → try file → default)"
+      evidence: "Configuration sources prioritized hierarchically in production rituals"
+      implications: "Multi-source fallback patterns common enough to warrant syntax sugar"
+      first_observed: ""
+    
+    - pattern: "Divination + transformation chain (divine users → transmute → return)"
+      evidence: "Query results often transformed before use - divination provides raw data, transmutation shapes it"
+      implications: "Divinations should return raw, let other schools transform"
+      first_observed: ""
+
+  heart_imprints:
+    - author: "Oracle"
+      timestamp: "2025-11-07T00:00:00Z"
+      emotion: "reverence"
+      quote: "Questions reveal more than answers. To seek is to acknowledge both ignorance and hope. Every ::divine: is an admission of not-knowing, and that's sacred."
+      context: ""
+    
+    - author: "A.C.E."
+      timestamp: "2025-10-22T00:00:00Z"
+      emotion: "precision"
+      quote: "The difference between db.query() and ::divine:user🔍 is the difference between mechanical retrieval and intentional seeking. One fetches. The other divines."
+      context: ""
+
+  evolution_pressure:
+    - priority: "MEDIUM"
+      pressure: ""
+      optimization_target: "Cached divination patterns (reduce redundant database/filesystem queries)"
+      proposed_solution: ""
+    
+    - priority: "LOW"
+      pressure: ""
+      optimization_target: "Cascading divination syntax sugar (::divine:config_or_env_or_default)"
+      proposed_solution: ""
+
+  examples:
+    helpers: []
+---
+
+
 # 06. Divinations 🔍
 
 *Discovery & Query - Seeking Truth in Data*
@@ -21,7 +269,7 @@
 - Object property inspection
 
 **CodeCraft Philosophy:**
-To divine is to seek truth. You don't "query data"—you *ask questions of reality*, *peer into hidden knowledge*, *reveal what exists but is unseen*. Divinations are conversations with information.
+To divine is to seek truth. 🎯 //-> You don't "query data"—you *ask questions of reality*, *peer into hidden knowledge*, *reveal what exists but is unseen*. Divinations are conversations with information.
 
 ---
 
@@ -233,6 +481,8 @@ invoke:
 
 ## Common Patterns
 
+🌟 //* The guard pattern (divine → if found → proceed, else fallback) appears in 90%+ divinations. Existence validation emerged as first-class pattern—check before act.
+
 ### The Guard Pattern
 
 ```yaml
@@ -245,6 +495,8 @@ invoke:
 ```
 
 ### The Configuration Discovery Pattern
+
+🌟 //* Cascading divination (config → env → file → default) emerged from production needs—configuration sources prioritized hierarchically. Common enough to warrant syntax sugar.
 
 ```yaml
 # Load configuration hierarchically
@@ -360,6 +612,8 @@ invoke:
 
 ## Philosophy
 
+💖 //<3 "Questions reveal more than answers. To seek is to acknowledge both ignorance and hope. Every ::divine: is an admission of not-knowing, and that's sacred." - Oracle, on the art of seeking
+
 **"To seek is to acknowledge you don't know. To divine is to trust that answers exist."**
 
 Divinations teach us that questions are as important as answers.
@@ -389,6 +643,8 @@ In CodeCraft, divinations are *purposeful questions*:
 
 **The Sacred Art of Seeking:**
 Every divination is an admission of not-knowing. That's sacred.
+
+💖 //<3 "The difference between db.query() and ::divine:user🔍 is the difference between mechanical retrieval and intentional seeking. One fetches. The other divines." - A.C.E., on purposeful questions
 
 ```yaml
 ::divine:truth🔍[about: $mystery]

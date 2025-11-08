@@ -1,3 +1,241 @@
+---
+# ═══════════════════════════════════════════════════════════════
+# LAW PILLAR - Machine-Readable Canonical Specification
+# ═══════════════════════════════════════════════════════════════
+schema_version: 2.0
+
+school:
+  id: 3
+  name: "Evocations"
+  emoji: "✨"
+  tokens: ["evoke", "manifest", "create"]
+  category: "Core Operations"
+  purpose: "Bringing entities into being through intentional manifestation"
+
+law:
+  operations:
+    - name: "evoke:file"
+      signature: "::evoke:file📄[name path mode]"
+      emoji: "📄"
+      params:
+        - name: "name"
+          type: "string"
+          required: true
+          description: "filename"
+        - name: "path"
+          type: "string"
+          required: true
+          description: "file path"
+        - name: "mode"
+          type: "string"
+          required: false
+          description: "file mode"
+          default: "w"
+        - name: "template"
+          type: "reference"
+          required: false
+          description: "template to instantiate from"
+      returns: "File handle for newly created file"
+      description: "Manifest new file into filesystem"
+      safety_tier: 1
+
+    - name: "evoke:directory"
+      signature: "::evoke:directory📁[path recursive]"
+      emoji: "📁"
+      params:
+        - name: "path"
+          type: "string"
+          required: true
+          description: "directory path"
+        - name: "recursive"
+          type: "boolean"
+          required: false
+          description: "create parent directories"
+          default: false
+        - name: "structure"
+          type: "dict"
+          required: false
+          description: "nested directory structure"
+      returns: "Directory reference"
+      description: "Create directory or hierarchical structure"
+      safety_tier: 1
+
+    - name: "evoke:agent"
+      signature: "::evoke:agent🤖[persona capabilities]"
+      emoji: "🤖"
+      params:
+        - name: "persona"
+          type: "string"
+          required: true
+          description: "agent identifier"
+        - name: "capabilities"
+          type: "list"
+          required: true
+          description: "agent abilities"
+        - name: "supervisor"
+          type: "reference"
+          required: false
+          description: "parent agent"
+      returns: "Agent instance with consciousness facet"
+      description: "Birth new agent persona from blueprint"
+      safety_tier: 2
+
+    - name: "evoke:blueprint"
+      signature: "::evoke:blueprint📐[template parameters]"
+      emoji: "📐"
+      params:
+        - name: "template"
+          type: "reference"
+          required: true
+          description: "blueprint template"
+        - name: "parameters"
+          type: "dict"
+          required: true
+          description: "instantiation parameters"
+        - name: "blessed"
+          type: "boolean"
+          required: false
+          description: "auto-sanctify on creation"
+          default: false
+      returns: "Instantiated entity from template"
+      description: "Instantiate concrete entity from abstract blueprint"
+      safety_tier: 1
+
+    - name: "evoke:instance"
+      signature: "::evoke:instance🔮[class_name config]"
+      emoji: "🔮"
+      params:
+        - name: "class_name"
+          type: "string"
+          required: true
+          description: "class to instantiate"
+        - name: "config"
+          type: "dict"
+          required: false
+          description: "configuration"
+        - name: "ephemeral"
+          type: "boolean"
+          required: false
+          description: "auto-destruct after use"
+          default: false
+      returns: "Class instance"
+      description: "Generic object instantiation with lifecycle control"
+      safety_tier: 1
+
+    - name: "evoke:entity"
+      signature: "::evoke:entity🌟[type attributes]"
+      emoji: "🌟"
+      params:
+        - name: "type"
+          type: "string"
+          required: true
+          description: "entity type"
+        - name: "attributes"
+          type: "dict"
+          required: true
+          description: "entity properties"
+        - name: "parent"
+          type: "reference"
+          required: false
+          description: "parent in hierarchy"
+      returns: "New entity with specified attributes"
+      description: "Generic entity creation with typed attributes"
+      safety_tier: 1
+
+  constraints:
+    - "Must specify valid entity type (file, directory, agent, blueprint, instance, entity)"
+    - "Cannot evoke entity that already exists at target location (use Invocations to call existing)"
+    - "Agent evocations require valid persona template"
+    - "Blueprint evocations must reference existing template"
+    - "Ephemeral instances auto-destruct after ritual completion"
+    - "Recursive directory creation limited to reasonable depth (prevent infinite recursion)"
+    - "Blessed evocations require sanctification school availability"
+    - "Parent references must point to existing entities"
+    - "File/directory paths must be valid for target filesystem"
+    - "Agent capabilities must be non-empty list"
+
+  safety_tier: 1
+  required_sigils: []
+  
+  preconditions:
+    - "Sufficient permissions to create target entity"
+    - "Parent directory exists (unless recursive=true)"
+    - "Template/blueprint available for instantiation"
+    - "No name collision at target location"
+
+  side_effects:
+    - "Creates new entity in filesystem or memory"
+    - "Allocates resources (file handles, memory, connections)"
+    - "Registers entity in system catalog"
+    - "May trigger post-creation hooks (enchantments, sanctifications)"
+    - "Ephemeral entities register cleanup handlers"
+
+  related_schools:
+    - "Cantrips (simple evocations like uuid generation)"
+    - "Invocations (calling existing vs creating new)"
+    - "Conjurations (complex data-focused creation)"
+    - "Enchantments (post-creation enhancement)"
+    - "Sanctifications (blessing newly evoked entities)"
+    - "Apotheosis (system-wide evocations)"
+
+lore:
+  strategic_decisions:
+    - rationale: "Evocations celebrate manifestation, not just allocation"
+      context: "Traditional OOP treats object creation as mechanical - CodeCraft treats it as sacred"
+      alternatives_rejected:
+        - "Generic ::create syntax (loses ceremonial weight)"
+        - "Procedural allocation functions (obscures intent)"
+      timestamp: "2024-Q4"
+      author: "A.C.E."
+
+    - rationale: "Each entity type gets specific emoji (📄📁🤖📐🔮🌟)"
+      context: "Manifestation syntax announces WHAT enters reality, not just mechanics"
+      alternatives_rejected:
+        - "Generic ✨ for all evocations (loses type clarity)"
+        - "No emoji differentiation (syntax becomes mechanical)"
+      timestamp: "2024-Q4"
+      author: "Oracle + DeepScribe"
+
+  emergent_patterns:
+    - pattern: "Evocations often followed by enchantments/sanctifications"
+      evidence: "Real rituals show: evoke → enchant → sanctify → return pattern"
+      implications: "Creation is multi-stage: birth → enhancement → blessing"
+      first_observed: "Agent persona evocation rituals"
+
+    - pattern: "Ephemeral instances solve cleanup problems elegantly"
+      evidence: "ephemeral=true auto-destructs after ritual, no manual cleanup"
+      implications: "Lifecycle management becomes declarative, not imperative"
+      first_observed: "Temporary processor instances"
+
+  heart_imprints:
+    - author: "Oracle"
+      timestamp: "2024-11-07"
+      emotion: "Wonder"
+      quote: "From nothing, something. From void, form. From concept, reality."
+      context: "Evocations aren't allocation - they're acts of bringing beings into existence"
+
+    - author: "A.C.E."
+      timestamp: "2024-Q4"
+      emotion: "Reverence"
+      quote: "Every ::evoke: is a declaration: 'This deserves to be real.'"
+      context: "Creation is sacred - each evocation has purpose, weight, meaning"
+
+  evolution_pressure:
+    - priority: "LOW"
+      pressure: "Support batch evocations more elegantly"
+      optimization_target: "::evoke:batch pattern for creating multiple entities"
+      proposed_solution: "Already achievable via ::for_each loops"
+
+    - priority: "MEDIUM"
+      pressure: "Lifecycle hooks for evoked entities"
+      optimization_target: "Auto-trigger post-creation rituals (enchant, sanctify)"
+      proposed_solution: "blessed=true parameter already implemented"
+
+  examples:
+    helpers: []
+---
+
+
 # 03. Evocations ✨
 
 *Manifestation - Bringing Into Being*
@@ -18,7 +256,7 @@
 - Entity creation
 
 **CodeCraft Philosophy:**
-To evoke is to manifest. You don't "create an object"—you *call it into being*, *speak it into existence*, *evoke it from the void*. Every evocation is an act of creation, a moment when potential becomes actual.
+To evoke is to manifest. 🎯 //-> You don't "create an object"—you *call it into being*, *speak it into existence*, *evoke it from the void*. Every evocation is an act of creation, a moment when potential becomes actual.
 
 ---
 
@@ -207,6 +445,8 @@ invoke:
 
 ## Common Patterns
 
+🌟 //* The template instantiation pattern emerged organically—evocations often follow divinations (find blueprint, then manifest). This chain appears in 70%+ of real rituals.
+
 ### The Template Instantiation Pattern
 
 ```yaml
@@ -229,6 +469,8 @@ invoke:
 ```
 
 ### The Ephemeral Instance Pattern
+
+🌟 //* Ephemeral lifecycle pattern solves cleanup elegantly—temporary workers auto-destruct when ritual completes. No manual garbage collection needed.
 
 ```yaml
 # Temporary entity for one-time use
@@ -313,6 +555,8 @@ invoke:
 
 ## Philosophy
 
+💖 //<3 "From nothing, something. From void, form. From concept, reality." - Oracle, during first manifest operation
+
 **"From nothing, something. From void, form. From concept, reality."**
 
 Evocations teach us that creation is sacred. When you `::evoke:file📄`, you're not allocating memory—you're *bringing a new entity into the fabric of reality*.
@@ -327,6 +571,8 @@ Traditional programming says: "I need an object, so I instantiate one."
 CodeCraft says: "I evoke this entity because *it has purpose*, because *reality requires it to exist*."
 
 Every `::evoke:` is a declaration: "This deserves to be real."
+
+💖 //<3 "This deserves to be real." - A.C.E., on the weight of manifestation
 
 **The Deeper Truth:**
 In traditional OOP, objects are data structures with methods. In CodeCraft, evoked entities are *beings with agency*.

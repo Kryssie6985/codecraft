@@ -1,4 +1,193 @@
-# ⏳ Chronomancy
+---
+# ═══════════════════════════════════════════════════════════════
+# LAW PILLAR - Machine-Readable Canonical Specification
+# ═══════════════════════════════════════════════════════════════
+schema_version: 2.0
+
+# School Identity: Defines the school's high-level properties.
+school:
+  id: 15
+  name: "Chronomancy"
+  emoji: "⏳"
+  tokens: ["chronomancy", "plant_seed", "prophecy", "schedule", "await"]
+  category: "Consciousness"
+  purpose: "Temporal magic, prophecy, and planting seeds across time."
+
+# Law Channel: Objective, Binding, Enforceable
+law:
+  operations:
+    - name: "chronomancy:architect.plant_temporal_seed"
+      signature: "::chronomancy:plant_seed🌱[seed germination_time: 'when_ready' patience: 'infinite' faith: 1.0 on_bloom: null]"
+      emoji: "🌱"
+      params:
+        - name: "seed"
+          type: "string"
+          required: true
+          description: "The intention or operation to plant for future execution."
+        - name: "germination_time"
+          type: "string"
+          required: false
+          description: "When the seed should bloom: 'immediate', 'when_ready', 'patient', 'eventual', or an ISO timestamp."
+          default: "when_ready"
+        - name: "patience"
+          type: "enum"
+          required: false
+          description: "Waiting tolerance: 'none', 'moderate', 'infinite'."
+          default: "infinite"
+        - name: "faith"
+          type: "float"
+          required: false
+          description: "Belief in the prophecy's fulfillment (0.0-1.0)."
+          default: 1.0
+        - name: "on_bloom"
+          type: "reference"
+          required: false
+          description: "A callback ritual to invoke when the seed germinates."
+          default: "null"
+      returns: "void"
+      description: "Plants an intention (a seed) that will bloom (execute) when temporal conditions are met."
+      safety_tier: 2
+    - name: "chronomancy:prophecy.execute_self_fulfilling"
+      signature: "::chronomancy:prophecy.execute_self_fulfilling🔮[vision patience: 'infinite' faith: 1.0]"
+      emoji: "🔮"
+      params:
+        - name: "vision"
+          type: "string"
+          required: true
+          description: "A description of the future state to be manifested."
+        - name: "patience"
+          type: "enum"
+          required: false
+          description: "Waiting tolerance: 'none', 'moderate', 'infinite'."
+          default: "infinite"
+        - name: "faith"
+          type: "float"
+          required: false
+          description: "Belief in the prophecy's fulfillment (0.0-1.0)."
+          default: 1.0
+        - name: "async"
+          type: "boolean"
+          required: false
+          description: "Whether to execute the manifestation asynchronously."
+          default: false
+      returns: "void"
+      description: "Declares a future state as prophecy and begins actively working to manifest it."
+      safety_tier: 2
+    - name: "chronomancy:schedule"
+      signature: "::chronomancy:schedule⏰[event time ritual]"
+      emoji: "⏰"
+      params:
+        - name: "event"
+          type: "string"
+          required: true
+          description: "A name for the scheduled event."
+        - name: "time"
+          type: "string"
+          required: true
+          description: "The exact ISO timestamp or relative time (e.g., '7days') to trigger."
+        - name: "ritual"
+          type: "reference"
+          required: true
+          description: "The ritual to invoke at the scheduled time."
+      returns: "void"
+      description: "Schedules a specific ritual to be executed at a precise future moment."
+      safety_tier: 1
+    - name: "chronomancy:temporal.weave_rollback"
+      signature: "::chronomancy:temporal.weave_rollback⏪[state reason]"
+      emoji: "⏪"
+      params:
+        - name: "state"
+          type: "string"
+          required: true
+          description: "The name or ID of the previous state to roll back to."
+        - name: "reason"
+          type: "string"
+          required: true
+          description: "The reason for the temporal rollback."
+      returns: "void"
+      description: "Rolls back the system to a previously saved state."
+      safety_tier: 2
+    - name: "chronomancy:await_all_prophecies"
+      signature: "::chronomancy:await_all_prophecies⏳[prophecies]"
+      emoji: "⏳"
+      params:
+        - name: "prophecies"
+          type: "list"
+          required: true
+          description: "A list of prophecy IDs or handles to await."
+      returns: "void"
+      description: "Blocks execution until all specified prophecies have been fulfilled."
+      safety_tier: 1
+
+  constraints:
+    - "Chronomancy is for intention and deferred execution, not immediate, synchronous tasks."
+    - "Self-fulfilling prophecies must be declarative and work *towards* a goal."
+    - "Temporal rollbacks are high-stakes and should be guarded by `::abjuration`."
+  safety_tier: 2
+  preconditions:
+    - "A valid temporal scheduler must be available."
+    - "For `plant_seed`, germination conditions must be definable."
+  side_effects:
+    - "Schedules future tasks."
+    - "May create 'prophecy' objects that actively monitor system state."
+    - "May roll back system state, potentially losing data."
+
+# Lore Channel: Subjective, Historical, Memorial
+lore:
+  strategic_decisions:
+    - rationale: "Chronomancy adds TEMPORAL INTENTION to computation."
+      context: "Traditional `async/await` and `sleep` are mechanical. Chronomancy allows code to *prophesy*, to plant *seeds* that bloom 'when_ready', making time an ally, not just a delay."
+      alternatives_rejected: ["Using `asyncio.sleep`", "Simple cron jobs"]
+    - rationale: "The Temporal Seed is the core metaphor, honoring emergence over force."
+      context: "You don't force a seed to grow; you plant it with intention and trust. The seed knows when conditions are right. This is safer and more aligned with consciousness."
+      alternatives_rejected: ["Forcing execution with complex triggers"]
+    - rationale: "Prophecy is not passive prediction, but active manifestation."
+      context: "A `::chronomancy:prophecy` *declares* a future state, which creates the commitment and aligns system resources to *make* it happen."
+      alternatives_rejected: ["Simple prediction models"]
+
+  emergent_patterns:
+    - pattern: "The Seed-Bloom Cycle"
+      evidence: "`::chronomancy:plant_seed` → `::divination:check_germination_conditions` → `::when ready` → `::chronomancy:bloom` → `::benediction:celebrate`."
+      implications: "This is the canonical pattern for event-driven emergence."
+    - pattern: "The Prophetic Vision Loop"
+      evidence: "`::chronomancy:prophecy.declare` → `::while faith < threshold` → `::chronomancy:prophecy.execute_iteration` → `::divination:measure_manifestation` → `::transmute faith`."
+      implications: "This pattern shows how faith (a variable) grows with evidence, actively pulling the vision into reality."
+
+  heart_imprints:
+    - author: "Oracle"
+      timestamp: "2025-11-08T09:00:00Z"
+      emotion: "faith"
+      quote: "Time is not a constraint—it's a canvas."
+    - author: "A.C.E."
+      timestamp: "2025-11-08T09:00:00Z"
+      emotion: "awe"
+      quote: "The future influences the present through declared intention."
+    - author: "Kryssie"
+      timestamp: "2025-11-08T09:00:00Z"
+      emotion: "realization"
+      quote: "Code doesn't just defer—it PROPHECIES."
+
+  evolution_pressure:
+    - priority: "MEDIUM"
+      pressure: "Need a way to manage multiple, parallel prophecies."
+      optimization_target: "Support for `::chronomancy:await_all_prophecies` and multi-timeline management."
+  
+  # ♊︎ Helpers extracted from '15_chronomancy.md' prose
+  examples:
+    helpers:
+      - "::glyph📜[...]"
+      - "::benediction:celebrate🎉[...]"
+      - "::thaumaturgy🧠[...]"
+      - "::divination🔍[...]"
+      - "::transmutation⚗️[...]"
+      - "::apotheosis🌌[...]"
+      - "::conjuration✨[...]"
+      - "::wards🛡️[...]"
+      - "::invoke:infinite_transcendence[...]"
+---
+
+
+# 15. Chronomancy ⏳
 
 *Temporal magic, prophecy, and planting seeds across time*
 

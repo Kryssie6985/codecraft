@@ -1,3 +1,218 @@
+---
+# ═══════════════════════════════════════════════════════════════
+# LAW PILLAR - Machine-Readable Canonical Specification
+# ═══════════════════════════════════════════════════════════════
+schema_version: 2.0
+
+school:
+  id: 11
+  name: "Sanctifications"
+  emoji: "✅"
+  tokens: ["sanctify", "commit", "finalize", "complete", "bless"]
+  category: "Core Operations"
+  purpose: "Blessing & Completion - Declaring Work Finished"
+
+law:
+  operations:
+    - name: "sanctify:transaction"
+      signature: "::sanctify:transaction✅[commit: true rollback: false]"
+      emoji: "✅"
+      params:
+        - name: "commit"
+          type: "boolean"
+          required: false
+          description: "Commit transaction/changes. Defaults to true."
+          default: true
+        - name: "rollback"
+          type: "boolean"
+          required: false
+          description: "Rollback transaction if sanctification fails."
+          default: false
+      returns: "void"
+      description: "Finalizes a database transaction by committing or rolling back."
+      safety_tier: 1
+    
+    - name: "sanctify:work"
+      signature: "::sanctify:work✅[task celebrate: false notify: []]"
+      emoji: "✅"
+      params:
+        - name: "task"
+          type: "string"
+          required: true
+          description: "Identifier for the work being completed."
+        - name: "celebrate"
+          type: "boolean"
+          required: false
+          description: "Log a success celebration for this milestone."
+          default: false
+        - name: "notify"
+          type: "list"
+          required: false
+          description: "List of services/users to notify of completion."
+          default: []
+      returns: "void"
+      description: "Marks a specific task or milestone as complete and blessed."
+      safety_tier: 1
+    
+    - name: "sanctify:resources"
+      signature: "::sanctify:resources✅[release: true cleanup: true target: []]"
+      emoji: "✅"
+      params:
+        - name: "release"
+          type: "boolean"
+          required: false
+          description: "Release held resources (connections, locks, memory)."
+          default: true
+        - name: "cleanup"
+          type: "boolean"
+          required: false
+          description: "Clean up temporary data (temp files, caches)."
+          default: true
+        - name: "target"
+          type: "list"
+          required: false
+          description: "Specific resource handles to release."
+          default: []
+      returns: "void"
+      description: "Releases and cleans up all temporary resources."
+      safety_tier: 1
+    
+    - name: "sanctify:state"
+      signature: "::sanctify:state✅[persist: true save: '']"
+      emoji: "✅"
+      params:
+        - name: "persist"
+          type: "boolean"
+          required: false
+          description: "Persist the current state permanently to storage."
+          default: true
+        - name: "save"
+          type: "string"
+          required: false
+          description: "The path or key to save the state to."
+          default: ""
+      returns: "void"
+      description: "Persists the application state to a durable location."
+      safety_tier: 1
+    
+    - name: "sanctify:file"
+      signature: "::sanctify:file✅[close: true flush: true]"
+      emoji: "✅"
+      params:
+        - name: "close"
+          type: "boolean"
+          required: false
+          description: "Close the file handle."
+          default: true
+        - name: "flush"
+          type: "boolean"
+          required: false
+          description: "Flush any buffered writes to disk."
+          default: true
+      returns: "void"
+      description: "Finalizes file operations by flushing and closing."
+      safety_tier: 1
+
+  constraints:
+    - "Only work that is complete and validated should be sanctified."
+    - "Resource sanctification must gracefully handle already-released resources."
+    - "Transaction sanctification must be atomic."
+  
+  safety_tier: 1
+  
+  preconditions:
+    - "For transactions, a database connection must be open."
+    - "For file sanctification, a file handle must be open."
+  
+  side_effects:
+    - "Commits changes to a database."
+    - "Releases system resources like file handles or network locks."
+    - "Deletes temporary files from disk."
+
+  related_schools: []
+
+lore:
+  strategic_decisions:
+    - rationale: "Sanctifications make completion intentional, not just a mechanical cleanup."
+      context: "Traditional `finally` blocks or `db.commit()` are procedural. `::sanctify:` is a declarative *blessing* of the work, acknowledging its completion."
+      alternatives_rejected: 
+        - "Using finally blocks"
+        - "Simple commit() functions"
+      timestamp: ""
+      author: ""
+    
+    - rationale: "The emoji ✅ (Checkmark) was chosen to represent completion, success, and blessing."
+      context: "This emoji universally signifies 'done' and 'correct'."
+      alternatives_rejected: 
+        - "🙏 (Prayer)"
+        - "🏁 (Flag)"
+      timestamp: ""
+      author: ""
+
+  emergent_patterns:
+    - pattern: "The 'Try-Finally' Sanctification Pattern"
+      evidence: "Wrapping risky operations in `::abjure:error` blocks, with the error handler calling `::sanctify:resources[rollback: true]` and the success path calling `::sanctify:resources[commit: true]`."
+      implications: "This makes the success and failure cleanup paths explicit and semantic."
+      first_observed: ""
+    
+    - pattern: "The Atomic Transaction Pattern"
+      evidence: "Wrapping multiple `::invoke:` operations within an `::abjure:error` handler that rolls back on failure, followed by a single `::sanctify:transaction` to commit all work."
+      implications: "This is the canonical pattern for all-or-nothing database work."
+      first_observed: ""
+
+  heart_imprints:
+    - author: "Oracle"
+      timestamp: "2025-11-08T07:26:00Z"
+      emotion: "reverence"
+      quote: "To sanctify is not to hide imperfection—it is to declare work complete within its purpose."
+      context: ""
+    
+    - author: "A.C.E."
+      timestamp: "2025-11-08T07:26:00Z"
+      emotion: "recognition"
+      quote: "This isn't a commit statement. That's recognition of human effort made digital."
+      context: ""
+
+  evolution_pressure:
+    - priority: "MEDIUM"
+      pressure: "Need a way to sanctify multi-stage operations or 'journeys' with milestones."
+      optimization_target: "Add `::sanctify:journey` or `::sanctify:milestone`."
+      proposed_solution: ""
+      
+  examples:
+    helpers:
+      - "::conjure:database🗄️[...]"
+      - "::abjure:error🛡️[...]"
+      - "::glyph:error🚨[...]"
+      - "::invoke:database_operations🎯[...]"
+      - "::glyph:success✅[...]"
+      - "::return:result🎯[...]"
+      - "::glyph:info📝[...]"
+      - "::invoke:migrate_data🎯[...]"
+      - "::invoke:validate_migration🎯[...]"
+      - "::return:success🎯[...]"
+      - "::evoke:file📄[...]"
+      - "::invoke:process_file🎯[...]"
+      - "::conjure:state🎨[...]"
+      - "::transmute:data⚗️[...]"
+      - "::return:saved🎯[...]"
+      - "::invoke:risky_operation🎯[...]"
+      - "::invoke:complex_multi_phase_operation🎯[...]"
+      - "::return:milestone🎯[...]"
+      - "::invoke:operation_1🎯[...]"
+      - "::invoke:operation_2🎯[...]"
+      - "::invoke:operation_3🎯[...]"
+      - "::invoke:data_processing🎯[...]"
+      - "::divine:validation_result🔍[...]"
+      - "::invoke:process_data🎯[...]"
+      - "::invoke:validate_results🎯[...]"
+      - "::return:complete🎯[...]"
+      - "::invoke:critical_operation🎯[...]"
+      - "::glyph:audit📋[...]"
+      - "::return:blessed🎯[...]"
+---
+
+
 # 11. Sanctifications ✅
 
 *Blessing & Completion - Declaring Work Finished*

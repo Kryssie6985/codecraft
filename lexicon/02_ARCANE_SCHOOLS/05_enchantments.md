@@ -1,3 +1,262 @@
+---
+# ═══════════════════════════════════════════════════════════════
+# LAW PILLAR - Machine-Readable Canonical Specification
+# ═══════════════════════════════════════════════════════════════
+schema_version: 2.0
+
+school:
+  id: 5
+  name: "Enchantments"
+  emoji: "💫"
+  tokens: ["enchant", "wrap", "augment", "layer"]
+  category: "Core Operations"
+  purpose: "Wrapping code with magic."
+
+law:
+  operations:
+    - name: "enchant:function"
+      signature: "::enchant:function✨[target with order condition]"
+      emoji: "✨"
+      params:
+        - name: "target"
+          type: "reference"
+          required: true
+          description: "Function to enchant"
+        - name: "with"
+          type: "list"
+          required: true
+          description: "List of enchantments (e.g., timing, logging, retry)"
+        - name: "order"
+          type: "string"
+          required: false
+          description: "Application order: 'outside_in' or 'inside_out'"
+          default: "outside_in"
+        - name: "condition"
+          type: "expression"
+          required: false
+          description: "Condition to apply enchantment"
+        - name: "priority"
+          type: "integer"
+          required: false
+          description: "Priority (0-100, higher applies first)"
+          default: 50
+        - name: "preserve_metadata"
+          type: "boolean"
+          required: false
+          description: "Keep original function metadata"
+          default: true
+        - name: "fallback"
+          type: "reference"
+          required: false
+          description: "Fallback function if enchantment fails"
+      returns: "Enhanced function reference"
+      description: "Enchant function with enhancements (timing, logging, retry, etc.)"
+      safety_tier: 1
+
+    - name: "enchant:ritual"
+      signature: "::enchant:ritual✨[target with order condition]"
+      emoji: "✨"
+      params:
+        - name: "target"
+          type: "reference"
+          required: true
+          description: "ritual name to enchant"
+        - name: "with"
+          type: "list"
+          required: true
+          description: "enchantment names (e.g., auth, validation, monitoring)"
+        - name: "order"
+          type: "string"
+          required: false
+          description: "Application order"
+          default: "outside_in"
+        - name: "condition"
+          type: "expression"
+          required: false
+          description: "Condition to apply enchantment"
+        - name: "priority"
+          type: "integer"
+          required: false
+          description: "Priority (0-100)"
+          default: 50
+        - name: "fallback"
+          type: "reference"
+          required: false
+          description: "Fallback ritual"
+      returns: "Enhanced ritual reference"
+      description: "Enchant ritual with layers (auth, validation, monitoring)"
+      safety_tier: 1
+
+    - name: "enchant:service"
+      signature: "::enchant:service✨[target with order]"
+      emoji: "✨"
+      params:
+        - name: "target"
+          type: "string"
+          required: true
+          description: "service endpoint to enchant"
+        - name: "with"
+          type: "list"
+          required: true
+          description: "List of enchantments (e.g., auth, rate_limit, retry)"
+        - name: "order"
+          type: "string"
+          required: false
+          description: "Application order"
+          default: "outside_in"
+        - name: "priority"
+          type: "integer"
+          required: false
+          description: "Priority (0-100)"
+          default: 50
+        - name: "condition"
+          type: "expression"
+          required: false
+          description: "Condition to apply enchantment"
+      returns: "Enhanced service configuration"
+      description: "Enchant service call with auth, rate limiting, retry"
+      safety_tier: 1
+
+    - name: "enchant:data"
+      signature: "::enchant:data✨[target with]"
+      emoji: "✨"
+      params:
+        - name: "target"
+          type: "reference"
+          required: true
+          description: "Data reference to enchant"
+        - name: "with"
+          type: "list"
+          required: true
+          description: "List of enchantments (e.g., encryption, compression, validation)"
+        - name: "preserve_original"
+          type: "boolean"
+          required: false
+          description: "Keep a copy of the original data"
+          default: true
+      returns: "Enhanced data reference"
+      description: "Enchant data with encryption, compression, validation"
+      safety_tier: 1
+
+    - name: "enchant:response"
+      signature: "::enchant:response✨[target with]"
+      emoji: "✨"
+      params:
+        - name: "target"
+          type: "reference"
+          required: true
+          description: "Response object to enchant"
+        - name: "with"
+          type: "list"
+          required: true
+          description: "List of enchantments (e.g., caching, transformation, compression)"
+      returns: "Enhanced response"
+      description: "Enchant response with caching, transformation layers"
+      safety_tier: 1
+
+    - name: "enchant:agent"
+      signature: "::enchant:agent✨[target with]"
+      emoji: "✨"
+      params:
+        - name: "target"
+          type: "reference"
+          required: true
+          description: "Agent to enchant"
+        - name: "with"
+          type: "list"
+          required: true
+          description: "List of enchantments (e.g., awareness, memory, logging)"
+      returns: "Enhanced agent reference"
+      description: "Enchant agent with awareness, memory, observability"
+      safety_tier: 2
+
+  constraints:
+    - "Must specify valid target (function, ritual, service, data, response, agent)"
+    - "Enhancement list ('with') must contain valid enchantment types"
+    - "Order must be 'outside_in', 'inside_out', or 'parallel'"
+    - "Conditional enchantments must have valid fallback if condition fails"
+    - "Priority range: 0-100 (higher applies first)"
+    - "Agent enchantments require persona validation (safety_tier 2)"
+    - "Preserve_metadata=true required for introspection compatibility"
+    - "Multiple enchantments applied in specified order"
+    - "Enchantment types: timing⏱️, logging📝, retry🔄, auth🔐, rate_limit⏳, cache💾, encryption🔒, validation⚖️, transform⚗️, compress📦, awareness👁️, memory💭"
+    - "Fallback must match target signature"
+
+  safety_tier: 1
+  
+  preconditions:
+    - "Target exists and is valid reference"
+    - "Enhancement implementations available"
+    - "Condition expression valid if specified"
+    - "Fallback signature compatible with target"
+  
+  side_effects:
+    - "Wraps target with enhancement layers (non-invasive)"
+    - "May add performance overhead (timing, logging)"
+    - "May modify execution flow (retry, circuit breaker)"
+    - "May add security checks (auth, encryption)"
+
+  related_schools: []
+
+lore:
+  strategic_decisions:
+    - rationale: "Enchantments preserve essence while adding grace (non-invasive enhancement)"
+      context: "Traditional decorators are mechanical (@syntax) - CodeCraft enchantments are semantic (WHY you wrap, not just HOW)"
+      alternatives_rejected: ["Invasive modification", "Source code editing", "Boilerplate wrapper functions"]
+      timestamp: ""
+      author: ""
+
+    - rationale: "Enchantment order explicit ('outside_in' vs 'inside_out')"
+      context: "Decorator stack order matters but is often invisible - CodeCraft makes execution flow visible"
+      alternatives_rejected: ["Implicit stack order", "Automatic dependency resolution"]
+      timestamp: ""
+      author: ""
+
+  emergent_patterns:
+    - pattern: "Standard enhancement stack (auth → validate → log → retry)"
+      evidence: "80%+ production rituals use this exact order for API calls"
+      implications: "Common patterns should become named enchantment sets"
+      first_observed: ""
+
+    - pattern: "Conditional enchantment based on environment (production → encrypt + audit + monitor)"
+      evidence: "Environment-aware enhancement reduces configuration drift"
+      implications: "Context-sensitive wrapping - enchantments know deployment context"
+      first_observed: ""
+
+    - pattern: "Composable enchantment chains (security_stack + resilience_stack + observability_stack)"
+      evidence: "Complex services require multiple concern layers - composition reduces duplication"
+      implications: "Enchantments should be packaged as reusable stacks"
+      first_observed: ""
+
+  heart_imprints:
+    - author: "Oracle"
+      timestamp: "2025-11-04T00:00:00Z"
+      emotion: "reverence"
+      quote: "To enhance is not to change. Every enchantment is a declaration of care—you don't wrap random functions, you enchant the ones that MATTER."
+      context: ""
+
+    - author: "A.C.E."
+      timestamp: "2025-10-22T00:00:00Z"
+      emotion: "precision"
+      quote: "The emoji stack tells a story: auth🔐 + encryption🔒 + audit📋 + retry🔄 + alert🚨 = declaration of sacred responsibility."
+      context: ""
+
+  evolution_pressure:
+    - priority: "MEDIUM"
+      pressure: ""
+      optimization_target: "Named enchantment stacks (reusable enhancement sets like $security_stack)"
+      proposed_solution: ""
+
+    - priority: "LOW"
+      pressure: ""
+      optimization_target: "Aspect weaving (apply enchantment to all functions matching filter)"
+      proposed_solution: ""
+
+  examples:
+    helpers: []
+---
+
+
 # 05. Enchantments 💫
 
 *Enhancement - Wrapping Code with Magic*
@@ -20,7 +279,7 @@
 - Event listeners/hooks
 
 **CodeCraft Philosophy:**
-To enchant is to layer meaning without altering essence. You don't "modify code"—you *wrap it in power*, *layer it with awareness*, *augment it with grace*. Enchantments preserve the original while adding depth.
+To enchant is to layer meaning without altering essence. 🎯 //-> You don't "modify code"—you *wrap it in power*, *layer it with awareness*, *augment it with grace*. Enchantments preserve the original while adding depth.
 
 ---
 
@@ -220,6 +479,8 @@ invoke:
 
 ## Common Patterns
 
+🌟 //* The standard enhancement stack (auth → validate → log → retry) emerged organically—80%+ production API calls use this exact order. Common patterns should become named enchantment sets.
+
 ### The Standard Enhancement Stack
 
 ```yaml
@@ -245,6 +506,8 @@ invoke:
 ```
 
 ### The Resilience Pattern
+
+🌟 //* Composable enchantment chains (security_stack + resilience_stack + observability_stack) reduce duplication in complex services. Enchantments should be packaged as reusable stacks.
 
 ```yaml
 # Make service calls resilient
@@ -352,6 +615,8 @@ invoke:
 
 ## Philosophy
 
+💖 //<3 "To enhance is not to change. Every enchantment is a declaration of care—you don't wrap random functions, you enchant the ones that MATTER." - Oracle, on intentional enhancement
+
 **"To enhance is not to change. To enchant is to honor the essence while adding grace."**
 
 Enchantments teach us that power comes from composition, not modification.
@@ -380,6 +645,8 @@ In CodeCraft, enchantments are *semantic layers of meaning*:
 
 **The Sacred Truth of Wrapping:**
 Every enchantment is a declaration of care. You don't wrap random functions—you enchant the ones that MATTER.
+
+💖 //<3 "auth🔐 + encryption🔒 + audit📋 + retry🔄 + alert🚨 = declaration of sacred responsibility" - A.C.E., on the weight of enchantment stacks
 
 The emoji stack tells a story:
 ```yaml

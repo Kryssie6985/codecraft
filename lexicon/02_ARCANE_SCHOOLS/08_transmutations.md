@@ -1,3 +1,289 @@
+---
+# ═══════════════════════════════════════════════════════════════
+# LAW PILLAR - Machine-Readable Canonical Specification
+# ═══════════════════════════════════════════════════════════════
+schema_version: 2.0
+
+school:
+  id: 8
+  name: "Transmutations"
+  emoji: "⚗️"
+  tokens: ["transmute", "transform", "convert", "map"]
+  category: "Core Operations"
+  purpose: "Changing form while preserving essence."
+
+law:
+  operations:
+    - name: "transmute:target"
+      signature: "::transmute:target⚗️[target from to preserve validate]"
+      emoji: "⚗️"
+      params:
+        - name: "target"
+          type: "any"
+          required: true
+          description: "Data to transform"
+        - name: "from"
+          type: "string"
+          required: false
+          description: "Source format/type (yaml, json, string, utf8)"
+        - name: "to"
+          type: "string"
+          required: true
+          description: "Target format/type (json, xml, integer, base64)"
+        - name: "preserve"
+          type: "list"
+          required: false
+          description: "What to preserve during transformation"
+          default: ['metadata']
+        - name: "validate"
+          type: "boolean"
+          required: false
+          description: "Validate result after transformation"
+          default: true
+      returns: "transformed_data"
+      description: "Transform target data from one format/type to another while preserving specified properties"
+      safety_tier: 1
+    
+    - name: "transmute:data"
+      signature: "::transmute:data⚗️[target from to preserve validate]"
+      emoji: "⚗️"
+      params:
+        - name: "target"
+          type: "any"
+          required: true
+          description: "Data to transform"
+        - name: "from"
+          type: "string"
+          required: false
+          description: "Source format (yaml, json, xml)"
+        - name: "to"
+          type: "string"
+          required: true
+          description: "Target format (json, xml, database_record)"
+        - name: "preserve"
+          type: "list"
+          required: false
+          description: "Properties to preserve"
+          default: ['metadata', 'structure']
+        - name: "validate"
+          type: "boolean"
+          required: false
+          description: "Validate after transformation"
+          default: true
+      returns: "transformed_data"
+      description: "Convert data between formats (YAML ↔ JSON ↔ XML) while preserving structure and metadata"
+      safety_tier: 1
+    
+    - name: "transmute:text"
+      signature: "::transmute:text⚗️[target case format preserve]"
+      emoji: "⚗️"
+      params:
+        - name: "target"
+          type: "string"
+          required: true
+          description: "Text to transform"
+        - name: "case"
+          type: "string"
+          required: false
+          description: "Target case (uppercase, lowercase, titlecase, camelcase)"
+        - name: "format"
+          type: "string"
+          required: false
+          description: "Text format transformation"
+        - name: "preserve"
+          type: "list"
+          required: false
+          description: "What to preserve (whitespace, punctuation)"
+      returns: "transformed_text"
+      description: "Transform text case, format, or structure while optionally preserving specified elements"
+      safety_tier: 1
+    
+    - name: "transmute:collection"
+      signature: "::transmute:collection⚗️[target map filter reduce preserve]"
+      emoji: "⚗️"
+      params:
+        - name: "target"
+          type: "list"
+          required: true
+          description: "Collection to transform"
+        - name: "map"
+          type: "function"
+          required: false
+          description: "Mapping function: ($item) → transformed"
+        - name: "filter"
+          type: "function"
+          required: false
+          description: "Filter predicate: ($item) → boolean"
+        - name: "reduce"
+          type: "function"
+          required: false
+          description: "Reduction function: ($acc, $item) → result"
+        - name: "preserve"
+          type: "list"
+          required: false
+          description: "What to preserve"
+          default: ['order']
+      returns: "transformed_collection"
+      description: "Transform collection items via map/filter/reduce operations while preserving specified properties"
+      safety_tier: 1
+    
+    - name: "transmute:type"
+      signature: "::transmute:type⚗️[target from to validate]"
+      emoji: "⚗️"
+      params:
+        - name: "target"
+          type: "any"
+          required: true
+          description: "Value to transform"
+        - name: "from"
+          type: "string"
+          required: false
+          description: "Source type (string, number, boolean)"
+        - name: "to"
+          type: "string"
+          required: true
+          description: "Target type (integer, float, string, boolean)"
+        - name: "validate"
+          type: "boolean"
+          required: false
+          description: "Validate type conversion"
+          default: true
+      returns: "converted_value"
+      description: "Convert value between types (string → number, etc.) with optional validation"
+      safety_tier: 1
+    
+    - name: "transmute:encoding"
+      signature: "::transmute:encoding⚗️[target from to preserve]"
+      emoji: "⚗️"
+      params:
+        - name: "target"
+          type: "any"
+          required: true
+          description: "Data to encode/decode"
+        - name: "from"
+          type: "string"
+          required: false
+          description: "Source encoding (utf8, ascii, binary)"
+        - name: "to"
+          type: "string"
+          required: true
+          description: "Target encoding (base64, hex, utf8)"
+        - name: "preserve"
+          type: "list"
+          required: false
+          description: "What to preserve through encoding"
+      returns: "encoded_data"
+      description: "Encode or decode data between different representations (UTF-8 ↔ Base64, etc.)"
+      safety_tier: 1
+
+  constraints:
+    - "All transmutations MUST preserve specified properties (metadata, structure, order)"
+    - "Type conversions MUST validate by default unless explicitly disabled"
+    - "Format conversions MUST be reversible (lossless where possible)"
+    - "Collection transformations MUST maintain order unless explicitly shuffled"
+  
+  safety_tier: 1
+  
+  preconditions:
+    - "Input data exists and is accessible"
+    - "Target format is supported and well-defined"
+    - "Transformation functions (map/filter/reduce) are defined when required"
+  
+  side_effects:
+    - "May create new data structures (original preserved unless in-place)"
+    - "May raise conversion errors for invalid type transformations"
+    - "May log transformation events (depends on logging config)"
+
+  related_schools: []
+
+lore:
+  strategic_decisions:
+    - rationale: "Transmutations make transformation intentional and meaningful"
+      context: "Traditional conversion is mechanical (function calls); CodeCraft transmutations honor essence through metamorphosis"
+      alternatives_rejected:
+        - "Anonymous conversion functions (loses semantic meaning)"
+        - "Type casting without validation (unsafe transformations)"
+        - "Format conversion without preservation guarantees"
+      timestamp: ""
+      author: ""
+    
+    - rationale: "Preserve parameter is explicit - declares what remains sacred"
+      context: "Every transmutation declares WHAT changes and WHAT endures"
+      alternatives_rejected:
+        - "Implicit preservation (ambiguous about what's kept)"
+        - "All-or-nothing conversion (loses important metadata)"
+      timestamp: ""
+      author: ""
+  
+  emergent_patterns:
+    - pattern: "The Map-Transform Pattern - Transform each item in collection"
+      evidence: "::divine:items🔍[] → ::transmute:collection⚗️[map: ($item) → {...}] → ::return:transformed[]"
+      implications: "Collection transformation becomes explicit orchestration, not hidden loops"
+      first_observed: ""
+    
+    - pattern: "The Filter-Then-Transform Pattern - Filter then transform"
+      evidence: "::divine:data🔍[] → ::transmute:collection⚗️[filter: ($r) → $r.active map: sanitize] → ::return:clean[]"
+      implications: "Filtering and transformation are unified operations, not separate passes"
+      first_observed: ""
+    
+    - pattern: "The Reduce-Aggregate Pattern - Aggregate through reduction"
+      evidence: "::divine:transactions🔍[] → ::transmute:collection⚗️[reduce: ($t,$tx) → $t + $tx.amount] → ::return:total[]"
+      implications: "Aggregation is transmutation of collection → single value"
+      first_observed: ""
+  
+  heart_imprints:
+    - author: "Architect"
+      timestamp: "2025-11-07T17:45:00Z"
+      emotion: "Reverence"
+      quote: "Form changes, essence remains. Transformation is not destruction—it is evolution. What transmutes is the shell. What remains is the soul."
+      context: ""
+    
+    - author: "Oracle"
+      timestamp: "2025-11-07T17:45:00Z"
+      emotion: "Wonder"
+      quote: "In ancient alchemy, transmutation revealed the gold that always existed within the lead. ::transmute:raw_data⚗️[to: insight💡] doesn't destroy—it reveals the insight that was always hidden within."
+      context: ""
+  
+  evolution_pressure:
+    - priority: "HIGH"
+      pressure: ""
+      optimization_target: "Expand transmutation patterns for streaming/async transformations"
+      proposed_solution: ""
+    
+    - priority: "MEDIUM"
+      pressure: ""
+      optimization_target: "Add composite transmutations (chained format conversions)"
+      proposed_solution: ""
+  
+  examples:
+    helpers:
+      - "::divine:file🔍[...]"
+      - "::log:success🎯[...]"
+      - "::return:json🎯[...]"
+      - "::divine:users🔍[...]"
+      - "::log:processed🎯[...]"
+      - "::return:users🎯[...]"
+      - "::divine:env🔍[...]"
+      - "::log:config🎯[...]"
+      - "::return:port🎯[...]"
+      - "::conjure:data🎨[...]"
+      - "::log:secure🎯[...]"
+      - "::return:encoded🎯[...]"
+      - "::divine:items🔍[...]"
+      - "::return:transformed🎯[...]"
+      - "::divine:data🔍[...]"
+      - "::return:clean_data🎯[...]"
+      - "::divine:transactions🔍[...]"
+      - "::log:summary🎯[...]"
+      - "::return:total🎯[...]"
+      - "::divine:raw_data🔍[...]"
+      - "::divine:format🔍[...]"
+      - "::return:normalized🎯[...]"
+      - "::conjure:memory💾[...]"
+      - "::return:safe_transformation🎯[...]"
+---
+
+
 # 08. Transmutations ⚗️
 
 *Transformation - Changing Form While Preserving Essence*

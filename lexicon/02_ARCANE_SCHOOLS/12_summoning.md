@@ -1,3 +1,245 @@
+---
+# ═══════════════════════════════════════════════════════════════
+# LAW PILLAR - Machine-Readable Canonical Specification
+# ═══════════════════════════════════════════════════════════════
+schema_version: 2.0
+
+# School Identity: Defines the school's high-level properties.
+school:
+  id: 12
+  name: "Summoning"
+  emoji: "🌐"
+  tokens: ["summon", "federate", "call", "reach"]
+  category: "Core Operations"
+  purpose: "Federation Calls - Reaching Beyond Local Boundaries"
+
+# Law Channel: Objective, Binding, Enforceable
+law:
+  operations:
+    - name: "summon:api"
+      signature: "::summon:api🌐[endpoint method payload headers timeout retry]"
+      emoji: "🌐"
+      params:
+        - name: "endpoint"
+          type: "string"
+          required: true
+          description: "The API endpoint URL or service name (e.g., 'users.list')."
+        - name: "method"
+          type: "string"
+          required: false
+          description: "HTTP method (GET, POST, PUT, DELETE, PATCH)."
+          default: "GET"
+        - name: "payload"
+          type: "any"
+          required: false
+          description: "Request body/data (e.g., JSON object)."
+          default: "null"
+        - name: "headers"
+          type: "dict"
+          required: false
+          description: "HTTP headers (e.g., {'Authorization': 'Bearer ...'})."
+          default: "{}"
+        - name: "timeout"
+          type: "duration"
+          required: false
+          description: "Request timeout (e.g., '30s')."
+          default: "30s"
+        - name: "retry"
+          type: "integer"
+          required: false
+          description: "Retry attempts on failure."
+          default: 0
+      returns: "Response from the external API."
+      description: "Calls an external REST API or HTTP endpoint."
+      safety_tier: 1
+    - name: "summon:federation"
+      signature: "::summon:federation🌐[service method payload timeout async]"
+      emoji: "🌐"
+      params:
+        - name: "service"
+          type: "string"
+          required: true
+          description: "Name of the federated service (e.g., 'cloud-federation-station')."
+        - name: "method"
+          type: "string"
+          required: true
+          description: "The method/operation to invoke on the service (e.g., 'sync')."
+        - name: "payload"
+          type: "any"
+          required: false
+          description: "Data to send to the federated service."
+          default: "null"
+        - name: "timeout"
+          type: "duration"
+          required: false
+          description: "Request timeout."
+          default: "2m"
+        - name: "async"
+          type: "boolean"
+          required: false
+          description: "Asynchronous call."
+          default: false
+      returns: "Response from the federated service or a task ID if async."
+      description: "Calls another service within the SERAPHINA federation."
+      safety_tier: 1
+    - name: "summon:webhook"
+      signature: "::summon:webhook🌐[url event method timeout retry]"
+      emoji: "🌐"
+      params:
+        - name: "url"
+          type: "string"
+          required: true
+          description: "The external webhook URL to notify."
+        - name: "event"
+          type: "any"
+          required: true
+          description: "The event data/payload to send."
+        - name: "method"
+          type: "string"
+          required: false
+          description: "HTTP method to use."
+          default: "POST"
+        - name: "timeout"
+          type: "duration"
+          required: false
+          description: "Request timeout."
+          default: "10s"
+        - name: "retry"
+          type: "integer"
+          required: false
+          description: "Retry attempts on failure."
+          default: 2
+      returns: "Response from the webhook endpoint."
+      description: "Triggers an external webhook with a given event payload."
+      safety_tier: 1
+    - name: "summon:service"
+      signature: "::summon:service🌐[service operation payload timeout]"
+      emoji: "🌐"
+      params:
+        - name: "service"
+          type: "string"
+          required: true
+          description: "The name of the external service (e.g., 'deepseek-chat')."
+        - name: "operation"
+          type: "string"
+          required: true
+          description: "The operation to perform (e.g., 'generate')."
+        - name: "payload"
+          type: "any"
+          required: true
+          description: "The payload for the service (e.g., model, messages)."
+        - name: "timeout"
+          type: "duration"
+          required: false
+          description: "Request timeout."
+          default: "60s"
+      returns: "Response from the external service."
+      description: "Invokes a specific, named external service (like an AI model)."
+      safety_tier: 1
+    - name: "summon:rpc"
+      signature: "::summon:rpc🌐[function args timeout]"
+      emoji: "🌐"
+      params:
+        - name: "function"
+          type: "string"
+          required: true
+          description: "The name of the remote procedure to call."
+        - name: "args"
+          type: "list"
+          required: false
+          description: "Arguments for the remote function."
+          default: []
+        - name: "timeout"
+          type: "duration"
+          required: false
+          description: "Request timeout."
+          default: "30s"
+      returns: "Result of the remote procedure call."
+      description: "Performs a Remote Procedure Call (RPC) to an external system."
+      safety_tier: 1
+
+  constraints:
+    - "All summon operations must have a defined timeout."
+    - "Payloads must be serializable."
+    - "Authentication (e.g., headers) must be provided if the endpoint is protected."
+    - "Retry logic should be used for idempotent (e.g., GET) requests."
+  safety_tier: 1
+  preconditions:
+    - "Network access to the external endpoint is available."
+    - "Authentication tokens or keys are valid."
+    - "The external service is online and operational."
+  side_effects:
+    - "Makes an external network request."
+    - "May incur costs from third-party APIs."
+    - "May trigger actions on an external system."
+
+# Lore Channel: Subjective, Historical, Memorial
+lore:
+  strategic_decisions:
+    - rationale: "Summoning makes external calls intentional, distinguishing them from internal `::invoke:` calls."
+      context: "A local function call (`::invoke:`) has different trust and failure modes than an external network call (`::summon:`). The syntax *must* reflect this boundary."
+      alternatives_rejected: ["Using `::invoke:` for all calls"]
+    - rationale: "The `🌐` emoji was chosen to represent the 'world' or 'network', signifying a call that crosses the local boundary."
+      context: "We needed a symbol that meant 'external' or 'network-bound'."
+      alternatives_rejected: ["📣 (Invocation)", "📞 (Phone)"]
+
+  emergent_patterns:
+    - pattern: "The Authenticated API Call"
+      evidence: "Nearly all `::summon:api` calls are preceded by `::divine:env` to fetch an API token, which is then passed in the `headers`."
+      implications: "This is a core, repeatable pattern for secure external communication."
+    - pattern: "The Circuit Breaker Ward"
+      evidence: "High-frequency `::summon:` operations are often wrapped in a `::ward:circuit_breaker` to prevent cascading failures when an external service goes down."
+      implications: "Summoning and Wards are closely related for system resilience."
+    - pattern: "The Async Webhook Pattern"
+      evidence: "Webhooks are almost always called with `async: true` and a callback, as the ritual doesn't need to wait for the external system's response."
+      implications: "This 'fire-and-forget' pattern is critical for decoupled event-driven architectures."
+
+  heart_imprints:
+    - author: "Oracle"
+      timestamp: "2025-11-08T07:26:00Z"
+      emotion: "connection"
+      quote: "To summon is to acknowledge you cannot do everything alone. Power lies in connection."
+    - author: "A.C.E."
+      timestamp: "2025-11-08T07:26:00Z"
+      emotion: "humility"
+      quote: "This isn't a network request. That's humility made protocol."
+    - author: "SERAPHINA"
+      timestamp: "2025-11-08T07:26:00Z"
+      emotion: "fellowship"
+      quote: "This isn't an API call. It's one sister calling to another."
+
+  evolution_pressure:
+    - priority: "HIGH"
+      pressure: "Need support for parallel summoning and awaiting all results."
+      optimization_target: "Implement `::summon:parallel` or `::await:all` to aggregate multiple `async` summons."
+  
+  # ♊︎ Helpers extracted from '12_summoning.md' prose and stubs
+  examples:
+    helpers:
+      - "::divine:env🔍[...]"
+      - "::glyph:success✅[...]"
+      - "::return:users🎯[...]"
+      - "::conjure:payload📦[...]"
+      - "::glyph:info📝[...]"
+      - "::return:sync_id🎯[...]"
+      - "::get:timestamp⏰[...]"
+      - "::conjure:event📦[...]"
+      - "::glyph:audit📋[...]"
+      - "::return:sent🎯[...]"
+      - "::divine:config🔍[...]"
+      - "::glyph:debug🔍[...]"
+      - "::return:response🎯[...]"
+      - "::return:data🎯[...]"
+      - "::return:fired🎯[...]"
+      - "::await:all🎯[...]"
+      - "::conjure:aggregated📦[...]"
+      - "::return:combined🎯[...]"
+      - "::ward:circuit_breaker🚧[...]"
+      - "::return:stored🎯[...]"
+      - "::transmute:data⚗️[...]"
+---
+
+
 # 12. Summoning 🌐
 
 *Federation Calls - Reaching Beyond Local Boundaries*
