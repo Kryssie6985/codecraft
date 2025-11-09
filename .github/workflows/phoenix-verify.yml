@@ -1,0 +1,26 @@
+name: Phoenix Verify
+on:
+  push:
+  pull_request:
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: 
+          python-version: '3.11'
+      - name: Install dependencies
+        run: pip install -r requirements.txt || true
+      - name: Canon verification
+        run: python scripts/rosetta_archaeologist.py verify --canon canon.lock.yaml
+      - name: Ghost exorcism check
+        run: |
+          ! git grep -nE 'School[[:space:]]*10.*Necromanc|Necromanc.*School[[:space:]]*10' \
+            lexicon/07_REFERENCE/keyword_index.md \
+            lexicon/07_REFERENCE/ritual_to_school_mapping.md \
+            lexicon/08_MIGRATION/compatibility_matrix.md \
+            lexicon/05_OPERATORS/flow_operators.md \
+            lexicon/03_SYNTAX_VARIANTS/basic_syntax.md
+      - name: License file check
+        run: test -f LICENSE && test -f LICENSE.CONSTITUTIONAL.md
