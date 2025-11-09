@@ -1,0 +1,389 @@
+#!/usr/bin/env python3
+"""
+sync_canon.py — Build-step that compiles CODECRAFT_ROSETTA_STONE.md
+into a fast, machine-readable canon.lock.yaml.
+
+Guarantees
+- Reads the ENTIRE Rosetta; YAML tail is used only to verify integrity + seed.
+- Recomputes sha256 over the canonical view (excludes integrity block).
+- If hash mismatches, exits non-zero and writes NOTHING.
+- Produces canon.lock.yaml with:
+    meta: { rosetta_hash, generated_at, version }
+    manifest:  # the YAML-tail (minus integrity) as parsed data
+    schools:   # extracted from body sections (headings + fenced specs)
+    grammar:   # collected EBNF/BNF blocks (lexicon)
+    flows:     # dependency flow edges if present in sections
+Usage
+    python scripts/sync_canon.py \
+      --source CODECRAFT_ROSETTA_STONE.md \
+      --out canon.lock.yaml
+"""
+
+from __future__ import annotations
+import argparse, hashlib, json, os, re, sys, time
+from dataclasses import dataclass
+from typing import List, Dict, Any, Tuple
+
+try:
+    import yaml  # PyYAML
+except ImportError:
+    print("ERROR: PyYAML is required: pip install pyyaml", file=sys.stderr)
+    sys.exit(2)
+
+# ---------- Canonicalization (must match your fixer/validator) ----------
+_INTEGRITY_KEY_RE = re.compile(r'^\s*integrity\s*:\s*$', re.IGNORECASE)
+
+def strip_integrity_block(lines: List[str]) -> List[str]:
+    """
+    Remove the metadata.integrity block (MEGA's canonical block exclusion).
+    Excludes the 'integrity:' key and all indented content under it.
+    Works correctly even if inside ```yaml fences.
+    """
+    out, i, n = [], 0, len(lines)
+    while i < n:
+        line = lines[i]
+        # Detect 'integrity:' at any indentation level
+        if _INTEGRITY_KEY_RE.match(line):
+            # Get the indentation level of the 'integrity:' key
+            key_indent = len(line) - len(line.lstrip())
+            # Skip this line (the 'integrity:' key itself)
+            i += 1
+            # Skip all following lines that are:
+            # 1. Empty/whitespace, OR
+            # 2. Indented more than the key (child content), OR
+            # 3. Comments at the same or greater indent
+            while i < n:
+                next_line = lines[i]
+                # Empty lines continue the block
+                if not next_line.strip():
+                    i += 1
+                    continue
+                # Get indent of this line
+                next_indent = len(next_line) - len(next_line.lstrip())
+                # If indented MORE than key, it's part of the integrity block
+                if next_indent > key_indent:
+                    i += 1
+                    continue
+                # Otherwise we've reached the next key at same/lower level
+                break
+            continue
+        out.append(line)
+        i += 1
+    return out
+
+def compute_rosetta_hash(text: str) -> str:
+    # normalize to LF and single trailing LF
+    canon = text.replace("\r\n", "\n").replace("\r", "\n")
+    if not canon.endswith("\n"):
+        canon += "\n"
+    return hashlib.sha256(canon.encode("utf-8")).hexdigest()
+
+# ---------- Extractors over the full Rosetta ----------
+FENCE_RE = re.compile(r"^```(\w+)?\s*$")
+HEADING_RE = re.compile(r"^(#{1,6})\s+(.*)$")
+
+@dataclass
+class Fence:
+    lang: str
+    content: str
+
+def parse_fences(lines: List[str]) -> List[Fence]:
+    fences: List[Fence] = []
+    i, n = 0, len(lines)
+    while i < n:
+        m = FENCE_RE.match(lines[i])
+        if m:
+            lang = (m.group(1) or "").strip().lower()
+            i += 1
+            start = i
+            while i < n and not FENCE_RE.match(lines[i]):
+                i += 1
+            content = "".join(lines[start:i])
+            fences.append(Fence(lang=lang, content=content))
+            if i < n:  # consume closing fence
+                i += 1
+        else:
+            i += 1
+    return fences
+
+def _deep_merge(a, b):
+    """Deep merge two values: b wins on conflicts; merges dicts; extends lists."""
+    if isinstance(a, dict) and isinstance(b, dict):
+        out = dict(a)
+        for k, v in b.items():
+            out[k] = _deep_merge(out[k], v) if k in out else v
+        return out
+    if isinstance(a, list) and isinstance(b, list):
+        return a + b
+    return b
+
+def extract_yaml_manifest_tail(md: str) -> Dict[str, Any]:
+    """
+    Find the LAST ```yaml fenced block in the Rosetta.
+    That block may contain multiple YAML documents separated by '---'.
+    Merge them into one manifest dict using deep merge (later docs win on conflicts).
+    """
+    fence = re.compile(r"```yaml\s*(.*?)\s*```", re.S | re.I)
+    matches = fence.findall(md)
+    if not matches:
+        raise ValueError("No fenced YAML manifest found at tail of Rosetta.")
+    
+    raw_yaml = matches[-1]  # Last YAML fence is the manifest
+    
+    # Load *all* YAML docs in that fence (handles multi-document YAML with ---)
+    docs = [d for d in yaml.safe_load_all(raw_yaml) if d is not None]
+    if not docs:
+        return {}
+    
+    # Deep merge all documents (last document wins for duplicate keys)
+    manifest = {}
+    for d in docs:
+        if not isinstance(d, dict):
+            continue  # Tolerate non-dict docs but ignore them
+        manifest = _deep_merge(manifest, d)
+    
+    return manifest
+
+def extract_fenced_blocks(md: str, lang: str, label_prefix: str = "") -> List[Dict[str, str]]:
+    """
+    Extract fenced code blocks of a specific language.
+    Optionally filter by label prefix (e.g., 'cc-grammar:').
+    Returns list of {label: str, body: str} dicts.
+    """
+    rx = re.compile(rf"```{lang}\s*([^\n`]*)\n(.*?)```", re.S | re.I)
+    out = []
+    for m in rx.finditer(md):
+        raw_label = (m.group(1) or "").strip()
+        if label_prefix and not raw_label.startswith(label_prefix):
+            continue
+        out.append({"label": raw_label, "body": m.group(2).strip()})
+    return out
+
+def extract_grammar(md: str) -> Dict[str, str]:
+    """
+    Collect EBNF/BNF/grammar fences as named fragments.
+    Supports labels like: ```ebnf cc-grammar:core
+    Falls back to numbered fragments if no label.
+    """
+    # Try labeled grammar blocks first
+    labeled_blocks = extract_fenced_blocks(md, "ebnf", "cc-grammar:")
+    grammar = {}
+    for block in labeled_blocks:
+        key = block["label"].split(":", 1)[1].strip() if ":" in block["label"] else block["label"]
+        grammar[key] = block["body"]
+    
+    # Also collect unlabeled EBNF/BNF/grammar blocks
+    lines = md.splitlines(True)
+    fences = parse_fences(lines)
+    idx = 0
+    for f in fences:
+        if f.lang in ("ebnf", "bnf", "grammar", "lex", "pest"):
+            # Skip if already captured as labeled
+            if any(block["body"] == f.content.strip() for block in labeled_blocks):
+                continue
+            
+            key = f"fragment_{idx}"
+            # Allow 'name: …' first line inside fence to label the fragment
+            name_match = re.match(r"^\s*#\s*name\s*:\s*(.+)$", 
+                                f.content.splitlines()[0] if f.content else "", flags=re.I)
+            if name_match:
+                key = re.sub(r"[^a-z0-9_]+", "_", name_match.group(1).strip().lower())
+            grammar[key] = f.content
+            idx += 1
+    return grammar
+
+def extract_schools(md: str) -> Dict[str, Any]:
+    """
+    Enhanced school extractor with support for labeled fences:
+    - Looks for headings like '#### **01. Cantrips** 🔧' or '## School: Cantrip'
+    - Collects labeled fences: ```yaml cc-school:cantrip
+    - Collects regex validators: ```regex cc-validate:cantrip
+    - Collects school-specific grammar: ```ebnf cc-school-grammar:cantrip
+    - Falls back to nearest unlabeled yaml/json fence in section
+    - Collects inline bullet rules beginning with '-' under the section
+    """
+    schools: Dict[str, Any] = {}
+    
+    # First pass: collect labeled fences (most explicit)
+    for block in extract_fenced_blocks(md, "yaml", "cc-school:"):
+        school_id = block["label"].split(":", 1)[1].strip()
+        spec = yaml.safe_load(block["body"]) or {}
+        schools.setdefault(school_id, {}).update(spec)
+    
+    for block in extract_fenced_blocks(md, "regex", "cc-validate:"):
+        school_id = block["label"].split(":", 1)[1].strip()
+        schools.setdefault(school_id, {}).setdefault("validators", {})["regex"] = block["body"]
+    
+    for block in extract_fenced_blocks(md, "ebnf", "cc-school-grammar:"):
+        school_id = block["label"].split(":", 1)[1].strip()
+        schools.setdefault(school_id, {}).setdefault("grammar", {})["ebnf"] = block["body"]
+    
+    # Second pass: scan headings for schools (fallback for unlabeled sections)
+    lines = md.splitlines()
+    i, n = 0, len(lines)
+    while i < n:
+        h = HEADING_RE.match(lines[i])
+        if h:
+            level, title = len(h.group(1)), h.group(2).strip()
+            
+            # Match patterns like "01. Cantrips 🔧" or "School: Cantrip" or "[School] Cantrip"
+            school_match = None
+            if re.search(r"\bSchool\b", title, re.I):
+                # name after 'School' markers
+                school_match = re.sub(r".*School[:\]\)]*\s*", "", title, flags=re.I).strip()
+            elif re.match(r"^\d+\.\s+(.+?)\s*[🔧📣✨🎨💫🔍🛡️⚗️📜🚧✅🌐🧠🎉⏳🌌🔺📖🎵]", title):
+                # Match numbered school with emoji
+                school_match = re.match(r"^\d+\.\s+(.+?)\s*[🔧📣✨🎨💫🔍🛡️⚗️📜🚧✅🌐🧠🎉⏳🌌🔺📖🎵]", title).group(1).strip()
+                school_match = re.sub(r"^\*\*|\*\*$", "", school_match).strip()  # Remove markdown bold
+            
+            if school_match:
+                name = school_match or f"unnamed_{i}"
+                
+                # Capture section until next heading of same or higher level
+                j = i + 1
+                sect: List[str] = []
+                while j < n and not (HEADING_RE.match(lines[j]) and len(HEADING_RE.match(lines[j]).group(1)) <= level):
+                    sect.append(lines[j])
+                    j += 1
+                sect_text = "".join(sect)
+
+                # Only add unlabeled fence if school not already defined by labeled fence
+                school_id = name.lower().replace(" ", "_")
+                if school_id not in schools:
+                    # Nearest machine fence (yaml/json) inside section
+                    fmatch = re.search(r"```(yaml|yml|json)\n(.*?)```", sect_text, re.S | re.I)
+                    spec = {}
+                    if fmatch:
+                        lang, body = fmatch.group(1).lower(), fmatch.group(2)
+                        spec = (yaml.safe_load(body) if lang in ("yaml", "yml") else json.loads(body)) or {}
+
+                    # Bullet rules as plain strings
+                    bullets = [m.group(1).strip()
+                            for m in re.finditer(r"^\s*[-*]\s+(.*)$", sect_text, re.M)]
+
+                    schools[school_id] = {
+                        "name": name,
+                        "spec": spec,
+                        "rules": bullets,
+                    }
+                
+                i = j
+                continue
+        i += 1
+    
+    return schools
+
+def extract_flows(md: str) -> List[Dict[str, str]]:
+    """
+    Dependency flow extraction (best-effort):
+    Finds lines like 'Depends on: <X>' or 'Prerequisite: <Y>' under any section.
+    Emits edges: { from: section_title, to: target, type: 'depends_on'|'prerequisite' }
+    """
+    flows: List[Dict[str, str]] = []
+    cur_section = "root"
+    for line in md.splitlines():
+        h = HEADING_RE.match(line)
+        if h:
+            cur_section = h.group(2).strip()
+            continue
+        m1 = re.search(r"\bDepends\s+on\s*:\s*(.+)$", line, re.I)
+        m2 = re.search(r"\bPrerequisite\s*:\s*(.+)$", line, re.I)
+        if m1:
+            flows.append({"from": cur_section, "to": m1.group(1).strip(), "type": "depends_on"})
+        if m2:
+            flows.append({"from": cur_section, "to": m2.group(1).strip(), "type": "prerequisite"})
+    return flows
+
+# ---------- Main ----------
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--source", default="CODECRAFT_ROSETTA_STONE.md")
+    ap.add_argument("--schools", default="schools.canonical.yaml", help="Canonical schools map (authoritative source)")
+    ap.add_argument("--out", default="canon.lock.yaml")
+    ap.add_argument("--version", default="1.0")
+    ap.add_argument("--verify-only", action="store_true", help="Verify integrity and print manifest hash; do not write lock file.")
+    args = ap.parse_args()
+
+    if not os.path.exists(args.source):
+        print(f"ERROR: {args.source} not found", file=sys.stderr)
+        return 2
+
+    md = open(args.source, "r", encoding="utf-8").read()
+
+    # 1) Pull manifest tail & claimed integrity
+    manifest = extract_yaml_manifest_tail(md)
+    claimed = (manifest.get("metadata", {}) or {}).get("integrity", {}) or {}
+    claimed_sha = claimed.get("sha256") or claimed.get("sha") or ""
+    if not claimed_sha:
+        print("ERROR: manifest missing metadata.integrity.sha256", file=sys.stderr)
+        return 2
+
+    # 2) Recompute canonical hash from FULL Rosetta (minus integrity block)
+    recomputed = compute_rosetta_hash("".join(strip_integrity_block(md.splitlines(True))))
+
+    if recomputed != claimed_sha:
+        print("🛡️ VIBE GATE HALT: Rosetta integrity mismatch", file=sys.stderr)
+        print(f"  claimed : {claimed_sha}", file=sys.stderr)
+        print(f"  computed: {recomputed}", file=sys.stderr)
+        return 1
+
+    if args.verify_only:
+        print(json.dumps({"rosetta_hash": recomputed, "ok": True}))
+        return 0
+
+    # 3) Load canonical schools map (authoritative source for 19 schools identity)
+    schools_canonical = None
+    if os.path.exists(args.schools):
+        try:
+            schools_canonical = yaml.safe_load(open(args.schools, "r", encoding="utf-8"))
+            school_count = len(schools_canonical.get("schools", {}))
+            print(f"✅ Loaded canonical schools map: {school_count} schools from {args.schools}")
+        except Exception as e:
+            print(f"⚠️  WARNING: Failed to load {args.schools}: {e}", file=sys.stderr)
+            schools_canonical = None
+    else:
+        print(f"⚠️  WARNING: Canonical schools map not found: {args.schools}", file=sys.stderr)
+
+    # 4) Build machine-readable canon from the ENTIRE document
+    canon: Dict[str, Any] = {}
+    canon["meta"] = {
+        "rosetta_hash": recomputed,
+        "generated_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+        "version": args.version,
+    }
+
+    # remove integrity from manifest copy stored in the lock
+    manifest_copy = yaml.safe_load(yaml.safe_dump(manifest)) or {}
+    if "metadata" in manifest_copy and "integrity" in manifest_copy["metadata"]:
+        manifest_copy["metadata"].pop("integrity", None)
+    canon["manifest"] = manifest_copy
+
+    # derive substructures
+    canon["grammar"] = extract_grammar(md)          # EBNF / pest fragments
+    
+    # Use canonical schools as primary source (19 schools identity anchor)
+    # Fall back to Rosetta extraction only if canonical not available
+    if schools_canonical and "schools" in schools_canonical:
+        canon["schools"] = schools_canonical["schools"]
+        # Also include token mapping and metadata for validators
+        if "token_to_school_mapping" in schools_canonical:
+            canon["token_to_school_mapping"] = schools_canonical["token_to_school_mapping"]
+        if "grammar_tokens" in schools_canonical:
+            canon["grammar_tokens"] = schools_canonical["grammar_tokens"]
+        if "metadata" in schools_canonical:
+            canon["schools_metadata"] = schools_canonical["metadata"]
+    else:
+        canon["schools"] = extract_schools(md)      # Fallback: section-driven extraction
+    
+    canon["flows"] = extract_flows(md)              # dependency edges
+
+    # 4) Emit lock file atomically
+    tmp = args.out + ".tmp"
+    with open(tmp, "w", encoding="utf-8") as f:
+        yaml.safe_dump(canon, f, sort_keys=False, allow_unicode=True)
+    os.replace(tmp, args.out)
+    print(f"✨ canon.lock.yaml written (hash {recomputed[:12]}…)")
+    return 0
+
+if __name__ == "__main__":
+    sys.exit(main())

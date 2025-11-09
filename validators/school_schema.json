@@ -1,0 +1,74 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "CodeCraft School",
+  "type": "object",
+  "required": [
+    "id",
+    "name",
+    "version",
+    "law",
+    "lore"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_]+$"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "version": {
+      "type": "string"
+    },
+    "law": {
+      "type": "object",
+      "required": [
+        "axioms",
+        "operators",
+        "constraints"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "axioms": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "operators": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "constraints": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "lore": {
+      "type": "object",
+      "required": [
+        "archetype",
+        "notes"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "archetype": {
+          "type": "string"
+        },
+        "notes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

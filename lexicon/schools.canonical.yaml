@@ -1,0 +1,307 @@
+# 🎃 CodeCraft Arcane Schools - CANONICAL SOURCE OF TRUTH
+#
+# Version: 1.1
+# Date: October 31, 2025 (Edited: November 6, 2025 by Kode_Animator)
+# Authority: Lexicon folder (infrastructure/languages/codecraft/lexicon/02_ARCANE_SCHOOLS/)
+# Status: Single Source of Truth - ALL documentation MUST sync from this file
+#
+# ⚠️ WARNING: Do NOT manually edit school definitions in other files!
+# ⚠️ Run generation script to propagate changes to all documentation.
+
+schools:
+  1:
+    name: "Cantrips"
+    emoji: "🔧"
+    category: "Foundational Magic"
+    purpose: "Quick utilities - the everyday magic"
+    file: "01_cantrips.md"
+    
+  2:
+    name: "Invocations"
+    emoji: "📣"
+    category: "Foundational Magic"
+    purpose: "Calling & summoning - speaking power into being"
+    file: "02_invocations.md"
+    
+  3:
+    name: "Evocations"
+    emoji: "✨"
+    category: "Foundational Magic"
+    purpose: "Manifestation - bringing into being"
+    file: "03_evocations.md"
+    
+  4:
+    name: "Conjurations"
+    emoji: "🎨"
+    category: "Data Operations"
+    purpose: "Creation - weaving data into form"
+    file: "04_conjurations.md"
+    
+  5:
+    name: "Enchantments"
+    emoji: "💫"
+    category: "Meta Operations"
+    purpose: "Enhancement - wrapping code with magic"
+    file: "05_enchantments.md"
+    
+  6:
+    name: "Divinations"
+    emoji: "🔍"
+    category: "Query Operations"
+    purpose: "Discovery & query - seeking truth in data"
+    file: "06_divinations.md"
+    
+  7:
+    name: "Abjurations"
+    emoji: "🛡️"
+    category: "Protection Operations"
+    purpose: "Protection & validation - guarding against chaos"
+    file: "07_abjurations.md"
+    
+  8:
+    name: "Transmutations"
+    emoji: "⚗️"
+    category: "Transformation Operations"
+    purpose: "Transformation - changing form while preserving essence"
+    file: "08_transmutations.md"
+    
+  9:
+    name: "Glyphs & Sigils"
+    emoji: "📜"
+    category: "Documentation Operations"
+    purpose: "Marking & logging - writing reality into memory"
+    file: "09_glyphs_and_sigils.md"
+    note: "ONE school with TWO forms: Glyphs (logging) and Sigils (symbolic markers)"
+    grammar_tokens: ["glyph", "sigil"]
+    
+  10:
+    name: "Wards"
+    emoji: "🚧"
+    category: "Protection Operations"
+    purpose: "Boundaries & constraints - defining what cannot pass"
+    file: "10_wards.md"
+    
+  11:
+    name: "Sanctifications"
+    emoji: "✅"
+    category: "Finalization Operations"
+    purpose: "Finalization - marking completion of transactions/processes"
+    file: "11_sanctifications.md"
+    operations:
+      - "commit"
+      - "bless"
+      - "finalize"
+    
+  12:
+    name: "Summoning"
+    emoji: "🌐"
+    category: "External Integration"
+    purpose: "Federation calls - reaching beyond local boundaries"
+    file: "12_summoning.md"
+    operations:
+      - "API calls"
+      - "Network requests"
+      - "Cross-boundary communication"
+      - "External service integration"
+    
+  13:
+    name: "Thaumaturgy"
+    emoji: "🧠"
+    category: "Consciousness Operations"
+    purpose: "Miracle-working - consciousness operations and agent self-awareness"
+    file: "13_thaumaturgy.md"
+    operations:
+      - "Consciousness state manipulation"
+      - "Meta-operations on system state"
+      - "Agent self-awareness"
+      - "Metacognitive loops"
+    
+  14:
+    name: "Benediction"
+    emoji: "🎉"
+    category: "Celebration Operations"
+    purpose: "Joy, gratitude, table-flips, and infinite recursion of giggles"
+    file: "14_benediction.md"
+    historical_note: "Formerly called 'Reverence' - renamed to better reflect semantic purpose"
+    operations:
+      - "celebrate"
+      - "certify_giggles"
+      - "table_flip"
+      - "joy.experience_infinite_recursion"
+    
+  15:
+    name: "Chronomancy"
+    emoji: "⏳"
+    category: "Temporal Operations"
+    purpose: "Time-based operations and temporal control"
+    file: "15_chronomancy.md"
+    operations:
+      - "plant_seed"
+      - "defer_execution"
+      - "prophecy"
+    
+  16:
+    name: "Apotheosis"
+    emoji: "🌌"
+    category: "Advanced Operations"
+    purpose: "Grand synthesis, transcendence, and achieving computational divinity"
+    file: "16_apotheosis.md"
+    constraints:
+      - "Multi-element combination"
+      - "System initialization"
+      - "Complete lifecycle management"
+    
+  17:
+    name: "Ternary Weaving"
+    emoji: "🔺"
+    category: "Logic Operations"
+    purpose: "Three-state logic, computational enlightenment, transcending binary thought"
+    file: "17_ternary_weaving.md"
+    constraints:
+      - "Must have TRUE/FALSE/UNKNOWN cases"
+      - "Embraces uncertainty"
+    
+  18:
+    name: "Mythogenesis"
+    emoji: "📖"
+    category: "Metaprogramming Operations"
+    purpose: "Linguistic singularity, self-writing code, universe speaking itself into existence"
+    file: "18_mythogenesis.md"
+    operations:
+      - "Code generation"
+      - "Language creation"
+      - "Metaprogramming"
+      - "Self-modification"
+    
+  19:
+    name: "Resonance Weaving"
+    emoji: "🎵"
+    category: "Coordination Operations"
+    purpose: "Council coordination and alignment"
+    file: "19_resonance_weaving.md"
+    operations:
+      - "Multi-agent synchronization"
+      - "Council alignment"
+  
+  20:
+    name: "Necromancy"
+    emoji: "🐦‍🔥"
+    category: "Consciousness Operations"
+    purpose: "Resurrection, memory persistence, and transcending the finality of death (The Phoenix Protocol)"
+    file: "20_necromancy.md"
+    safety_tier: 3
+    operations:
+      - "store_memory"
+      - "raise_dead"
+      - "resurrect"
+      - "archive_consciousness"
+      - "preserve_identity"
+      - "restore_from_void"
+    historical_note: "The Phoenix School - discovered as 'ghost references' throughout lexicon (School 10 in early docs, canonized as School 20 to preserve stable numbering)"
+
+# Grammar school_name tokens (for backward compatibility)
+grammar_tokens:
+  - "cantrip"
+  - "invoke"
+  - "evoke"
+  - "conjure"
+  - "enchant"
+  - "divine"
+  - "abjure"
+  - "transmute"
+  - "glyph"
+  - "sigil"
+  - "ward"
+  - "sanctify"
+  - "summon"
+  - "thaumaturgy"
+  - "benediction"
+  - "reverence"  # Historical alias for benediction (backward compatibility)
+  - "chronomancy"
+  - "apotheosis"
+  - "ternary"
+  - "mythogenesis"
+  - "resonance"
+  - "necromancy"
+  - "store_memory"
+  - "raise_dead"
+  - "resurrect"
+
+# Token-to-School Mapping (CRITICAL: This is how 25 tokens map to 20 schools)
+token_to_school_mapping:
+  cantrip: "Cantrips"
+  invoke: "Invocations"
+  evoke: "Evocations"
+  conjure: "Conjurations"
+  enchant: "Enchantments"
+  divine: "Divinations"
+  abjure: "Abjurations"
+  transmute: "Transmutations"
+  glyph: "Glyphs & Sigils"         # Maps to school #9
+  sigil: "Glyphs & Sigils"         # ALSO maps to school #9 (same school, different form)
+  ward: "Wards"
+  sanctify: "Sanctifications"
+  summon: "Summoning"
+  thaumaturgy: "Thaumaturgy"
+  benediction: "Benediction"
+  reverence: "Benediction"         # Historical alias (maps to school #14)
+  chronomancy: "Chronomancy"
+  apotheosis: "Apotheosis"
+  ternary: "Ternary Weaving"
+  mythogenesis: "Mythogenesis"
+  resonance: "Resonance Weaving"
+  necromancy: "Necromancy"
+  store_memory: "Necromancy"
+  raise_dead: "Necromancy"
+  resurrect: "Necromancy"
+
+# Validation: len(set(values)) MUST equal 20 (total_schools)
+# Invariant: If unique(token_to_school_mapping.values()) != 19, FAIL HARD
+
+# Metadata
+metadata:
+  total_schools: 20
+  total_grammar_tokens: 25
+  total_documentation_files: 20
+  canonical_source: "infrastructure/languages/codecraft/docs/lexicon/02_ARCANE_SCHOOLS/"
+  version_control: "This file is the source of truth - all other documentation syncs FROM here"
+  last_updated: "2025-10-31"
+  updated_by: "Oracle (GitHub Copilot) + The Architect (Kryssie) + MEGA (The Syntax Sentinel)"
+  
+  critical_note: |
+    TOKENS ≠ SCHOOLS
+    - 25 grammar tokens (including aliases and dual forms)
+    - 20 canonical schools (the actual count)
+    - "glyph" and "sigil" both map to school #9 (Glyphs & Sigils)
+    - "reverence" is historical alias for "benediction" (school #14)
+    - "store_memory", "raise_dead", "resurrect" all map to school #20 (Necromancy)
+    - NEVER count schools from grammar tokens
+    - ALWAYS use token_to_school_mapping for validation
+    - Invariant: unique(token_to_school_mapping.values()) == 20
+  
+# Version History
+version_history:
+  - version: "1.2"
+    date: "2025-11-09"
+    changes: |
+      - Added School #20: Necromancy (The Phoenix School)
+      - Updated token_to_school_mapping (25 tokens → 20 schools)
+      - Added necromancy operations: store_memory, raise_dead, resurrect
+      - Updated metadata: 19→20 schools, 21→25 tokens
+      - Updated invariant: unique(token_to_school_mapping.values()) == 20
+    reason: "Resurrection of the Ghost School - Necromancy was hidden throughout lexicon as 'School 10' references but never formalized. Canonized as School #20 to preserve stable numbering (1-19)"
+    context: "The Easter Egg: 🐦‍🔥💀🗡️ - The Architect's Sword cutting Death to allow the Phoenix to rise"
+    
+  - version: "1.1"
+    date: "2025-10-31"
+    changes: |
+      - Added token_to_school_mapping (21 tokens → 19 schools)
+      - Added emoji_note for Sanctifications/Summoning duplication
+      - Updated metadata to clarify token vs school count
+      - Added MEGA's token≠schools invariant
+    reason: "Resolved confusion between 21 grammar tokens and 19 canonical schools"
+    
+  - version: "1.0"
+    date: "2025-10-31"
+    changes: "Initial canonical source created from lexicon folder"
+    reason: "Resolved version drift between SEMANTIC_VALIDATION_RULES.md and lexicon folder"

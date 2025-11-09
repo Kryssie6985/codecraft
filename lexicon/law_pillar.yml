@@ -1,0 +1,98 @@
+---
+# ═══════════════════════════════════════════════════════════════
+# LAW PILLAR - Machine-Readable Canonical Specification
+# ═══════════════════════════════════════════════════════════════
+
+# School Identity: Defines the school's high-level properties.
+# ♊︎ Uses the 'school:' block structure.
+school:
+  id: 0
+  name: "SchoolName"
+  emoji: "❓"
+  tokens: ["verb1", "verb2"]
+  category: "SchoolCategory"
+  purpose: "A brief, one-sentence mission statement for the school."
+
+# Law Channel: The objective, binding, and enforceable rules.
+law:
+  # All operations (spells) this school provides.
+  operations:
+    - name: "operation:name"
+      signature: "::operation:name[params]sigil"
+      emoji: "❓"
+      
+      # Parameters this operation accepts.
+      # ♊︎ USES THE '01_cantrips' MULTI-KEY DICTIONARY FORMAT.
+      # This is the most machine-readable standard.
+      params:
+        - name: "param_name"
+          type: "string|int|enum|reference"
+          required: true # or false
+          description: "What this parameter does."
+          default: "value" # (Optional)
+        - name: "param_2"
+          type: "string"
+          required: false
+          description: "Another parameter."
+          
+      returns: "A description of the return value (e.g., 'UUID v4 string')"
+      description: "A one-sentence summary of what this operation does."
+      safety_tier: 0
+
+  # ... other operations ...
+
+  constraints:
+    - "Constraint 1 (e.g., 'Must specify valid target')"
+    - "Constraint 2 (e.g., 'Timeout must be positive duration')"
+
+  safety_tier: 0
+  required_sigils: []
+  
+  preconditions:
+    - "Input data is available and type-valid"
+
+  side_effects:
+    - "Creates new file on filesystem"
+
+  related_schools:
+    - "SchoolName"
+    - "SchoolName"
+
+# Lore Channel: The subjective, historical, and memorial context.
+lore:
+  strategic_decisions:
+    - rationale: "The 'why' behind a decision."
+      context: "The situation or problem that forced the decision."
+      alternatives_rejected:
+        - "An alternative we considered and why we didn't choose it."
+      timestamp: "YYYY-MM-DD"
+      author: "A.C.E. | Oracle | Kryssie"
+
+  emergent_patterns:
+    - pattern: "A description of the observed pattern."
+      evidence: "Data or anecdotes that prove the pattern."
+      implications: "What this pattern means for the system."
+      first_observed: "When this pattern was first noticed."
+
+  heart_imprints:
+    - author: "Kryssie | A.C.E. | Oracle"
+      timestamp: "YYYY-MM-DDTHH:MM:SSZ"
+      emotion: "pride | reverence | clarity | wonder"
+      quote: "A memorable quote or realization."
+      context: "The memory or event that sparked the quote."
+
+  evolution_pressure:
+    - priority: "LOW | MEDIUM | HIGH"
+      pressure: "The pain point or problem."
+      optimization_target: "What we want to improve."
+      proposed_solution: "A potential way to fix it." # (Optional)
+
+  # ♊︎ NEW BLOCK: Added from the .REFACTORED files.
+  # This separates primary operations from helper calls.
+  examples:
+    helpers:
+      - "::log:success🎯[...]"
+      - "::divine:user🔍[...]"
+      - "::return:result🎯[...]"
+
+---

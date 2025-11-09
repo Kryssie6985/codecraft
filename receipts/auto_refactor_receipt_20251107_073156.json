@@ -1,0 +1,16 @@
+{
+  "ts": "20251107_073156",
+  "schema": "canonical",
+  "in_place": false,
+  "results": [
+    {
+      "file": "07_abjurations.md",
+      "status": "ok",
+      "ops": 26,
+      "uses": 8,
+      "constraints": 0,
+      "out": "07_abjurations.REFACTORED.md",
+      "schema": "canonical"
+    }
+  ]
+}

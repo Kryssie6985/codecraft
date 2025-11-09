@@ -1,0 +1,17 @@
+{
+  "ts": "20251107_161226",
+  "schema": "canonical",
+  "in_place": false,
+  "results": [
+    {
+      "file": "19_resonance_weaving.md",
+      "status": "ok",
+      "core_ops": 0,
+      "helpers": 0,
+      "uses": 0,
+      "constraints": 0,
+      "out": "19_resonance_weaving.REFACTORED.md",
+      "schema": "canonical"
+    }
+  ]
+}

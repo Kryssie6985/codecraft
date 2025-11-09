@@ -1,0 +1,16 @@
+{
+  "ts": "20251107_073427",
+  "schema": "canonical",
+  "in_place": false,
+  "results": [
+    {
+      "file": "11_sanctifications.md",
+      "status": "ok",
+      "ops": 35,
+      "uses": 8,
+      "constraints": 0,
+      "out": "11_sanctifications.REFACTORED.md",
+      "schema": "canonical"
+    }
+  ]
+}

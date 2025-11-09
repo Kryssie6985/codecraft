@@ -1,0 +1,16 @@
+{
+  "ts": "20251107_073429",
+  "schema": "canonical",
+  "in_place": false,
+  "results": [
+    {
+      "file": "16_apotheosis.md",
+      "status": "ok",
+      "ops": 0,
+      "uses": 0,
+      "constraints": 0,
+      "out": "16_apotheosis.REFACTORED.md",
+      "schema": "canonical"
+    }
+  ]
+}

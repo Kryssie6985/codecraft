@@ -1,0 +1,17 @@
+{
+  "ts": "20251107_161224",
+  "schema": "canonical",
+  "in_place": false,
+  "results": [
+    {
+      "file": "09_glyphs_and_sigils.md",
+      "status": "ok",
+      "core_ops": 10,
+      "helpers": 12,
+      "uses": 8,
+      "constraints": 0,
+      "out": "09_glyphs_and_sigils.REFACTORED.md",
+      "schema": "canonical"
+    }
+  ]
+}

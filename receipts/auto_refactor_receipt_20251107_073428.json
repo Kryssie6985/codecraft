@@ -1,0 +1,16 @@
+{
+  "ts": "20251107_073428",
+  "schema": "canonical",
+  "in_place": false,
+  "results": [
+    {
+      "file": "13_thaumaturgy.md",
+      "status": "ok",
+      "ops": 0,
+      "uses": 0,
+      "constraints": 0,
+      "out": "13_thaumaturgy.REFACTORED.md",
+      "schema": "canonical"
+    }
+  ]
+}
