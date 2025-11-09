@@ -99,7 +99,7 @@ data → result
 | 07. Abjuration 🛡️ | ✅ | ✅ | ✅ Fully |
 | 08. Evocation ⚡ | ✅ | ✅ | ✅ Fully |
 | 09. Conjuration 🎨 | ✅ | ✅ | ✅ Fully |
-| 10. Necromancy 💀 | ✅ | ✅ | ✅ Fully |
+| 10. Warding �️ | ✅ | ✅ | ✅ Fully |
 | 11. Teleportation 🌀 | ✅ | ✅ | ✅ Fully |
 | 12. Summoning 🔗 | ✅ | ✅ | ✅ Fully |
 
@@ -121,6 +121,7 @@ data → result
 | 17. Ternary Weaving 🔺 | ❌ | ✅ | ❌ v2.0 only |
 | 18. Mythogenesis 📖 | ❌ | ✅ | ❌ v2.0 only |
 | 19. Resonance 🎵 | ❌ | ✅ | ❌ v2.0 only |
+| 20. Necromancy 🐦‍🔥 | ❌ | ✅ | ❌ v2.0 only (Phoenix School) |
 
 **Compatibility:** ❌ **v2.0 exclusive**
 - Not available in v1.0

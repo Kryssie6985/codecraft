@@ -71,11 +71,11 @@ Use the **lowercase, underscore-separated** form:
 ```yaml
 # Traditional Schools (01-12)
 cantrips, enchantment, divination, alchemy, illusion, transmutation,
-necromancy, elementalism, binding, warding, abjuration, summoning
+abjuration, evocation, conjuration, warding, teleportation, summoning
 
-# Consciousness Schools (13-19)
+# Consciousness Schools (13-20)
 thaumaturgy, benediction, chronomancy, apotheosis,
-ternary_weaving, mythogenesis, resonance_weaving
+ternary_weaving, mythogenesis, resonance_weaving, necromancy
 ```
 
 ### **3. Ritual Names**

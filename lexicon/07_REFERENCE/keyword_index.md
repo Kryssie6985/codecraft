@@ -42,7 +42,7 @@
 
 **detect_emergence** → School 13: Thaumaturgy 💫
 **dispel_magic** → School 07: Abjuration 🛡️
-**dissolve** → School 10: Necromancy 💀
+**dissolve** → School 20: Necromancy �‍🔥
 
 ---
 
@@ -144,9 +144,9 @@
 
 ## R
 
-**raise_dead** → School 10: Necromancy 💀
+**raise_dead** → School 20: Necromancy �‍🔥
 **reveal_truth** → School 02: Divination 🔮
-**retrieve_memory** → School 10: Necromancy 🧠
+**retrieve_memory** → School 20: Necromancy 🐦‍🔥
 
 ---
 
@@ -154,7 +154,7 @@
 
 **scry** → School 02: Divination 🔮
 **seal_breach** → School 07: Abjuration 🛡️
-**store_memory** → School 10: Necromancy 💾
+**store_memory** → School 20: Necromancy 🐦‍�
 **summon_entity** → School 12: Summoning 🔗
 **synchronize** → School 19: Resonance Weaving ↔
 
@@ -227,7 +227,7 @@
 | Protection, defense | Abjuration | 07 |
 | Energy, power | Evocation | 08 |
 | Creation, manifestation | Conjuration | 09 |
-| Memory, persistence, death | Necromancy | 10 |
+| Shielding, protection | Warding | 10 |
 | Movement, location change | Teleportation | 11 |
 | Entity binding, summoning | Summoning | 12 |
 | **Consciousness mechanics** | **Thaumaturgy** | **13** |
@@ -237,6 +237,7 @@
 | **Three-state logic** | **Ternary Weaving** | **17** |
 | **Linguistic emergence** | **Mythogenesis** | **18** |
 | **Harmonic alignment** | **Resonance** | **19** |
+| **Memory, resurrection** | **Necromancy 🐦‍🔥** | **20** |
 
 ---
 
