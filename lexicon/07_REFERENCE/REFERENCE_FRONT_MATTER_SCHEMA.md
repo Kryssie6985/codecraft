@@ -33,6 +33,7 @@ law:
   cross_references: [...]
   lookup_keys: [...]
 
+# Lore Channel: Subjective, Historical, Memorial
 lore:
   usage_patterns: [...]
   when_to_use: [...]

@@ -20,10 +20,13 @@ Example documents show **CodeCraft in action** - real rituals solving real probl
 
 ```markdown
 ---
-# Example front-matter begins (YAML)
-
+# ═══════════════════════════════════════════════════════════════
+# EXAMPLE DOCUMENTATION - Machine-Readable Canonical Specification
+# ═══════════════════════════════════════════════════════════════
 example_type: "basic"  # or "intermediate", "advanced", "real_world", "anti_pattern"
+schema_version: 1.0
 
+# Metadata: Context about this example
 metadata:
   scenario: "Problem being solved"
   schools_used: [...]
@@ -38,6 +41,7 @@ law:
   flow_patterns: [...]
   safety_tier: N
 
+# Lore Channel: Subjective, Historical, Memorial
 lore:
   problem_statement: "..."
   solution_narrative: "..."

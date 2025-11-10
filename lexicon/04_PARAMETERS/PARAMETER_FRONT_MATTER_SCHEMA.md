@@ -20,16 +20,20 @@ Parameter documents define how VALUES are passed to CodeCraft operations - types
 
 ```markdown
 ---
-# Parameter front-matter begins (YAML)
-
+# ═══════════════════════════════════════════════════════════════
+# PARAMETER DOCUMENTATION - Machine-Readable Canonical Specification
+# ═══════════════════════════════════════════════════════════════
 parameter_category: "types"  # or "patterns", "validation", "safety"
+schema_version: 1.0
 
+# Law Channel: Objective, Binding, Enforceable
 law:
   parameter_types: [...]
   validation_rules: [...]
   safety_constraints: [...]
   default_behavior: [...]
 
+# Lore Channel: Subjective, Historical, Memorial
 lore:
   design_rationale: [...]
   common_patterns: [...]

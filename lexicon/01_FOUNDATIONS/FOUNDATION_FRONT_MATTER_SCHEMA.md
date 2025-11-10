@@ -20,16 +20,20 @@ Foundation documents establish the philosophical, syntactic, and structural bedr
 
 ```markdown
 ---
-# Foundation front-matter begins (YAML)
-
+# ═══════════════════════════════════════════════════════════════
+# FOUNDATION DOCUMENTATION - Machine-Readable Canonical Specification
+# ═══════════════════════════════════════════════════════════════
 foundation_type: "philosophy"  # or "syntax" or "ethics" or "structure"
+schema_version: 1.0
 
+# Law Channel: Objective, Binding, Enforceable
 law:
   core_concepts: [...]
   syntax_rules: [...]
   constraints: [...]
   safety_principles: [...]
 
+# Lore Channel: Subjective, Historical, Memorial
 lore:
   origin_story: [...]
   philosophical_foundation: [...]

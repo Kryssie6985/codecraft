@@ -20,16 +20,20 @@ Syntax Variant documents show how the SAME RITUAL can be expressed in different 
 
 ```markdown
 ---
-# Syntax Variant front-matter begins (YAML)
-
+# ═══════════════════════════════════════════════════════════════
+# SYNTAX VARIANT DOCUMENTATION - Machine-Readable Canonical Specification
+# ═══════════════════════════════════════════════════════════════
 variant_type: "basic"  # or "firacode", "emoji", "ancient_tongue", "domain_specific"
+schema_version: 1.0
 
+# Law Channel: Objective, Binding, Enforceable
 law:
   notation_rules: [...]
   semantic_equivalence: [...]
   constraints: [...]
   transformation_rules: [...]
 
+# Lore Channel: Subjective, Historical, Memorial
 lore:
   aesthetic_philosophy: [...]
   use_cases: [...]
