@@ -1,0 +1,8 @@
+repos:
+- repo: local
+  hooks:
+  - id: canon-verify
+    name: canon-verify
+    entry: bash -lc 'python tools/build_partitions_lock.py && python tools/validate_partitions_lock.py && python tools/validate_dual_locks.py'
+    language: system
+    pass_filenames: false

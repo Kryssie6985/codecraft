@@ -1,0 +1,16 @@
+name: Canon Verify
+on: [push, pull_request]
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.11' }
+      - run: pip install pyyaml
+      - name: Build + validate partitions
+        run: |
+          python tools/build_partitions_lock.py
+          python tools/validate_partitions_lock.py
+      - name: Validate dual locks
+        run: python tools/validate_dual_locks.py
