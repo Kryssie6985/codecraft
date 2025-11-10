@@ -69,6 +69,14 @@ def main():
                 print(f"   {line.rstrip()}")
         print("   " + "─" * 56)
         
+        # Verify filenames are slugged by school name (not numeric IDs)
+        print(f"\n🧪 Filename Slug Validation:")
+        names = {p.name for p in generated_files}
+        has_divinations = any(n.startswith("divination") and n.endswith(".wat") for n in names) or "divinations.wat" in names
+        assert has_divinations, "❌ Expected divinations.wat (or divination*.wat) in output!"
+        print(f"   ✅ Filenames are slugged by school name")
+        print(f"   Sample: {sorted(list(names))[:5]} ...")
+        
         print(f"\n🎉 All tests passed!")
         return 0
         

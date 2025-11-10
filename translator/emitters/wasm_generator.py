@@ -38,6 +38,7 @@ WAT Syntax (S-expressions):
 from pathlib import Path
 from typing import Dict, List, Any
 from textwrap import indent
+import re
 
 from ..core.ast_builder import RitualAST, ASTNode, NodeType
 from ..core.canon_loader import CanonLoader
@@ -203,15 +204,15 @@ class WASMGenerator:
         Generate standalone WASM module for a specific Arcane School
         
         Args:
-            school_key: School identifier (e.g., "DIVINATION", "NECROMANCY")
+            school_key: School identifier (numeric ID like "6" or name like "DIVINATION")
             output_dir: Output directory
         
         Returns:
             Path to generated school.wat file
         
         Example:
-            >>> generator.generate_school_module("DIVINATION", Path("./build"))
-            Path("./build/divination.wat")
+            >>> generator.generate_school_module("6", Path("./build"))
+            Path("./build/divinations.wat")
         """
         school_info = self.canon.get_school_info(school_key)
         if not school_info:
@@ -220,9 +221,15 @@ class WASMGenerator:
         emoji = school_info.get("emoji", "")
         description = school_info.get("description", "")
         tier = school_info.get("tier", "")
+        # Prefer the canonical name field for filenames/exports
+        name = (school_info.get("name") or str(school_key)).strip()
+        # slugify → lowercase, spaces→hyphens, strip non-alnum/hyphen
+        slug = re.sub(r"[^a-z0-9\-]", "", re.sub(r"\s+", "-", name.lower()))
+        if not slug:
+            slug = str(school_key).lower()
         
-        # Generate WAT module
-        school_name = school_key.lower()
+        # Generate WAT module - use slugified school name
+        school_name = slug
         wat_content = f""";; 🌌 CodeCraft School Module: {school_key}
 ;; Emoji: {emoji}
 ;; Tier: {tier}
@@ -272,9 +279,9 @@ class WASMGenerator:
         output_dir.mkdir(parents=True, exist_ok=True)
         
         generated_files = []
-        all_schools = self.canon.get_all_schools()
+        all_keys = self.canon.get_all_schools()  # may be numeric keys "1".."20"
         
-        for school_key in all_schools:
+        for school_key in all_keys:
             try:
                 wat_path = self.generate_school_module(school_key, output_dir)
                 generated_files.append(wat_path)
