@@ -163,7 +163,7 @@ class CanonLoader:
         Returns:
             True if canon passes sovereignty checks:
             - Exactly 20 schools in canon.lock.yaml
-            - At least 6 required partitions present
+            - At least 6 required structural partitions present
             - No governance bleed (02_ARCANE_SCHOOLS integrity)
         """
         # Check school count
@@ -171,13 +171,15 @@ class CanonLoader:
             return False
         
         # Check minimum required partitions
+        # These are the 6 core structural partitions of the Lexicon
+        # (keys in canon.partitions.lock.yaml are NOT path-prefixed)
         required_partitions = {
-            "lexicon/00_CONSTITUTIONAL_PRELUDE",
-            "lexicon/01_FOUNDATIONS",
-            "lexicon/02_ARCANE_SCHOOLS",
-            "lexicon/03_DIVINATION",
-            "lexicon/04_CONJURATION",
-            "lexicon/05_RITUALS_AND_PROTOCOLS"
+            "foundations",
+            "syntax_variants",
+            "parameters",
+            "operators",
+            "examples",
+            "migrations"
         }
         
         present_partitions = set(self.partitions.keys())
