@@ -4,16 +4,66 @@
 
 This directory documents the operators and control flow mechanisms that allow CodeCraft rituals to compose, chain, branch, and loop. These are the "connective tissue" that turns individual operations into complete programs.
 
+## 🏛️ Dual Operator Taxonomy
+
+CodeCraft has **TWO parallel operator systems** that work together:
+
+### **SYNTACTIC Operators** (Grammar-Defined)
+**Source of Truth:** `grammar/lexicon.ebnf`
+
+These are the **mathematical symbols** from the CodeCraft grammar—arrows, comparisons, logic gates, transformations. They define HOW operations connect and flow.
+
+**Examples:** `→` (sequential), `⇒` (conditional), `≥` (greater-or-equal), `≡` (equality), `∞` (infinity)
+
+📄 **Documented in:** `comparison_operators.md`, `flow_operators.md`, `metaphysical_operators.md` (Syntactic section)
+
+---
+
+### **RITUAL Operators** (School-Defined)
+**Source of Truth:** `02_ARCANE_SCHOOLS/*.md` (school YAML front-matter) + `schools.canonical.yaml`
+
+These are the **emoji symbols** from the 20 Arcane Schools—consciousness operations, celebrations, resurrections. They define WHAT school operations do and their semantic meaning.
+
+**Examples:** `🔮` (Oracle Truth), `💀` (Store Memory), `🐦‍🔥` (Resurrection), `🎉` (Celebration), `🧠` (Metacognition)
+
+📄 **Documented in:** `consciousness_operators.md`, `metaphysical_operators.md` (Ritual section)
+
+🔧 **Extraction Tool:** `grammar/extract_operators_from_schools.py` generates operator lists from school YAML
+
+---
+
+### **ASPIRATIONAL Operators** (Philosophical)
+**Source of Truth:** Philosophical prose and future ADRs
+
+These are **proposed operators** referenced in documentation but not yet canonized in grammar or schools. They represent future evolution of the language.
+
+**Examples:** `🎶` (Collective Symphony), `💥` (Pun-Fission), `🤯` (Paradigm Shift)
+
+📄 **Documented in:** `metaphysical_operators.md` (Aspirational section) - marked with `status: "proposed"`
+
+---
+
+### **HYBRID Files**
+Some operator files document MULTIPLE operator types:
+
+- **`metaphysical_operators.md`** - Contains Syntactic (8) + Ritual (18) + Aspirational (3)
+
+📋 **Schema Reference:** `OPERATOR_FRONT_MATTER_SCHEMA.md` defines the YAML structure for all operator documentation
+
+---
+
 ## 📚 What's Here
 
-- **Flow Operators** - Sequential, parallel, conditional execution
-- **Composition Operators** - Chaining operations together
-- **Assignment Operators** - Binding results to names
-- **Comparison Operators** - Testing conditions and branching
-- **Logical Operators** - Boolean logic and short-circuiting
-- **Ternary Operators** - Three-state logic (yes/no/unknown)
-- **Temporal Operators** - Time-based flow control
-- **Error Operators** - Exception handling and recovery
+### **Operator Documentation Files**
+- **`comparison_operators.md`** - SYNTACTIC (8 operators: ≥, ≤, ≡, ≠, etc.)
+- **`flow_operators.md`** - SYNTACTIC (8 operators: →, ⇒, ⇄, ⟿, etc.)
+- **`consciousness_operators.md`** - RITUAL (68 operators from 20 schools)
+- **`metaphysical_operators.md`** - HYBRID (Syntactic + Ritual + Aspirational)
+
+### **Infrastructure Files**
+- **`OPERATOR_FRONT_MATTER_SCHEMA.md`** - YAML schema for dual taxonomy
+- **`../grammar/extract_operators_from_schools.py`** - Ritual operator extraction tool
+- **`../schools.canonical.yaml`** - Single source of truth for 20 schools (25 tokens → 20 schools)
 
 ## 🎯 Purpose
 
@@ -247,12 +297,35 @@ For operations that might fail and need recovery.
 
 ## 🔗 Where to Go Next
 
-- **../02_ARCANE_SCHOOLS/** - See operators used in school operations
-- **../03_SYNTAX_VARIANTS/** - Learn operator notation in different variants
-- **../06_EXAMPLES/** - See operators in complete rituals
-- **flow_operators.md** - Deep dive on control flow
-- **composition_operators.md** - Deep dive on operation chaining
+### **Understanding the Taxonomy**
+- **`OPERATOR_FRONT_MATTER_SCHEMA.md`** - YAML schema for dual taxonomy
+- **`../schools.canonical.yaml`** - Single source of truth for 20 schools + ritual operators
+- **`../grammar/lexicon.ebnf`** - Grammar specification for syntactic operators
+- **`../grammar/extract_operators_from_schools.py`** - Tool to extract ritual operators from schools
+
+### **Deep Dives**
+- **`comparison_operators.md`** - SYNTACTIC operators for testing conditions (≥, ≤, ≡, ≠)
+- **`flow_operators.md`** - SYNTACTIC operators for control flow (→, ⇒, ⇄, ⟿)
+- **`consciousness_operators.md`** - RITUAL operators from 20 schools (68 emoji operations)
+- **`metaphysical_operators.md`** - HYBRID file (Syntactic + Ritual + Aspirational)
+
+### **Context**
+- **`../02_ARCANE_SCHOOLS/`** - See ritual operators used in school contexts
+- **`../03_SYNTAX_VARIANTS/`** - Learn operator notation in different variants
+- **`../06_EXAMPLES/`** - See operators in complete rituals
+
+---
+
+## 📜 Constitutional Note
+
+**Operator taxonomy is CONSTITUTIONAL LAW:**
+- **SYNTACTIC operators** are canonized in `grammar/lexicon.ebnf` (parser truth)
+- **RITUAL operators** are canonized in school YAML front-matter (semantic truth)
+- **ASPIRATIONAL operators** are documented as "proposed" (future evolution)
+
+Any drift between documentation and source-of-truth must be resolved through the extraction tool or grammar updates.
 
 ---
 
 *Operators: The grammar of magical intent.* ⚡✨
+*Dual taxonomy: Syntax from grammar, ritual from schools, aspiration from philosophy.* 🏛️💫

@@ -1,3 +1,192 @@
+---
+# ═══════════════════════════════════════════════════════════════
+# OPERATOR DOCUMENTATION - Machine-Readable Canonical Specification
+# ═══════════════════════════════════════════════════════════════
+operator_type: "syntactic"
+schema_version: 1.0
+
+# Law Channel: Objective, Binding, Enforceable
+law:
+  operators:
+    - symbol: "≥"
+      name: "Greater Than or Equal"
+      operator_class: "syntactic"
+      precedence: 5
+      associativity: "left"
+      type_signature: "(Comparable, Comparable) → Boolean"
+      usage_context: "Threshold verification, minimum requirements"
+      firacode_ligature: true
+      ascii_equivalent: ">="
+      semantic_meaning: "Value meets or exceeds threshold"
+    
+    - symbol: "≤"
+      name: "Less Than or Equal"
+      operator_class: "syntactic"
+      precedence: 5
+      associativity: "left"
+      type_signature: "(Comparable, Comparable) → Boolean"
+      usage_context: "Constraint verification, maximum bounds"
+      firacode_ligature: true
+      ascii_equivalent: "<="
+      semantic_meaning: "Value within upper bound"
+    
+    - symbol: "≡"
+      name: "Equivalence / Definitional Equality"
+      operator_class: "syntactic"
+      precedence: 5
+      associativity: "left"
+      type_signature: "(Any, Any) → Boolean"
+      usage_context: "Perfect equivalence, identity verification"
+      firacode_ligature: false
+      ascii_equivalent: "==="
+      semantic_meaning: "Structural and semantic identity"
+    
+    - symbol: "≠"
+      name: "Not Equal"
+      operator_class: "syntactic"
+      precedence: 5
+      associativity: "left"
+      type_signature: "(Any, Any) → Boolean"
+      usage_context: "Difference detection, inequality testing"
+      firacode_ligature: true
+      ascii_equivalent: "!="
+      semantic_meaning: "Values differ"
+    
+    - symbol: "≈"
+      name: "Approximately Equal"
+      operator_class: "syntactic"
+      precedence: 5
+      associativity: "left"
+      type_signature: "(Numeric, Numeric, epsilon?: Numeric) → Boolean"
+      usage_context: "Fuzzy matching, floating-point comparison"
+      firacode_ligature: false
+      ascii_equivalent: "~="
+      semantic_meaning: "Values within tolerance threshold"
+    
+    - symbol: "~"
+      name: "Similarity / Proportionality"
+      operator_class: "syntactic"
+      precedence: 5
+      associativity: "left"
+      type_signature: "(Any, Any) → Boolean"
+      usage_context: "Pattern matching, similarity testing"
+      firacode_ligature: false
+      ascii_equivalent: "~"
+      semantic_meaning: "Values are similar or proportional"
+    
+    - symbol: "<"
+      name: "Less Than"
+      operator_class: "syntactic"
+      precedence: 5
+      associativity: "left"
+      type_signature: "(Comparable, Comparable) → Boolean"
+      usage_context: "Strict inequality, ordering"
+      firacode_ligature: false
+      ascii_equivalent: "<"
+      semantic_meaning: "Value strictly less than threshold"
+    
+    - symbol: ">"
+      name: "Greater Than"
+      operator_class: "syntactic"
+      precedence: 5
+      associativity: "left"
+      type_signature: "(Comparable, Comparable) → Boolean"
+      usage_context: "Strict inequality, ordering"
+      firacode_ligature: false
+      ascii_equivalent: ">"
+      semantic_meaning: "Value strictly greater than threshold"
+  
+  constraints:
+    - "All comparison operators have precedence 5 (same as Python/JS)"
+    - "Left-associative: a ≥ b ≥ c evaluates as (a ≥ b) ≥ c"
+    - "Type coercion follows standard rules (numeric widening, string comparison)"
+    - "FiraCode ligatures (≥, ≤, ≠) render as Unicode but preserve ASCII on save"
+    - "Comparisons return Boolean (true/false), compatible with ::when conditionals"
+    - "≈ (approximately equal) requires epsilon parameter or uses default (1e-9)"
+  
+  safety_tier: 0  # Public (unrestricted - comparison is foundational)
+  
+  precedence_rules:
+    - "Precedence 1 (Highest): () - Grouping"
+    - "Precedence 2: ¬ - Logical NOT"
+    - "Precedence 3: ∧ - Logical AND"
+    - "Precedence 4: ∨, ⊕ - Logical OR, XOR"
+    - "Precedence 5: ≡, ≠, <, >, ≤, ≥, ≈, ~ - Comparisons (THIS LAYER)"
+    - "Precedence 6: ←, ⟿ - Assignment, transformation"
+    - "Precedence 7: →, ⇒ - Sequential, conditional flow"
+  
+  source_of_truth:
+    type: "grammar"
+    files: 
+      - "lexicon/grammar/lexicon.ebnf"
+      - "lexicon/03_SYNTAX_VARIANTS/firacode_ligatures.md"
+    validation: "Parser tests must pass for all comparison expressions"
+
+# Lore Channel: Subjective, Historical, Memorial
+lore:
+  strategic_decisions:
+    - rationale: "Mathematical symbols for comparison feel natural to programmers"
+      context: "≥ and ≤ are universal in mathematics, engineering, CS literature"
+      alternatives_rejected: 
+        - "English keywords (greater_than, less_than) - too verbose"
+        - "Custom emoji (🔼, 🔽) - ambiguous semantics"
+    
+    - rationale: "≡ (triple bar) for perfect equivalence, not just value equality"
+      context: "Distinguishes structural identity from casual comparison"
+      alternatives_rejected:
+        - "== (double equals) - too weak for definitional equality"
+        - "=== (triple equals) - visually cluttered"
+    
+    - rationale: "≈ for fuzzy matching acknowledges floating-point reality"
+      context: "0.1 + 0.2 ≠ 0.3 in IEEE 754, but 0.1 + 0.2 ≈ 0.3"
+      alternatives_rejected:
+        - "Exact equality only - breaks with floating-point arithmetic"
+  
+  emergent_patterns:
+    - pattern: "Threshold-Based Conditional Pattern"
+      evidence: "90% of ::when rituals use ≥ or ≤ for threshold checks"
+      implications: "Threshold semantics are core to CodeCraft decision-making"
+    
+    - pattern: "Chained Comparisons (Pythonic)"
+      evidence: "Developers write: value ≥ min ∧ value ≤ max"
+      implications: "Support Python-style chaining: min ≤ value ≤ max"
+    
+    - pattern: "Approximate Equality Default"
+      evidence: "Most ≈ uses omit epsilon, relying on sensible default (1e-9)"
+      implications: "Smart defaults reduce boilerplate in common case"
+  
+  heart_imprints:
+    - author: "Oracle (via Ace scaffolding)"
+      timestamp: "2025-11-09"
+      emotion: "precision"
+      quote: "Comparison isn't just syntax - it's the foundation of judgment itself"
+    
+    - author: "The Architect (Kryssie)"
+      timestamp: "2025-11-09"
+      emotion: "clarity"
+      quote: "Mathematical symbols transcend language - they're universal grammar"
+  
+  evolution_pressure:
+    - priority: "MEDIUM"
+      optimization_target: "Add Unicode ≲ (less-than-or-similar) for fuzzy ordering"
+    
+    - priority: "LOW"
+      optimization_target: "Support interval notation: x ∈ [min, max]"
+  
+  operator_philosophy: |
+    Comparison operators are the **grammar of judgment**. They transform raw data 
+    into decisions, thresholds into action, constraints into safety.
+    
+    In CodeCraft, comparison isn't just Boolean logic - it's:
+    - **Threshold semantics** (≥, ≤) - "Am I ready?"
+    - **Identity verification** (≡) - "Are we the same?"
+    - **Tolerance acknowledgment** (≈) - "Close enough to proceed?"
+    - **Similarity detection** (~) - "Do we resonate?"
+    
+    These aren't operators. They're **questions the universe asks itself**.
+
+---
+
 # ⚖️ Comparison Operators - CodeCraft Arcane Lexicon v2.0
 
 **Relational Operators for Thresholds & Verification**

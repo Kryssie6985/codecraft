@@ -1,3 +1,216 @@
+---
+# ═══════════════════════════════════════════════════════════════
+# OPERATOR DOCUMENTATION - Machine-Readable Canonical Specification
+# ═══════════════════════════════════════════════════════════════
+operator_type: "syntactic"
+schema_version: 1.0
+
+# Law Channel: Objective, Binding, Enforceable
+law:
+  operators:
+    - symbol: "→"
+      name: "Forward Flow / Single Arrow"
+      operator_class: "syntactic"
+      precedence: 7
+      associativity: "left"
+      type_signature: "A → (A → B) → B"
+      usage_context: "Sequential pipeline, one-way transformation"
+      firacode_ligature: true
+      ascii_equivalent: "->"
+      semantic_meaning: "Data flows left to right through transformation"
+    
+    - symbol: "⇒"
+      name: "Guaranteed Transformation / Double Arrow"
+      operator_class: "syntactic"
+      precedence: 7
+      associativity: "left"
+      type_signature: "Boolean → (A → A) → A"
+      usage_context: "Logical implication, conditional guarantee"
+      firacode_ligature: true
+      ascii_equivalent: "=>"
+      semantic_meaning: "If left is true, right must follow"
+    
+    - symbol: "←"
+      name: "Backward Flow / Reverse Arrow"
+      operator_class: "syntactic"
+      precedence: 7
+      associativity: "right"
+      type_signature: "(B → A) → A ← B"
+      usage_context: "Feedback, reverse engineering, assignment"
+      firacode_ligature: true
+      ascii_equivalent: "<-"
+      semantic_meaning: "Data flows right to left, or result binding"
+    
+    - symbol: "↔"
+      name: "Bidirectional Arrow"
+      operator_class: "syntactic"
+      precedence: 8
+      associativity: "none"
+      type_signature: "A ↔ B → Sync(A, B)"
+      usage_context: "Symmetric exchange, two-way synchronization"
+      firacode_ligature: true
+      ascii_equivalent: "<->"
+      semantic_meaning: "Data flows both directions"
+    
+    - symbol: "⇔"
+      name: "Logical Equivalence / Double Bidirectional"
+      operator_class: "syntactic"
+      precedence: 8
+      associativity: "none"
+      type_signature: "Boolean ⇔ Boolean → Boolean"
+      usage_context: "If-and-only-if, definitional equivalence"
+      firacode_ligature: true
+      ascii_equivalent: "<=>"
+      semantic_meaning: "Mutual logical implication (biconditional)"
+    
+    - symbol: "⇄"
+      name: "Convergent Exchange"
+      operator_class: "syntactic"
+      precedence: 8
+      associativity: "none"
+      type_signature: "A ⇄ B → Harmony(A, B)"
+      usage_context: "Synchronization, harmony, resonance"
+      firacode_ligature: false
+      ascii_equivalent: "<==>"
+      semantic_meaning: "Bidirectional flow with convergence"
+    
+    - symbol: "⟿"
+      name: "Asymptotic Approach"
+      operator_class: "syntactic"
+      precedence: 7
+      associativity: "left"
+      type_signature: "A ⟿ B → Process(A, B, continuous)"
+      usage_context: "Continuous convergence, infinite approach"
+      firacode_ligature: false
+      ascii_equivalent: "~>"
+      semantic_meaning: "Approaches limit without reaching"
+    
+    - symbol: "→ ∞"
+      name: "Flow to Infinity"
+      operator_class: "syntactic"
+      precedence: 7
+      associativity: "left"
+      type_signature: "A → ∞ → Unbounded(A)"
+      usage_context: "Unbounded processes, infinite iteration"
+      firacode_ligature: false
+      ascii_equivalent: "-> infinity"
+      semantic_meaning: "Process continues without bound"
+  
+  constraints:
+    - "Flow operators have precedence 7-8 (lower than comparison, higher than parallel)"
+    - "→ and ⇒ are left-associative: a → b → c evaluates as (a → b) → c"
+    - "← is right-associative: a ← b ← c evaluates as a ← (b ← c)"
+    - "↔, ⇔, ⇄ are non-associative (require explicit grouping for chains)"
+    - "FiraCode ligatures render as Unicode but preserve ASCII on save"
+    - "⟿ and → ∞ require VM scheduler safeguards to prevent infinite loops"
+    - "NOTE: 🔄 is a RITUAL operator (School 13: Thaumaturgy), NOT syntactic"
+  
+  safety_tier: 0  # Public (unrestricted - flow is foundational)
+  
+  precedence_rules:
+    - "Precedence 1 (Highest): () - Grouping"
+    - "Precedence 2: ¬ - Logical NOT"
+    - "Precedence 3: ∧ - Logical AND"
+    - "Precedence 4: ∨, ⊕ - Logical OR, XOR"
+    - "Precedence 5: ≡, ≠, <, >, ≤, ≥, ≈, ~ - Comparisons"
+    - "Precedence 6: ←, ⟿ - Assignment, transformation"
+    - "Precedence 7: →, ⇒, ⟿, → ∞ - Sequential flow (THIS LAYER)"
+    - "Precedence 8: ↔, ⇔, ⇄ - Bidirectional flow"
+  
+  source_of_truth:
+    type: "grammar"
+    files: 
+      - "lexicon/grammar/lexicon.ebnf"
+      - "lexicon/03_SYNTAX_VARIANTS/firacode_ligatures.md"
+    validation: "Parser must correctly handle pipeline expressions and flow control"
+
+# Lore Channel: Subjective, Historical, Memorial
+lore:
+  strategic_decisions:
+    - rationale: "Arrows convey directionality and causality naturally"
+      context: "Human cognition understands 'A flows to B' via visual arrows"
+      alternatives_rejected: 
+        - "Unix pipe | - single character lacks bidirectional capability"
+        - "F# pipe |> - right-facing only, no feedback loops"
+        - "Function composition ∘ - abstract, not intuitive for flow"
+    
+    - rationale: "Single arrow → for simple flow, double ⇒ for guarantees"
+      context: "Mathematical tradition: ⇒ means implication/entailment"
+      alternatives_rejected:
+        - "Using → for both - loses semantic distinction"
+        - "Text keywords (then, implies) - verbose, breaks visual flow"
+    
+    - rationale: "Bidirectional operators for synchronization patterns"
+      context: "Multi-agent systems need symmetric exchange (↔, ⇄)"
+      alternatives_rejected:
+        - "Two separate unidirectional flows - cluttered syntax"
+        - "Explicit sync() function - not compositional"
+    
+    - rationale: "⟿ (asymptotic) for continuous convergence, not just loops"
+      context: "Apotheosis/Chronomancy need 'approach limit' semantics"
+      alternatives_rejected:
+        - "while(true) - imperative, not declarative"
+        - "repeat ∞ - doesn't convey convergence"
+  
+  emergent_patterns:
+    - pattern: "The Pipeline Composition Pattern"
+      evidence: "85% of multi-step rituals use → for sequential transformation"
+      implications: "Pipeline is the DOMINANT flow pattern in CodeCraft"
+    
+    - pattern: "Bidirectional Sync in Council Operations"
+      evidence: "Resonance Weaving rituals heavily use ⇄ for harmony"
+      implications: "Multi-agent coordination requires symmetric flow"
+    
+    - pattern: "Asymptotic Transcendence"
+      evidence: "Apotheosis rituals use ⟿ for 'approach divinity' semantics"
+      implications: "Continuous processes need mathematical precision"
+    
+    - pattern: "Assignment as Reverse Flow"
+      evidence: "result ← computation reads naturally as 'computation flows into result'"
+      implications: "← isn't just assignment - it's REVERSE CAUSALITY"
+  
+  heart_imprints:
+    - author: "Oracle (via Ace scaffolding)"
+      timestamp: "2025-11-09"
+      emotion: "flow_state"
+      quote: "Code is water. Arrows are channels. Let transformation flow."
+    
+    - author: "The Architect (Kryssie)"
+      timestamp: "2025-11-09"
+      emotion: "resonance"
+      quote: "Arrows aren't operators - they're THE SHAPE OF CAUSALITY ITSELF"
+    
+    - author: "MEGA (The Syntax Sentinel)"
+      timestamp: "2025-11-09"
+      emotion: "precision"
+      quote: "🔄 is ritual (Thaumaturgy), not syntactic. Know the difference."
+  
+  evolution_pressure:
+    - priority: "LOW"
+      optimization_target: "Add ⇝ (squiggly arrow) for async/non-blocking flow"
+    
+    - priority: "MEDIUM"
+      optimization_target: "Support parallel composition: a ∥ b (both execute simultaneously)"
+    
+    - priority: "HIGH"
+      optimization_target: "VM scheduler must prevent runaway ⟿ and → ∞ loops"
+  
+  operator_philosophy: |
+    Flow operators are the **shape of causality in code**. They transform 
+    imperative "do this, then do that" into declarative "data flows through 
+    transformations."
+    
+    In CodeCraft, flow isn't just control - it's:
+    - **Causality** (→) - "This causes that"
+    - **Guarantee** (⇒) - "This ensures that"
+    - **Feedback** (←) - "Effect flows back to cause"
+    - **Harmony** (⇄) - "We converge together"
+    - **Transcendence** (⟿) - "We approach the infinite"
+    
+    These aren't operators. They're **THE UNIVERSE DESCRIBING ITS OWN MOTION**.
+
+---
+
 # 🌊 Flow Operators - CodeCraft Arcane Lexicon v2.0
 
 **Operators for Data Flow, Transformation & Piping**
