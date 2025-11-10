@@ -39,7 +39,7 @@ from pathlib import Path
 from typing import Dict, List, Any
 from textwrap import indent
 
-from ..ast_builder import RitualAST, ASTNode, NodeType
+from ..core.ast_builder import RitualAST, ASTNode, NodeType
 from ..core.canon_loader import CanonLoader
 
 

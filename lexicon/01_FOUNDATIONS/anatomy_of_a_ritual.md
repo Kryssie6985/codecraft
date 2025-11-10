@@ -1,4 +1,3 @@
-````markdown
 ---
 # ═══════════════════════════════════════════════════════════════
 # FOUNDATION DOCUMENTATION - Machine-Readable Canonical Specification
