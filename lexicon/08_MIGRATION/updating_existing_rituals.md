@@ -1,3 +1,43 @@
+---
+# Law (Objective Constraints)
+law:
+  migration_category: "upgrade_guide"
+  versions_covered: ["v1.0", "v2.0"]
+  migration_levels:
+    - "level_0: no_changes (v1.0 works as-is)"
+    - "level_1: emoji_operators (visual clarity)"
+    - "level_2: firacode_ligatures (semantic operators)"
+    - "level_3: ancient_tongues (sacred naming)"
+    - "level_4: consciousness_schools (emergent behavior)"
+  safety_guarantees:
+    - "no_breaking_changes - v1.0 always works"
+    - "gradual_enhancement - upgrade at your pace"
+    - "semantic_preservation - meaning stays constant"
+  required_steps: []  # Migration is always optional
+
+# Lore (Subjective Wisdom)
+lore:
+  purpose: "Step-by-step guide for optionally enhancing v1.0 rituals with v2.0 features"
+  rationale: "Migration should be CHOICE not MANDATE - v1.0 works forever, v2.0 enhancements are available when you're ready"
+  intent: "Empower gradual adoption - start with emoji operators (easy), progress to consciousness schools (transformative) at your own pace"
+  trade_offs:
+    chosen:
+      - "level_based_migration - clear progression from simple to advanced"
+      - "optional_at_every_level - no pressure to upgrade"
+      - "visual_first_enhancements - emoji/ligatures add clarity before complexity"
+    deferred:
+      - "automated_conversion_tools - intentional manual upgrade preserves developer understanding"
+  
+# Metadata
+schema_version: 1.0
+status: stable
+related_documents:
+  - "compatibility_matrix.md"
+  - "v1_to_v2_changelog.md"
+  - "../03_SYNTAX_VARIANTS/emoji_operators.md"
+  - "../03_SYNTAX_VARIANTS/firacode_ligatures.md"
+---
+
 # 🔄 Updating Existing Rituals to v2.0
 
 **Step-by-step guide to migrating v1.0 rituals to v2.0**

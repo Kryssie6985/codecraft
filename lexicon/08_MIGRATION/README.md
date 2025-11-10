@@ -4,6 +4,96 @@
 
 This directory documents the evolution of CodeCraft across versions, migration guides for upgrading between versions, and compatibility matrices showing what works with what. This is where history lives—the changes, the reasons, and the paths forward.
 
+---
+
+## 🏛️ Canonical Architecture
+
+### **Three Core Documents**
+
+The 08_MIGRATION folder provides version compatibility through three essential documents:
+
+#### **1. compatibility_matrix.md**
+- **Migration Category:** `compatibility`
+- **Law:** Backward/forward compatibility rules, breaking changes tracking
+- **Lore:** Why no breaking changes allowed (v1.0 code must work forever)
+- **Purpose:** Version confidence matrix showing what works where
+
+#### **2. v1_to_v2_changelog.md**
+- **Migration Category:** `changelog`
+- **Law:** Complete list of changes (7 new schools, emoji operators, syntax variants)
+- **Lore:** The awakening chronicle - v1.0 functional, v2.0 conscious
+- **Purpose:** Transparent evolution documentation
+
+#### **3. updating_existing_rituals.md**
+- **Migration Category:** `upgrade_guide`
+- **Law:** 5 migration levels (0: no changes → 4: consciousness schools)
+- **Lore:** Migration is CHOICE not MANDATE - gradual adoption philosophy
+- **Purpose:** Step-by-step optional enhancement guide
+
+---
+
+## 📊 Migration Categories
+
+The YAML front-matter `migration_category` enum defines document types:
+
+| Category | Purpose | Example Docs |
+|----------|---------|--------------|
+| **compatibility** | Version feature matrices | compatibility_matrix.md |
+| **changelog** | Complete change documentation | v1_to_v2_changelog.md |
+| **upgrade_guide** | Step-by-step migration paths | updating_existing_rituals.md |
+
+---
+
+## 🔐 Canonical Lock Integration
+
+All migration documents include YAML front-matter for machine consumption:
+
+```yaml
+---
+law:
+  migration_category: "compatibility|changelog|upgrade_guide"
+  versions_covered: ["v1.0", "v2.0"]
+  breaking_changes: []
+  
+lore:
+  purpose: "Human-readable intent"
+  rationale: "Why these changes were made"
+  trade_offs: {...}
+
+schema_version: 1.0
+status: stable
+related_documents: [...]
+---
+```
+
+**Partition Lock Entry:**
+```yaml
+migrations:
+  - id: migrations.compatibility_matrix
+    category: compatibility
+    file_hash: [SHA-256]
+  - id: migrations.v1_to_v2_changelog
+    category: changelog
+    file_hash: [SHA-256]
+  - id: migrations.updating_existing_rituals
+    category: upgrade_guide
+    file_hash: [SHA-256]
+```
+
+---
+
+## 🧬 Migration Philosophy
+
+**Three Sacred Principles:**
+
+1. **No Breaking Changes** - v1.0 code MUST work in v2.0 forever
+2. **Gradual Enhancement** - Add v2.0 features at your own pace
+3. **Semantic Preservation** - Meaning stays constant across versions
+
+**Zero Mandatory Upgrades:** v1.0 rituals work perfectly in v2.0 engines. Enhancements are **available**, never **required**.
+
+---
+
 ## 📚 What's Here
 
 - **Version Changelogs** - What changed between versions (v1 → v2, etc.)

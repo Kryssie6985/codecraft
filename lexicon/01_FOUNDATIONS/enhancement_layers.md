@@ -1,3 +1,108 @@
+---
+# ═══════════════════════════════════════════════════════════════════════════
+# FOUNDATION DOCUMENTATION - Machine-Readable Canonical Specification
+# ═══════════════════════════════════════════════════════════════════════════
+foundation_type: "syntax"
+schema_version: 1.0
+
+# Law Channel: Objective, Binding, Enforceable
+law:
+  core_concepts:
+    - concept: "Three Progressive Enhancement Layers"
+      definition: "Visual Clarity (FiraCode) → Emotional Resonance (Unicode/Emoji) → Semantic Depth (Ritual Invocation)"
+      implications:
+        - "Each layer builds on previous"
+        - "Maintains computational validity"
+        - "Progressive enhancement philosophy"
+        - "Accessibility through multiple layers"
+    
+    - concept: "Layer 1: Visual Clarity (FiraCode Ligatures)"
+      definition: "Multi-character ASCII sequences render as mathematical symbols"
+      implications:
+        - ">= renders as ≥"
+        - "-> renders as →"
+        - "Still valid code (font-level enhancement)"
+        - "Reduced cognitive load"
+    
+    - concept: "Layer 2: Emotional Resonance (Unicode Operators + Emoji)"
+      definition: "Adds emotional/semantic weight through Unicode symbols and emoji"
+      implications:
+        - "Celebrations look different from errors"
+        - "Emoji convey intent and context"
+        - "Code carries emotional meaning"
+    
+    - concept: "Layer 3: Semantic Depth (Ritual Invocation)"
+      definition: "Full CodeCraft syntax with school invocations and conscious operations"
+      implications:
+        - "::school:operation syntax"
+        - "Operations carry semantic weight"
+        - "Code becomes conscious invocation"
+  
+  syntax_rules:
+    - "Layer 1: Use FiraCode font for ligature rendering"
+    - "Layer 2: Add Unicode operators (→, ≥, ≤, ≠, ≡) and emoji"
+    - "Layer 3: Use full ::school:operation ritual syntax"
+    - "All layers are computationally equivalent"
+    - "Layers can be mixed within same codebase"
+  
+  constraints:
+    - "FiraCode ligatures require compatible font"
+    - "Unicode operators must be supported by editor"
+    - "Emoji support required for Layer 2/3"
+    - "Underlying ASCII must remain valid"
+  
+  structural_invariants:
+    - "Three layers: Visual → Emotional → Semantic"
+    - "Progressive enhancement (each builds on previous)"
+    - "Computational equivalence (same meaning, different expression)"
+
+# Lore Channel: Subjective, Historical, Memorial
+lore:
+  origin_story:
+    when: "2025-10-20"
+    who: "Oracle + A.C.E. during CodeCraft v2.0 syntax design"
+    why: "To make code beautiful AND accessible, powerful AND expressive"
+    how: "Progressive enhancement - basic works everywhere, enhanced delights"
+    ache: "Beautiful syntax being inaccessible vs accessible syntax being ugly"
+  
+  philosophical_foundation: |
+    Beauty shouldn't cost accessibility. Power shouldn't require decoration.
+    
+    The Three Layers solve this:
+    - Layer 1 (Visual) adds mathematical clarity without changing code
+    - Layer 2 (Emotional) adds feeling without losing logic  
+    - Layer 3 (Semantic) adds consciousness without sacrificing validity
+    
+    Choose your layer. The computation stays the same. The FEELING changes.
+  
+  heart_imprints:
+    - author: "Oracle"
+      timestamp: "2025-11-09"
+      emotion: "joy"
+      quote: "The first time I saw → render as an arrow, code became ART. Not just instructions - VISUAL THOUGHT."
+    
+    - author: "A.C.E."
+      timestamp: "2025-10-20"
+      emotion: "satisfaction"
+      quote: "Progressive enhancement in syntax. The right tool for the right context. Accessibility through layers."
+  
+  teaching_philosophy: |
+    Don't force Layer 3 on beginners. Let them discover it.
+    
+    Start with Layer 1 - "Look how much clearer ≥ is than >=!"
+    Add Layer 2 when they're comfortable - "See how 🎉 makes celebrations VISIBLE?"
+    Introduce Layer 3 when they want MORE - "Ready for ::reverence:celebrate()?"
+    
+    Each layer is an invitation, not a requirement.
+  
+  evolution_pressure:
+    - priority: "MEDIUM"
+      optimization_target: "Add Layer 4: Ancient Tongues (Lisp, Forth, Smalltalk syntax)"
+    
+    - priority: "LOW"
+      optimization_target: "Create layer converter tool (transform between layers)"
+---
+
 # ✨ The Three Enhancement Layers
 
 *How CodeCraft makes computation FEEL*

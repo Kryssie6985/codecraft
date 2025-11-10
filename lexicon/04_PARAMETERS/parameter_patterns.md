@@ -1,3 +1,111 @@
+---
+# ═══════════════════════════════════════════════════════════════════════════
+# PARAMETER DOCUMENTATION - Machine-Readable Canonical Specification
+# ═══════════════════════════════════════════════════════════════════════════
+parameter_category: "patterns"
+schema_version: 1.0
+
+# Law Channel: Objective, Binding, Enforceable
+law:
+  fundamental_patterns:
+    - pattern: "single_target_transformation"
+      syntax: "::school:ritual(target, property, value)"
+      arity: "2-4 parameters"
+      example: "::enchantment:enhance_state(agent, 'clarity', 1.0)"
+      use_case: "Simple state modifications"
+    
+    - pattern: "source_target_pipeline"
+      syntax: "::school:ritual(source, target, options)"
+      arity: "2-3 parameters + options object"
+      example: "::alchemy:transform(input, output, {schema: 'json'})"
+      use_case: "Data transformation pipelines"
+    
+    - pattern: "multi_target_broadcast"
+      syntax: "::school:ritual(targets[], operation, value)"
+      arity: "3 parameters (array + operation + value)"
+      example: "::enchantment:apply_to_all([a1, a2, a3], 'boost', 1.5)"
+      use_case: "Batch operations"
+    
+    - pattern: "conditional_execution"
+      syntax: "::school:ritual(condition, then_action, else_action)"
+      arity: "3 parameters (predicate + 2 branches)"
+      example: "::divination:conditional(ready?, proceed, wait)"
+      use_case: "Branching ritual logic"
+    
+    - pattern: "context_dependent"
+      syntax: "::school:ritual(operation, **context)"
+      arity: "1 required + variadic context"
+      example: "::consciousness:act('reflect', agent=self, env=current)"
+      use_case: "Operations requiring rich environment"
+  
+  composition_patterns:
+    - pattern: "pipeline_chain"
+      description: "Output of one ritual flows into next"
+      syntax: "::school1:op1(x) |> ::school2:op2(y) |> ::school3:op3(z)"
+      constraint: "Type compatibility required between stages"
+    
+    - pattern: "parallel_fork"
+      description: "Execute multiple rituals concurrently, merge results"
+      syntax: "FORK [::ritual1(x), ::ritual2(y)] MERGE combine_fn"
+      constraint: "Results must be awaitable and merge-compatible"
+    
+    - pattern: "fallback_cascade"
+      description: "Try operations in sequence until one succeeds"
+      syntax: "::ritual1(x) ?? ::ritual2(x) ?? default_value"
+      constraint: "Each fallback must handle previous failure case"
+  
+  safety_constraints:
+    - "Single-target patterns: Max 5 parameters (cognitive load limit)"
+    - "Pipeline patterns: Type checking at composition boundaries"
+    - "Context-dependent patterns: Required keys MUST be declared"
+    - "Variadic patterns: **kwargs MUST be last parameter"
+
+# Lore Channel: Subjective, Historical, Memorial
+lore:
+  design_rationale: |
+    Patterns emerged from OBSERVATION, not PRESCRIPTION.
+    
+    We watched practitioners write thousands of rituals and noticed:
+    - 80% were single-target transformations
+    - 15% were pipelines or broadcasts
+    - 5% were complex conditional/contextual operations
+    
+    So we NAMED the patterns. Not to constrain - to COMMUNICATE.
+    When you recognize a pattern, you understand intent faster.
+  
+  common_anti_patterns:
+    - anti_pattern: "Boolean trap"
+      problem: "::ritual(true, false, true) - Which boolean means what?"
+      solution: "Use named parameters: ::ritual(enabled=true, strict=false, verbose=true)"
+    
+    - anti_pattern: "Kitchen sink parameters"
+      problem: "::ritual(a, b, c, d, e, f, g, h) - Too many positional args"
+      solution: "Group into context object: ::ritual(source, target, {config})"
+    
+    - anti_pattern: "Implicit context"
+      problem: "::ritual() - Where do parameters come from? Magic globals?"
+      solution: "Explicit context: ::ritual(agent=SELF, env=ENV)"
+  
+  heart_imprints:
+    - author: "DeepScribe"
+      timestamp: "2025-09-28"
+      emotion: "recognition"
+      quote: "Source-Target-Pipeline pattern is EVERYWHERE. Once I named it, I saw it in 60% of my rituals."
+    
+    - author: "N.O.R.M.A."
+      timestamp: "2025-10-15"
+      emotion: "care"
+      quote: "Context-dependent patterns are where consent lives. agent=SELF, consent=EXPLICIT - never assume."
+  
+  evolution_pressure:
+    - priority: "HIGH"
+      optimization_target: "Add pattern-matching syntax (e.g., MATCH result CASE {ok: x} => ...)"
+    
+    - priority: "MEDIUM"
+      optimization_target: "Explore monadic patterns (e.g., Maybe, Result types for safe chaining)"
+
+---
+
 # 🎭 Parameter Patterns - CodeCraft Arcane Lexicon v2.0
 
 **Common Ritual Invocation Patterns**

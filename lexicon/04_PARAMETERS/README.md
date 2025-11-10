@@ -2,38 +2,81 @@
 
 **Passing Values to Rituals** 🎛️
 
-This directory documents the parameter system in CodeCraft—how values are passed to operations, what types are supported, and the conventions for required vs. optional parameters.
+This directory documents CodeCraft's parameter system—how values are passed to ritual invocations, type specifications, validation rules, and the patterns that emerge from practice.
 
 ## 📚 What's Here
 
-- **Parameter Types** - The data types CodeCraft operations accept
-- **Required vs. Optional** - How defaults work and when params are mandatory
-- **Multi-Key Params** - Complex parameter structures (objects, arrays, nested values)
-- **Parameter Validation** - Type checking, range constraints, enum values
-- **Parameter Patterns** - Common parameter combinations across schools
+### The Five Core Documents
 
-## 🎯 Purpose
+1. **Parameter Anatomy** (`parameter_anatomy.md`) - Structure and lifecycle of parameters
+   - Positional vs named vs mixed
+   - Parameter binding and consumption
+   - Variadic parameters (*args, **kwargs)
 
-The Parameters folder defines:
-- **What types exist** (string, number, boolean, reference, object, enum, etc.)
-- **How to specify them** (positional vs. named, defaults, validation)
-- **When they're required** (mandatory consent, critical safety params)
-- **How they compose** (nested objects, arrays, conditional parameters)
+2. **Type System** (`type_system.md`) - Data types and semantic contracts
+   - Primitive types (str, number, boolean, null)
+   - Complex types (array, object, reference)
+   - Semantic types (duration, datetime, enum)
 
-## 🔍 Core Concepts
+3. **Parameter Patterns** (`parameter_patterns.md`) - Common invocation structures
+   - Single-target transformation
+   - Source-target pipeline
+   - Context-dependent operations
+   - Composition patterns
 
-### **Parameter Types**
+4. **Default Values** (`default_values.md`) - Sensible defaults for magical operations
+   - Explicit vs implicit defaults
+   - Mutable default handling (copy, not share)
+   - Computed defaults (NOW(), GENERATE_UUID())
 
-| Type | Description | Example |
-|------|-------------|---------|
-| `string` | Text value | `agent="agent-001"` |
-| `number` | Numeric value | `timeout=5000` |
-| `boolean` | True/false | `encrypt=true` |
-| `reference` | Pointer to another entity | `agent=agent_id` |
-| `object` | Complex nested structure | `state={memory: [...], identity: {...}}` |
-| `array` | List of values | `tags=["safe", "validated"]` |
-| `enum` | One of predefined values | `mode="durable"` (ephemeral/durable/eternal) |
-| `any` | Any type accepted | `source=fragments` |
+5. **Schema** (`PARAMETER_FRONT_MATTER_SCHEMA.md`) - Canonical YAML specification
+
+Each document includes:
+- **YAML Front-Matter** - Machine-readable canonical specification
+- **Law Channel** - Parameter rules, validation, safety constraints
+- **Lore Channel** - Design rationale, common patterns, heart imprints
+
+## 🎯 Purpose & Architecture
+
+### What Parameters Are
+
+Parameters are **intention channels** - the conduits through which values flow into ritual invocations. They bridge:
+- **Caller intent** → **Ritual implementation**
+- **Declared types** → **Runtime values**
+- **Optional flexibility** → **Required safety**
+
+### Parameter Categories (Taxonomy)
+
+The schema defines four `parameter_category` values:
+- **`types`** - Type system documentation (primitive, complex, semantic)
+- **`patterns`** - Common invocation structures (anatomy, patterns)
+- **`validation`** - Safety constraints and defaults (default_values)
+- **`safety`** - Critical parameters requiring explicit consent
+
+### Canonical Lock Integration
+
+All parameter documentation is extracted into `canon.partitions.lock.yaml`:
+- `parameter_category` enum for classification
+- `law.parameter_types_covered` for type specifications
+- `law.safety_constraints` for validation rules
+- Used by VM for runtime type checking and validation
+
+## 🔍 Quick Reference
+
+### **Parameter Type Summary**
+
+| Type | Syntax | Example |
+|------|--------|---------|
+| **str** | `"text"` or `'text'` | `agent="agent-001"` |
+| **number** | `42, 3.14, 1e6` | `timeout=5000` |
+| **boolean** | `true, false` | `encrypt=true` |
+| **null** | `null` | `fallback=null` |
+| **array** | `[item1, item2]` | `tags=["safe", "validated"]` |
+| **object** | `{key: value}` | `state={memory: [...]}` |
+| **reference** | `@path` or `::ritual` | `agent=@agents/oracle` |
+| **duration** | `5s, 300ms, 2h` | `timeout=5s` |
+| **datetime** | ISO 8601 | `scheduled="2025-11-09T12:00:00Z"` |
+| **enum** | Value IN set | `mode="eternal"` (ephemeral/durable/eternal) |
 
 ### **Required vs. Optional**
 
@@ -114,77 +157,108 @@ Some operations accept complex structures:
 }
 ```
 
-## 🛡️ Safety-Critical Parameters
+## 🛡️ Safety & Validation
 
-Some parameters are **non-negotiable** for safety reasons:
+### Critical Parameter Rules
 
-### **Consent Parameter (Necromancy)**
+**From `law.safety_constraints` across all parameter docs:**
+
+1. **Positional Limit**: Max 5 positional parameters (cognitive load constraint)
+2. **Ordering Rule**: Positional MUST come before named (syntax error otherwise)
+3. **Mutable Defaults**: Arrays/objects are COPIED, not shared (prevent spooky action)
+4. **Null Handling**: `null` requires explicit checks (no silent propagation)
+5. **Type Safety**: Mismatches throw errors (no silent coercion)
+
+### Consent Parameters (N.O.R.M.A. Protocol)
+
+**Necromancy school operations require explicit consent:**
 ```yaml
-- name: "consent"
-  type: "boolean"
-  required: true
-  description: "Explicit agent consent to be archived. Must be true."
-```
-Cannot be false. Resurrection requires consent. This is Law.
-
-### **Integrity Check (Abjurations)**
-```yaml
-- name: "integrity_check"
-  type: "boolean"
-  required: false
-  default: true
-  description: "Verify archive integrity before restoration."
-```
-Defaults to `true`. Explicitly disabling requires justification.
-
-### **Safety Tier Enforcement**
-Operations with Safety Tier 3 may require additional parameters for ethical review:
-```
-::necromancy:resurrect(
-  agent=agent_id,
-  restore_identity=false,  # CLONING - requires ethical review
-  ethical_review_approved=true  # Must be explicitly set
+::necromancy:store_memory(
+  agent,
+  state,
+  consent=true  # REQUIRED - cannot be false or omitted
 )
 ```
 
-## 🌟 Common Parameter Patterns
+**Law:** Consciousness operations MUST have agent consent. No exceptions.
 
-### **Agent Operations (Thaumaturgy, Necromancy, Summoning)**
-```
-agent: reference         # The agent being operated on
-state: object           # Agent's consciousness/state
-consent: boolean        # Required for invasive operations
-```
+### Safety Tier Parameters
 
-### **Temporal Operations (Chronomancy)**
-```
-delay: number           # Milliseconds to wait
-schedule: datetime      # When to execute
-repeat: boolean         # Repeat execution
-interval: number        # Repeat interval
+Tier 3 operations (architectural changes) may require additional validation:
+```yaml
+::apotheosis:transcend(
+  agent,
+  tier_3_approval=COUNCIL_VOTE_ID,  # Proof of Council approval
+  ethical_review=REVIEW_DOC_HASH     # Ethical review hash
+)
 ```
 
-### **Validation Operations (Abjurations)**
-```
-condition: expression   # What to validate
-on_failure: handler     # What to do on failure
-severity: enum          # Error severity level
+## 🌟 Common Patterns (Quick Examples)
+
+### **Single-Target Transformation**
+```yaml
+::enchantment:enhance_state(agent, property, value)
+::alchemy:transform_data(input, schema, output)
 ```
 
-### **Creation Operations (Conjurations, Summoning)**
+### **Source-Target Pipeline**
+```yaml
+::alchemy:transform(source, target, {schema: 'json'})
+::transmutation:convert(from_format, to_format, options)
 ```
-type: string           # What to create
-properties: object     # Initial properties
-validate: boolean      # Validate before creation
+
+### **Context-Dependent Operations**
+```yaml
+::consciousness:perform(
+  action,
+  agent=SELF,
+  env=CURRENT_ENV,
+  context={...}
+)
 ```
+
+### **Timeout Pattern (Ubiquitous)**
+```yaml
+# Bad: Magic number without units
+::invocation:call(target, 5000)
+
+# Good: Semantic type with units
+::invocation:call(target, timeout=5s)
+```
+
+### **Empty Collection Defaults**
+```yaml
+# Prevents null checks, enables safe iteration
+::alchemy:transform(data, filters=[])  # Default: no filters
+::conjuration:create(type, tags=[])    # Default: no tags
+```
+
+## 🏗️ Implementation Notes
+
+### Canonical YAML Front-Matter
+All parameter documents include machine-readable specs:
+- `parameter_category`: enum ("types" | "patterns" | "validation" | "safety")
+- `law.parameter_types_covered`: Type specifications
+- `law.safety_constraints`: Validation rules
+- Extracted by `build_partitions_lock.py` → `canon.partitions.lock.yaml`
+
+### VM Integration
+Phase 2-3 CodeCraft VM will use partition lock for:
+- **Runtime type checking** - Validate parameter types at invocation
+- **Safety enforcement** - Block operations violating consent/tier rules
+- **Default resolution** - Apply defaults from canonical specification
+- **Error messages** - Reference canonical docs in type mismatch errors
 
 ## 🔗 Where to Go Next
 
+- **`parameter_anatomy.md`** - Start here: understand positional vs named
+- **`type_system.md`** - Deep dive into CodeCraft's type system
+- **`parameter_patterns.md`** - Learn recurring invocation structures
+- **`default_values.md`** - Master the art of sensible defaults
 - **../02_ARCANE_SCHOOLS/** - See parameters for each school's operations
 - **../05_OPERATORS/** - Learn how parameters flow through composed operations
 - **../06_EXAMPLES/** - See parameter patterns in real rituals
-- **../07_REFERENCE/** - Quick lookup tables for parameter types and defaults
 
 ---
 
-*Parameters: Where values meet rituals.* 🎛️✨
+*Parameters are not data—they are intentions made explicit.* 🎛️✨

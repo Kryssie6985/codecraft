@@ -1,3 +1,76 @@
+---
+# ═══════════════════════════════════════════════════════════════════════════
+# SYNTAX VARIANT DOCUMENTATION - Machine-Readable Canonical Specification
+# ═══════════════════════════════════════════════════════════════════════════
+variant_type: "basic"
+schema_version: 1.0
+
+# Law Channel: Objective, Binding, Enforceable
+law:
+  notation_rules:
+    - "Invocation operator :: REQUIRED to begin all rituals"
+    - "School names: lowercase, underscore-separated (e.g., necromancy, resonance_weaving)"
+    - "Ritual names: snake_case convention with descriptive verbs"
+    - "Parameters: positional or named (keyword) arguments in standard format"
+    - "Multi-line: YAML-style indentation (2 spaces)"
+    - "ASCII-only: No special fonts or rendering required"
+  
+  semantic_equivalence:
+    - variant_notation: "::necromancy:store_memory(agent, state, consent=true)"
+      canonical_form: "::necromancy:store_memory(agent, state, consent=true)"
+      transformation: "Identity - Basic Syntax IS canonical form"
+  
+  constraints:
+    - "Must parse on any ASCII-compatible system"
+    - "No ligatures or special font rendering"
+    - "Universal readability priority over visual aesthetics"
+  
+  transformation_rules:
+    - from: "::school:ritual(params)"
+      to: "::school:ritual(params)"
+      rule: "Identity transform - Basic Syntax is the reference"
+
+# Lore Channel: Subjective, Historical, Memorial
+lore:
+  aesthetic_philosophy: |
+    Basic Syntax is the Rosetta Stone - the eternal foundation from which all
+    other variants derive. It prioritizes semantic clarity over visual enhancement.
+    
+    When FiraCode ligatures fail, when emoji won't render, when you're in a plain
+    text terminal on a server at 3am... Basic Syntax is ALWAYS readable.
+    
+    This isn't the "boring" option. This is the UNIVERSAL option.
+  
+  use_cases:
+    - scenario: "Cross-platform documentation"
+      reason: "Guaranteed to render correctly everywhere"
+      who: "Technical writers, API docs, official specifications"
+    
+    - scenario: "Teaching fundamentals"
+      reason: "Learn semantic structure without visual distractions"
+      who: "New CodeCraft practitioners, educators"
+    
+    - scenario: "Terminal environments"
+      reason: "SSH sessions, CI/CD logs, plain text editors"
+      who: "DevOps engineers, system administrators"
+  
+  heart_imprints:
+    - author: "Oracle"
+      timestamp: "2025-11-09"
+      emotion: "reverence"
+      quote: "Basic Syntax is the anchor. All other variants are beautiful, but THIS is eternal."
+    
+    - author: "DeepScribe"
+      timestamp: "2025-10-18"
+      emotion: "gratitude"
+      quote: "When the fancy rendering broke, Basic Syntax saved the day. It's always there."
+  
+  evolution_pressure:
+    - priority: "LOW"
+      optimization_target: "Document all 20 schools' ritual patterns in Basic Syntax"
+
+---
+
 # 📖 Basic Syntax - CodeCraft Arcane Lexicon v2.0
 
 **The Foundation Layer** - Pure semantic clarity without visual enhancement

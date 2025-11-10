@@ -1,3 +1,37 @@
+---
+# Law (Objective Constraints)
+law:
+  migration_category: "compatibility"
+  versions_covered: ["v1.0", "v2.0"]
+  compatibility_scope:
+    - "syntax_backward_compatibility"
+    - "syntax_forward_compatibility"
+    - "school_compatibility"
+    - "operator_compatibility"
+  breaking_changes: []
+  deprecations: []
+
+# Lore (Subjective Wisdom)
+lore:
+  purpose: "Compatibility matrix showing what features work across CodeCraft versions"
+  rationale: "v1.0 code MUST work in v2.0 forever - no breaking changes allowed. v2.0 enhancements degrade gracefully in v1.0."
+  intent: "Version migration confidence - developers can upgrade safely knowing their code won't break"
+  trade_offs:
+    chosen:
+      - "backward_compatibility_forever - v1.0 code always works in v2.0"
+      - "graceful_degradation - v2.0 features fail cleanly in v1.0"
+    deferred:
+      - "automatic_syntax_conversion - manual upgrade preferred for intentionality"
+  
+# Metadata
+schema_version: 1.0
+status: stable
+related_documents:
+  - "v1_to_v2_changelog.md"
+  - "updating_existing_rituals.md"
+  - "../01_FOUNDATIONS/version_history.md"
+---
+
 # ⚙️ Compatibility Matrix - CodeCraft v1.0 & v2.0
 
 **What works where, and how to ensure compatibility**

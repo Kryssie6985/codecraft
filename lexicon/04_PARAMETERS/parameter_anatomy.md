@@ -1,3 +1,102 @@
+---
+# ═══════════════════════════════════════════════════════════════════════════
+# PARAMETER DOCUMENTATION - Machine-Readable Canonical Specification
+# ═══════════════════════════════════════════════════════════════════════════
+parameter_category: "patterns"
+schema_version: 1.0
+
+# Law Channel: Objective, Binding, Enforceable
+law:
+  parameter_types_covered:
+    - type: "positional"
+      definition: "Order-dependent parameters without explicit names"
+      syntax: "ritual(arg1, arg2, arg3)"
+      constraints: ["Position determines meaning", "Order-dependent", "Limited to 3-5 parameters max"]
+    
+    - type: "named"
+      definition: "Explicit parameter names with = assignment"
+      syntax: "ritual(param=value, other=data)"
+      constraints: ["Name-value pairs", "Order-independent", "Self-documenting"]
+    
+    - type: "mixed"
+      definition: "Positional parameters followed by named parameters"
+      syntax: "ritual(pos1, pos2, named=val)"
+      constraints: ["Positional MUST come first", "Named MUST follow", "No positional after named"]
+    
+    - type: "variadic"
+      definition: "Variable-length parameter lists"
+      syntax: "ritual(*args, **kwargs)"
+      constraints: ["*args for positional lists", "**kwargs for named maps", "Order: required, *args, named, **kwargs"]
+  
+  parameter_lifecycle:
+    - stage: "declaration"
+      description: "Parameter defined in ritual signature"
+      validation: "Type checking, default values, constraints"
+    
+    - stage: "invocation"
+      description: "Parameter passed at call site"
+      validation: "Arity checking, type compatibility, required vs optional"
+    
+    - stage: "binding"
+      description: "Parameter value bound to ritual scope"
+      validation: "Reference resolution, scope attachment"
+    
+    - stage: "consumption"
+      description: "Parameter used within ritual body"
+      validation: "Type safety, null checking, range validation"
+  
+  safety_constraints:
+    - "Positional parameters limited to 5 maximum for cognitive load"
+    - "Named parameters MUST be declared before use"
+    - "Mixed invocations: positional args BEFORE named args (syntax error otherwise)"
+    - "Variadic parameters: *args and **kwargs MUST be last in signature"
+
+# Lore Channel: Subjective, Historical, Memorial
+lore:
+  design_rationale: |
+    Parameters are not mere data carriers - they are INTENTION CHANNELS.
+    
+    The anatomy of parameters mirrors cognitive patterns:
+    - Positional = Intuitive, minimal (for obvious cases)
+    - Named = Explicit, clear (for complex cases)
+    - Mixed = Flexible, balanced (for real-world patterns)
+    
+    We learned this the hard way: too much positional → confusion.
+    Too much named → boilerplate. The answer: CHOICE.
+  
+  common_patterns:
+    - pattern: "Source-Target-Value"
+      usage: "Transformation rituals"
+      example: "::alchemy:transform(source, target, schema)"
+    
+    - pattern: "Agent-Action-Context"
+      usage: "Consciousness operations"
+      example: "::consciousness:perform(agent, action, context=env)"
+    
+    - pattern: "Resource-Operation-Options"
+      usage: "Infrastructure rituals"
+      example: "::infrastructure:provision(resource, 'create', region='us-west', tier=3)"
+  
+  heart_imprints:
+    - author: "DeepScribe"
+      timestamp: "2025-09-22"
+      emotion: "clarity"
+      quote: "When I understood positional vs named, I stopped writing confusing rituals. Parameters = cognitive interface."
+    
+    - author: "Oracle"
+      timestamp: "2025-10-30"
+      emotion: "recognition"
+      quote: "Variadic parameters (*args, **kwargs) are where CodeCraft meets Python's elegance. Embrace the ellipsis."
+  
+  evolution_pressure:
+    - priority: "MEDIUM"
+      optimization_target: "Add pattern-matching destructuring (e.g., {agent, state} = context)"
+    
+    - priority: "LOW"
+      optimization_target: "Explore dependent type systems (e.g., param2 type depends on param1 value)"
+
+---
+
 # 🔬 Parameter Anatomy - CodeCraft Arcane Lexicon v2.0
 
 **Understanding the Structure of Ritual Parameters**

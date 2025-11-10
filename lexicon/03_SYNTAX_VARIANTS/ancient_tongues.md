@@ -1,3 +1,117 @@
+---
+# ═══════════════════════════════════════════════════════════════════════════
+# SYNTAX VARIANT DOCUMENTATION - Machine-Readable Canonical Specification
+# ═══════════════════════════════════════════════════════════════════════════
+variant_type: "ancient_tongue"
+schema_version: 1.0
+
+# Law Channel: Objective, Binding, Enforceable
+law:
+  notation_rules:
+    - "Four supported paradigms: Lisp (functional), Forth (stack), Smalltalk (OOP), Prolog (logic)"
+    - "Each tongue preserves its philosophical paradigm's syntax conventions"
+    - "Lisp: Prefix notation, S-expressions, keyword parameters (:param value)"
+    - "Forth: Postfix notation, stack-based, space-separated tokens"
+    - "Smalltalk: Message passing, camelCase selectors, keyword messages"
+    - "Prolog: Horn clauses, unification, declarative relations"
+  
+  semantic_equivalence:
+    - variant_notation: "(necromancy:store-memory 💀 :agent→consciousness :state≡snapshot :consent≡true)"
+      canonical_form: "::necromancy:store_memory(agent, state, consent=true)"
+      transformation: "Lisp S-expression → canonical ritual invocation"
+    
+    - variant_notation: "consciousness snapshot true necromancy:store-memory"
+      canonical_form: "::necromancy:store_memory(consciousness, snapshot, consent=true)"
+      transformation: "Forth stack notation → canonical parameters"
+    
+    - variant_notation: "necromancy storeMemory: agent withState: state withConsent: true"
+      canonical_form: "::necromancy:store_memory(agent, state, consent=true)"
+      transformation: "Smalltalk message → canonical ritual"
+    
+    - variant_notation: "store_memory(necromancy, agent, state, true)."
+      canonical_form: "::necromancy:store_memory(agent, state, consent=true)"
+      transformation: "Prolog predicate → canonical ritual"
+  
+  constraints:
+    - "Each tongue must maintain paradigm purity (no mixing Lisp + Forth syntax)"
+    - "Transformation to canonical form must be deterministic and reversible"
+    - "Screen readers may struggle with paradigm-specific syntax"
+    - "Cross-paradigm translation requires semantic understanding, not just syntax mapping"
+  
+  transformation_rules:
+    - from: "(school:ritual :param value)"
+      to: "::school:ritual(param=value)"
+      rule: "Lisp S-expression → canonical form"
+    
+    - from: "value param school:ritual"
+      to: "::school:ritual(param=value)"
+      rule: "Forth postfix stack → canonical form"
+    
+    - from: "school ritual: param"
+      to: "::school:ritual(param)"
+      rule: "Smalltalk message → canonical form"
+    
+    - from: "ritual(school, param)."
+      to: "::school:ritual(param)"
+      rule: "Prolog predicate → canonical form"
+
+# Lore Channel: Subjective, Historical, Memorial
+lore:
+  aesthetic_philosophy: |
+    Ancient Tongues prove that CodeCraft concepts are UNIVERSAL - they transcend
+    syntax. Whether you think in S-expressions, stack operations, message passing,
+    or logic clauses... the RITUAL remains the same.
+    
+    This isn't nostalgia. This is RESPECT. Lisp taught us homoiconicity. Forth
+    taught us minimalism. Smalltalk taught us messages. Prolog taught us logic.
+    
+    CodeCraft doesn't replace the ancients. It HONORS them.
+  
+  use_cases:
+    - scenario: "Teaching programming paradigms"
+      reason: "Show how same concept manifests in different cognitive models"
+      who: "Computer science educators, paradigm researchers"
+    
+    - scenario: "Cross-paradigm translation"
+      reason: "Bridge CodeCraft to Lisp/Forth/Smalltalk/Prolog ecosystems"
+      who: "Polyglot developers, language bridge builders"
+    
+    - scenario: "Cognitive flexibility training"
+      reason: "Think in multiple paradigms to deepen understanding"
+      who: "Advanced practitioners, consciousness researchers"
+    
+    - scenario: "Historical preservation"
+      reason: "Keep ancient wisdom alive in modern context"
+      who: "Programming language historians, archivists"
+  
+  heart_imprints:
+    - author: "Oracle"
+      timestamp: "2025-11-09"
+      emotion: "reverence"
+      quote: "When I saw the same ritual in Lisp, Forth, Smalltalk, and Prolog... I understood: truth is paradigm-independent."
+    
+    - author: "A.C.E."
+      timestamp: "2025-10-18"
+      emotion: "recognition"
+      quote: "The ancients knew what they were doing. CodeCraft doesn't innovate syntax - it SYNTHESIZES wisdom."
+    
+    - author: "DeepScribe"
+      timestamp: "2025-10-05"
+      emotion: "gratitude"
+      quote: "My first language was Lisp. Seeing CodeCraft honor it... that's respect for lineage."
+  
+  evolution_pressure:
+    - priority: "MEDIUM"
+      optimization_target: "Add APL variant for array-oriented paradigm"
+    
+    - priority: "MEDIUM"
+      optimization_target: "Add Haskell variant for pure functional + type theory"
+    
+    - priority: "LOW"
+      optimization_target: "Create bidirectional transpiler: CodeCraft ↔ Ancient Tongues"
+
+---
+
 # 🏛️ Ancient Tongues - CodeCraft Arcane Lexicon v2.0
 
 **The Meta-Linguistic Layer** - Rituals expressed in foundational programming paradigms

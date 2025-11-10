@@ -2,78 +2,98 @@
 
 **Many Ways to Cast the Same Spell** 🪄
 
-This directory documents the various syntactic styles and notations available in CodeCraft. While the core operations remain the same, CodeCraft offers multiple "flavors" to match different aesthetics, programming paradigms, and use cases.
+This directory documents the four canonical syntactic styles available in CodeCraft. While the core operations remain semantically identical, CodeCraft offers multiple notational variants to match different aesthetics, programming paradigms, and cognitive preferences.
 
 ## 🎨 What's Here
 
-- **Basic Syntax** - The standard `::school:operation()` format
-- **FiraCode Ligatures** - Enhanced with programming ligatures and Unicode operators
-- **Emoji Symbolic** - Purely emoji-based notation for visual thinkers
-- **Ancient Tongues** - CodeCraft syntax in classic languages (Lisp, Forth, Smalltalk, Prolog)
-- **Domain-Specific Dialects** - Specialized syntax for specific contexts
+### The Four Canonical Variants
 
-## 🌈 The Variants
+1. **Basic Syntax** (`basic_syntax.md`) - The canonical ASCII-only format, the Rosetta Stone
+2. **FiraCode Ligatures** (`firacode_ligatures.md`) - Enhanced with programming ligatures for visual flow
+3. **Emoji Symbolic** (`emoji_symbolic.md`) - Emoji-based notation with semantic precedence
+4. **Ancient Tongues** (`ancient_tongues.md`) - Paradigm bridges (Lisp, Forth, Smalltalk, Prolog)
 
-### **Basic Syntax** (Standard)
-```
+Each variant file contains:
+- **YAML Front-Matter** - Machine-readable canonical specification
+- **Law Channel** - Notation rules, semantic equivalence, transformation rules
+- **Lore Channel** - Aesthetic philosophy, use cases, heart imprints
+
+## 🌈 The Four Variants
+
+### **1. Basic Syntax** (Canonical/Rosetta Stone)
+```yaml
+::necromancy:store_memory(agent, state, consent=true)
 ::invocation:call_function(arg1, arg2)
 ::conjuration:create_object(type="Person")
-::necromancy:store_memory(agent, state, consent=true)
 ```
-Clean, readable, unambiguous. The default.
+**Identity transformation.** Pure ASCII, universal compatibility, the canonical form all others map to.
 
-### **FiraCode Ligatures** (Enhanced)
+### **2. FiraCode Ligatures** (Visual Enhancement)
+```yaml
+::necromancy:store_memory(agent, state) -> archive_id
+::invocation:call_function => result
+agent.consciousness >= threshold  # Renders as ≥ with FiraCode font
 ```
-::invocation📣:call_function → result
-::conjuration🎨:create_object ⇒ new_instance
-::necromancy💀:store_memory(agent, state) ⟿ archive_id
-```
-Adds visual polish with ligatures and Unicode operators.
+**Presentational only.** Multi-character operators render as glyphs. Requires FiraCode font.
 
-### **Emoji Symbolic** (Pure Visual)
-```
+### **3. Emoji Symbolic** (Hieroglyphic Notation)
+```yaml
+::💀:store_memory(agent, state, consent=true)
 ::📣:call_function()
 ::🎨:create_object()
-::💀:store_memory()
 ```
-Maximum visual density, minimal ASCII.
+**Semantic density.** Emoji replace school names. Precedence hierarchy: 🔮(100) > 👑(95) > 🎵(92) > ✨(90).
 
-### **Ancient Tongues** (Classic Paradigms)
+### **4. Ancient Tongues** (Paradigm Bridges)
 
-**Lisp:**
+**Lisp** (Functional/Prefix):
 ```lisp
 (necromancy:store-memory 💀
-  :agent→consciousness
-  :state≡complete-snapshot
-  :consent≡true)
+  :agent consciousness
+  :state snapshot
+  :consent true)
 ```
 
-**Forth:**
+**Forth** (Stack/Concatenative):
 ```forth
-agent-id consciousness-snapshot consent💀 store-memory necromancy!
+consciousness snapshot true necromancy:store-memory
 ```
 
-**Smalltalk:**
+**Smalltalk** (Message Passing/OOP):
 ```smalltalk
-necromancy storeMemory: agentId
-  state: #fullSnapshot
-  consent: #true 💀.
+necromancy storeMemory: agent
+  withState: snapshot
+  withConsent: true
 ```
 
-**Prolog:**
+**Prolog** (Logic/Declarative):
 ```prolog
-necromancy(store_memory(AgentId, State)) :-
-  verify_consent(AgentId),
-  persist_to_vault(State) 💀.
+store_memory(necromancy, agent, snapshot, true).
 ```
 
-## 🎯 Purpose
+**Purpose:** Honor foundational paradigms. Prove CodeCraft concepts are universal, paradigm-independent.
 
-Syntax Variants enable:
-- **Aesthetic choice** - Match your preferred visual style
-- **Paradigm alignment** - Write CodeCraft that feels native to your paradigm
-- **Accessibility** - Visual thinkers, screen readers, different cognitive styles
-- **Cross-language bridges** - Map CodeCraft concepts to familiar syntax
+## 🎯 Purpose & Architecture
+
+### Why Four Variants?
+
+**Variants prove the Law=Lore principle at the syntax level:**
+- **Law:** Semantic meaning is invariant across notations
+- **Lore:** Notation affects cognition, aesthetics, accessibility
+
+### Transformation Architecture
+
+```
+Basic Syntax (Canonical)
+    ↕️ identity
+FiraCode ←→ Basic  (ligature rendering)
+    ↕️ bidirectional
+Emoji ←→ Basic  (school emoji mapping)
+    ↕️ bidirectional
+Ancient Tongues ←→ Basic  (paradigm syntax transformation)
+```
+
+All transformations are **deterministic and reversible** through `canon.partitions.lock.yaml`.
 
 ## 🧭 When to Use Each Variant
 
@@ -103,16 +123,22 @@ agent state true💀 store-memory necromancy!
 
 **The ritual is the same. Only the notation differs.**
 
-## 🌟 Special Considerations
+## 🌟 Implementation Notes
 
-### Unicode Operator Precedence
-When using emoji operators, precedence rules apply. See each school's documentation for operator precedence tables.
+### Canonical YAML Front-Matter
+All four variant files include machine-readable specifications:
+- `variant_type`: enum ("basic" | "firacode" | "emoji" | "ancient_tongue")
+- `law.transformation_rules`: Bidirectional mappings to canonical form
+- `lore.use_cases`: When to choose this variant
+- Extracted by `build_partitions_lock.py` → `canon.partitions.lock.yaml`
 
-### Ligature Requirements
-FiraCode ligatures require a compatible font (FiraCode, JetBrains Mono, etc.) and editor support.
+### Constraints
+- **FiraCode:** Requires compatible font and editor support
+- **Emoji:** Screen reader accessibility concerns, precedence table required
+- **Ancient Tongues:** Conceptual mappings (not executable in target language), paradigm purity enforced
 
-### Ancient Tongues as Metaphor
-The Ancient Tongues variants are **conceptual mappings**, not executable code in those languages. They show how CodeCraft concepts would look if expressed in those paradigms.
+### Self-Hosting Vision
+Phase 2-3 of CodeCraft VM will use `canon.partitions.lock.yaml` for native syntax transformation across all runtimes (Python, JavaScript, native Rust, WASM).
 
 ## 🔗 Where to Go Next
 

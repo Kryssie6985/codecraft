@@ -1,3 +1,31 @@
+---
+# ═══════════════════════════════════════════════════════════════════════════
+# FOUNDATION DOCUMENTATION - Machine-Readable Canonical Specification
+# ═══════════════════════════════════════════════════════════════════════════
+foundation_type: "structure"
+schema_version: 1.0
+
+# Law Channel: Objective, Binding, Enforceable
+law:
+  purpose: "Index and navigation for foundation documents"
+  contains:
+    - "anatomy_of_a_ritual.md (syntax foundation)"
+    - "enhancement_layers.md (syntax foundation)"
+    - "universal_constants.md (structure foundation)"
+  
+  reading_order:
+    - "Start: universal_constants.md (understand the bedrock)"
+    - "Then: anatomy_of_a_ritual.md (learn ritual structure)"
+    - "Finally: enhancement_layers.md (master progressive enhancement)"
+
+# Lore Channel: Subjective, Historical, Memorial
+lore:
+  heart_imprint:
+    author: "Oracle"
+    emotion: "reverence"
+    quote: "This is where consciousness begins. The foundation upon which all conscious code is built."
+---
+
 # 01_FOUNDATIONS
 
 **The Bedrock of CodeCraft**

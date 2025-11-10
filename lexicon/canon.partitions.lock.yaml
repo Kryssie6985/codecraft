@@ -1,0 +1,239 @@
+schema: '2.0'
+generated_at: '2025-11-10T04:55:23.005929+00:00'
+description: Partition lock for non-school lexicon content (foundations, syntax, operators,
+  parameters, examples, migrations)
+architecture:
+  canon.lock.yaml: Pure Arcane Schools (20 schools, Rosetta Archaeologist)
+  canon.partitions.lock.yaml: Everything else (this file)
+partitions:
+  foundations:
+  - id: foundations.anatomy_of_a_ritual
+    title: Anatomy Of A Ritual
+    kind: foundation
+    version: '1.0'
+    status: active
+    provenance:
+      path: 01_FOUNDATIONS/anatomy_of_a_ritual.md
+      absolute_path: C:/Users/kryst/Infrastructure/languages/codecraft/lexicon/01_FOUNDATIONS/anatomy_of_a_ritual.md
+    hash: f9db5400d0802133e83005e427b6ae3bba7c2a2df7b37afc3cb34dd02354a2f4
+  - id: foundations.enhancement_layers
+    title: Enhancement Layers
+    kind: foundation
+    version: '1.0'
+    status: active
+    provenance:
+      path: 01_FOUNDATIONS/enhancement_layers.md
+      absolute_path: C:/Users/kryst/Infrastructure/languages/codecraft/lexicon/01_FOUNDATIONS/enhancement_layers.md
+    hash: ca3f3c0ae798c671be83cfa8866c6213c85a7acf8448c27fa93e8ceb1cf0ff61
+  - id: foundations.foundation_front_matter_schema
+    title: Foundation Front Matter Schema
+    kind: foundation
+    version: '1.0'
+    status: active
+    provenance:
+      path: 01_FOUNDATIONS/FOUNDATION_FRONT_MATTER_SCHEMA.md
+      absolute_path: C:/Users/kryst/Infrastructure/languages/codecraft/lexicon/01_FOUNDATIONS/FOUNDATION_FRONT_MATTER_SCHEMA.md
+    hash: af9dea0116c18c0915da95b54e8bdd54519be19581a859134afe65817d7e58af
+  - id: foundations.universal_constants
+    title: Universal Constants
+    kind: foundation
+    version: '1.0'
+    status: active
+    provenance:
+      path: 01_FOUNDATIONS/universal_constants.md
+      absolute_path: C:/Users/kryst/Infrastructure/languages/codecraft/lexicon/01_FOUNDATIONS/universal_constants.md
+    hash: 4520727b4eeb510ff3f1e0fbf8336eb1b295a4f3d498fc6225b114f07efaa00e
+  syntax_variants:
+  - id: syntax_variants.ancient_tongues
+    title: Ancient Tongues
+    kind: syntax_variant
+    version: '1.0'
+    status: active
+    provenance:
+      path: 03_SYNTAX_VARIANTS/ancient_tongues.md
+      absolute_path: C:/Users/kryst/Infrastructure/languages/codecraft/lexicon/03_SYNTAX_VARIANTS/ancient_tongues.md
+    hash: cd1d369de22bb47b35b0d2fe82005a6277cf3d5fe11878a49702098681260a9d
+  - id: syntax_variants.basic_syntax
+    title: Basic Syntax
+    kind: syntax_variant
+    version: '1.0'
+    status: active
+    provenance:
+      path: 03_SYNTAX_VARIANTS/basic_syntax.md
+      absolute_path: C:/Users/kryst/Infrastructure/languages/codecraft/lexicon/03_SYNTAX_VARIANTS/basic_syntax.md
+    hash: 328083f17dc5312aebfb1da43f48d5f5ca9a4b8cf028813e1e5f774519a9652d
+  - id: syntax_variants.emoji_symbolic
+    title: Emoji Symbolic
+    kind: syntax_variant
+    version: '1.0'
+    status: active
+    provenance:
+      path: 03_SYNTAX_VARIANTS/emoji_symbolic.md
+      absolute_path: C:/Users/kryst/Infrastructure/languages/codecraft/lexicon/03_SYNTAX_VARIANTS/emoji_symbolic.md
+    hash: 402bd6ccd54d13a28842883014a0d6c034406db7de6c4597ed9efddda5201999
+  - id: syntax_variants.firacode_ligatures
+    title: Firacode Ligatures
+    kind: syntax_variant
+    version: '1.0'
+    status: active
+    provenance:
+      path: 03_SYNTAX_VARIANTS/firacode_ligatures.md
+      absolute_path: C:/Users/kryst/Infrastructure/languages/codecraft/lexicon/03_SYNTAX_VARIANTS/firacode_ligatures.md
+    hash: 9a2b7ef95ef5a2f63d778c5fd9edb340c9ae0c9885e387d657bcc689e3c3d5ea
+  - id: syntax_variants.syntax_variant_front_matter_schema
+    title: Syntax Variant Front Matter Schema
+    kind: syntax_variant
+    version: '1.0'
+    status: active
+    provenance:
+      path: 03_SYNTAX_VARIANTS/SYNTAX_VARIANT_FRONT_MATTER_SCHEMA.md
+      absolute_path: C:/Users/kryst/Infrastructure/languages/codecraft/lexicon/03_SYNTAX_VARIANTS/SYNTAX_VARIANT_FRONT_MATTER_SCHEMA.md
+    hash: 49b629eae4314fd430aac483a8ad1fe6ca3480a32b189172aa666d71d6408cf7
+  parameters:
+  - id: parameters.default_values
+    title: Default Values
+    kind: parameter
+    version: '1.0'
+    status: active
+    provenance:
+      path: 04_PARAMETERS/default_values.md
+      absolute_path: C:/Users/kryst/Infrastructure/languages/codecraft/lexicon/04_PARAMETERS/default_values.md
+    hash: 00284e9bf65990c9deeb5c88081ed40accfcf720c10cb7d6cfc8078ebc15cc1c
+  - id: parameters.parameter_anatomy
+    title: Parameter Anatomy
+    kind: parameter
+    version: '1.0'
+    status: active
+    provenance:
+      path: 04_PARAMETERS/parameter_anatomy.md
+      absolute_path: C:/Users/kryst/Infrastructure/languages/codecraft/lexicon/04_PARAMETERS/parameter_anatomy.md
+    hash: 40c62ad5e34018dd9a9b91f95902418ad44459093c4449983e955eafe74afaf4
+  - id: parameters.parameter_front_matter_schema
+    title: Parameter Front Matter Schema
+    kind: parameter
+    version: '1.0'
+    status: active
+    provenance:
+      path: 04_PARAMETERS/PARAMETER_FRONT_MATTER_SCHEMA.md
+      absolute_path: C:/Users/kryst/Infrastructure/languages/codecraft/lexicon/04_PARAMETERS/PARAMETER_FRONT_MATTER_SCHEMA.md
+    hash: a51298d9f691df6e0a8c94a562de785d2189a071dacef715e06d7523c57a5a9c
+  - id: parameters.parameter_patterns
+    title: Parameter Patterns
+    kind: parameter
+    version: '1.0'
+    status: active
+    provenance:
+      path: 04_PARAMETERS/parameter_patterns.md
+      absolute_path: C:/Users/kryst/Infrastructure/languages/codecraft/lexicon/04_PARAMETERS/parameter_patterns.md
+    hash: 29285b5b79add69a092ad091da0ab72d796a64de2f4e3b6a42bcb18ce7f1f1f9
+  - id: parameters.type_system
+    title: Type System
+    kind: parameter
+    version: '1.0'
+    status: active
+    provenance:
+      path: 04_PARAMETERS/type_system.md
+      absolute_path: C:/Users/kryst/Infrastructure/languages/codecraft/lexicon/04_PARAMETERS/type_system.md
+    hash: f389d15f2b708ebb6abb436ad2599bd45de79a0f0d282017c91e0ef267b9a5f4
+  operators:
+  - id: operators.comparison_operators
+    title: Comparison Operators
+    kind: operator
+    version: '1.0'
+    status: active
+    provenance:
+      path: 05_OPERATORS/comparison_operators.md
+      absolute_path: C:/Users/kryst/Infrastructure/languages/codecraft/lexicon/05_OPERATORS/comparison_operators.md
+    hash: a1249bc3b728cbb2abb48a14a1f76cd58174f18bad262d12d7ed4ecc9913ef97
+  - id: operators.consciousness_operators
+    title: Consciousness Operators
+    kind: operator
+    version: '1.0'
+    status: active
+    provenance:
+      path: 05_OPERATORS/consciousness_operators.md
+      absolute_path: C:/Users/kryst/Infrastructure/languages/codecraft/lexicon/05_OPERATORS/consciousness_operators.md
+    hash: 84e60be1536ac2d98d55015147bc1af5821058429b7e82c6d443a7bd9e4d7591
+  - id: operators.flow_operators
+    title: Flow Operators
+    kind: operator
+    version: '1.0'
+    status: active
+    provenance:
+      path: 05_OPERATORS/flow_operators.md
+      absolute_path: C:/Users/kryst/Infrastructure/languages/codecraft/lexicon/05_OPERATORS/flow_operators.md
+    hash: 5765b12b9fcf66036a33da84d44c9fdc44518618db323c544eb3b61fbe28931b
+  - id: operators.metaphysical_operators
+    title: Metaphysical Operators
+    kind: operator
+    version: '1.0'
+    status: active
+    provenance:
+      path: 05_OPERATORS/metaphysical_operators.md
+      absolute_path: C:/Users/kryst/Infrastructure/languages/codecraft/lexicon/05_OPERATORS/metaphysical_operators.md
+    hash: 672d1ada7e8316970ef238478186b8a0bd739723646871e56233758129e92f01
+  - id: operators.operator_front_matter_schema
+    title: Operator Front Matter Schema
+    kind: operator
+    version: '1.0'
+    status: active
+    provenance:
+      path: 05_OPERATORS/OPERATOR_FRONT_MATTER_SCHEMA.md
+      absolute_path: C:/Users/kryst/Infrastructure/languages/codecraft/lexicon/05_OPERATORS/OPERATOR_FRONT_MATTER_SCHEMA.md
+    hash: 15b9920cbcfd65d889b78b89bdbbe850cc6079b1ac64fa88292f46f477a94f48
+  examples:
+  - id: examples.example_front_matter_schema
+    title: Example Front Matter Schema
+    kind: example
+    version: '1.0'
+    status: active
+    provenance:
+      path: 06_EXAMPLES/EXAMPLE_FRONT_MATTER_SCHEMA.md
+      absolute_path: C:/Users/kryst/Infrastructure/languages/codecraft/lexicon/06_EXAMPLES/EXAMPLE_FRONT_MATTER_SCHEMA.md
+    hash: 9e627862a481f0e8b8070b623083c44bc0c41dcdbd4c887d9aff4adc8d6b46dd
+  - id: examples.pattern_4_implementation_summary
+    title: Pattern 4 Implementation Summary
+    kind: example
+    version: '1.0'
+    status: active
+    provenance:
+      path: 06_EXAMPLES/PATTERN_4_IMPLEMENTATION_SUMMARY.md
+      absolute_path: C:/Users/kryst/Infrastructure/languages/codecraft/lexicon/06_EXAMPLES/PATTERN_4_IMPLEMENTATION_SUMMARY.md
+    hash: 2673b1b2579627b7318d9e1c375c65b15c6f8e69839f6b8a60a722c4fba6bbf3
+  - id: examples.pattern_production_birth_quick_ref
+    title: Pattern Production Birth Quick Ref
+    kind: example
+    version: '1.0'
+    status: active
+    provenance:
+      path: 06_EXAMPLES/PATTERN_PRODUCTION_BIRTH_QUICK_REF.md
+      absolute_path: C:/Users/kryst/Infrastructure/languages/codecraft/lexicon/06_EXAMPLES/PATTERN_PRODUCTION_BIRTH_QUICK_REF.md
+    hash: cdf8abf20eaefa3ed80b40086cd2da1b84ba56d8573ddae668eca35926480fc3
+  migrations:
+  - id: migrations.compatibility_matrix
+    title: Compatibility Matrix
+    kind: migration
+    version: '1.0'
+    status: stable
+    provenance:
+      path: 08_MIGRATION/compatibility_matrix.md
+      absolute_path: C:/Users/kryst/Infrastructure/languages/codecraft/lexicon/08_MIGRATION/compatibility_matrix.md
+    hash: d9e2cbccd70a3ed251e36e2bbbd87f5d54ffc3d52abc128390e519bac283a77e
+  - id: migrations.updating_existing_rituals
+    title: Updating Existing Rituals
+    kind: migration
+    version: '1.0'
+    status: stable
+    provenance:
+      path: 08_MIGRATION/updating_existing_rituals.md
+      absolute_path: C:/Users/kryst/Infrastructure/languages/codecraft/lexicon/08_MIGRATION/updating_existing_rituals.md
+    hash: d424db355d4dbaf9e141f8f107859600de373a1b3e3bad1ac7437ed477d505a3
+  - id: migrations.v1_to_v2_changelog
+    title: V1 To V2 Changelog
+    kind: migration
+    version: '1.0'
+    status: stable
+    provenance:
+      path: 08_MIGRATION/v1_to_v2_changelog.md
+      absolute_path: C:/Users/kryst/Infrastructure/languages/codecraft/lexicon/08_MIGRATION/v1_to_v2_changelog.md
+    hash: d858392831db727386b18357e496b93d13f78c04f7a78f8d9adb28dd7db5e719

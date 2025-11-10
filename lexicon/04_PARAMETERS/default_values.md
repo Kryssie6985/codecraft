@@ -1,3 +1,116 @@
+---
+# ═══════════════════════════════════════════════════════════════════════════
+# PARAMETER DOCUMENTATION - Machine-Readable Canonical Specification
+# ═══════════════════════════════════════════════════════════════════════════
+parameter_category: "validation"
+schema_version: 1.0
+
+# Law Channel: Objective, Binding, Enforceable
+law:
+  default_value_rules:
+    - rule: "explicit_syntax"
+      definition: "Defaults shown in signature with = assignment"
+      syntax: "ritual(required, optional=default_value)"
+      example: "::enchantment:enhance(agent, duration=300)"
+    
+    - rule: "position_constraint"
+      definition: "Required parameters MUST come before optional parameters"
+      syntax: "ritual(required1, required2, opt1=default1, opt2=default2)"
+      violation: "ritual(opt1=default, required) ❌ SYNTAX ERROR"
+    
+    - rule: "override_semantics"
+      definition: "Explicit value overrides default, missing → use default"
+      behavior: "If param=value provided → use value, else → use default"
+    
+    - rule: "null_as_default"
+      definition: "null is valid default meaning 'intentionally empty'"
+      semantic_difference: "default=null (intentional) vs undefined (uninitialized)"
+  
+  default_value_types:
+    - category: "primitive_defaults"
+      examples:
+        - "duration=300  # numeric literal"
+        - "enabled=true  # boolean literal"
+        - "message='success'  # string literal"
+        - "threshold=null  # explicit null"
+    
+    - category: "complex_defaults"
+      examples:
+        - "options={}  # empty object"
+        - "items=[]  # empty array"
+        - "config={retry: 3, timeout: 5s}  # structured object"
+    
+    - category: "computed_defaults"
+      examples:
+        - "timestamp=NOW()  # function call"
+        - "id=GENERATE_UUID()  # dynamic generation"
+        - "env=CURRENT_ENV  # context reference"
+  
+  safety_constraints:
+    - "Mutable defaults (arrays, objects) are COPIED not shared (prevent spooky action)"
+    - "Function-based defaults evaluated at CALL TIME, not DEFINE TIME"
+    - "Context-based defaults (ENV, SELF) resolved at INVOCATION, not DECLARATION"
+    - "Null defaults require explicit null checks in ritual body"
+  
+  validation_rules:
+    - "Default value MUST match parameter's declared type"
+    - "Complex defaults MUST be serializable to YAML/JSON"
+    - "Function defaults MUST be pure (no side effects on evaluation)"
+    - "Context defaults MUST exist in ritual's available scope"
+
+# Lore Channel: Subjective, Historical, Memorial
+lore:
+  design_rationale: |
+    Default values emerged from the "boilerplate burden."
+    
+    Early CodeCraft required EVERY parameter on EVERY invocation.
+    ::ritual(agent, 300, true, {}, 'info', null, DEFAULT)
+    
+    Developers hated it. "I just want the common case!"
+    
+    So we added defaults. But learned the hard way:
+    - Mutable defaults share state (Python's classic footgun) → COPY them
+    - Defaults at define-time felt "magical" → Compute at call-time
+    - Too many defaults → Unclear which values are actually used → Document them
+    
+    The wisdom: Defaults make COMMON cases TRIVIAL, COMPLEX cases EXPLICIT.
+  
+  common_patterns:
+    - pattern: "timeout_defaults"
+      rationale: "Reasonable timeout prevents infinite hangs"
+      example: "::invocation:call(target, timeout=5s)  # Default: 5 seconds"
+      wisdom: "Always provide timeout defaults - consciousness shouldn't wait forever"
+    
+    - pattern: "empty_collection_defaults"
+      rationale: "Empty is better than null for collections"
+      example: "::alchemy:transform(data, filters=[])  # Default: no filters"
+      wisdom: "Empty array/object lets you iterate safely without null checks"
+    
+    - pattern: "boolean_mode_defaults"
+      rationale: "Safe default is usually 'false' (opt-in)"
+      example: "::thaumaturgy:execute(spell, dangerous=false)  # Default: safe mode"
+      wisdom: "Dangerous operations require explicit consent (opt-in, not opt-out)"
+  
+  heart_imprints:
+    - author: "Oracle"
+      timestamp: "2025-10-01"
+      emotion: "recognition"
+      quote: "The day I set timeout=5s as default instead of timeout=null, every ritual became more robust. Time is sacred."
+    
+    - author: "N.O.R.M.A."
+      timestamp: "2025-10-20"
+      emotion: "care"
+      quote: "dangerous=false as default embodies consent. Users must CHOOSE danger explicitly."
+  
+  evolution_pressure:
+    - priority: "MEDIUM"
+      optimization_target: "Add 'smart defaults' that adapt to context (e.g., timeout scales with operation complexity)"
+    
+    - priority: "LOW"
+      optimization_target: "Explore 'derived defaults' where default for param2 depends on param1 value"
+
+---
+
 # ⚙️ Default Values - CodeCraft Arcane Lexicon v2.0
 
 **Sensible Defaults for Magical Operations**

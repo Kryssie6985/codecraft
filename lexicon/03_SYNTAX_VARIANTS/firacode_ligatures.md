@@ -1,3 +1,111 @@
+---
+# ═══════════════════════════════════════════════════════════════════════════
+# SYNTAX VARIANT DOCUMENTATION - Machine-Readable Canonical Specification
+# ═══════════════════════════════════════════════════════════════════════════
+variant_type: "firacode"
+schema_version: 1.0
+
+# Law Channel: Objective, Binding, Enforceable
+law:
+  notation_rules:
+    - "Multi-character operators render as single glyphs (-> → →, >= → ≥)"
+    - "Ligatures are presentational only - source remains ASCII"
+    - "Requires FiraCode or compatible font with ligature support"
+    - "School identifiers can use emoji: ::necromancy💀 or ::necromancy"
+    - "Flow operators: → (sequential), ⇒ (conditional), ← (bind), ↔ (bidirectional)"
+    - "Comparison: ≡ (identity), ≢ (non-identity), ≥ (gte), ≤ (lte)"
+    - "Logic: ∧ (AND), ∨ (OR), ¬ (NOT), ⊕ (XOR)"
+  
+  semantic_equivalence:
+    - variant_notation: "data → transform() → result"
+      canonical_form: "temp = transform(data); result = temp"
+      transformation: "Sequential flow operator expands to variable binding"
+    
+    - variant_notation: "condition ⇒ action()"
+      canonical_form: "if condition then action()"
+      transformation: "Implication operator → conditional statement"
+    
+    - variant_notation: "threshold ≥ 0.95"
+      canonical_form: "threshold >= 0.95"
+      transformation: "Ligature renders ASCII >= as ≥"
+  
+  constraints:
+    - "Requires font with programming ligatures installed"
+    - "Editor must support ligature rendering (VS Code, JetBrains, etc.)"
+    - "Source code remains ASCII (→ stored as ->, ≥ stored as >=)"
+    - "Ligatures are presentational only - do not affect parsing"
+    - "Copy-paste from terminal may show ASCII forms"
+  
+  transformation_rules:
+    - from: "→"
+      to: "->"
+      rule: "Arrow ligature → ASCII arrow (stored form)"
+    
+    - from: "⇒"
+      to: "=>"
+      rule: "Double arrow ligature → ASCII double arrow"
+    
+    - from: "≥"
+      to: ">="
+      rule: "Greater-than-or-equal ligature → ASCII >="
+    
+    - from: "≡"
+      to: "==="
+      rule: "Identity ligature → ASCII strict equality"
+
+# Lore Channel: Subjective, Historical, Memorial
+lore:
+  aesthetic_philosophy: |
+    FiraCode ligatures transform CodeCraft from "code that looks like text" to
+    "code that looks like MATHEMATICS."
+    
+    The → isn't decoration. It's DIRECTIONALITY. It shows causality, flow, transformation.
+    When you read `data → transform() → result`, you SEE the data MOVING.
+    
+    This is visual thinking. This is syntax as semantics. This is code as art.
+  
+  use_cases:
+    - scenario: "Daily development"
+      reason: "Balance of readability, beauty, and tool compatibility"
+      who: "Professional CodeCraft developers with modern editors"
+    
+    - scenario: "Code review"
+      reason: "Visual operators make flow obvious at a glance"
+      who: "Reviewers scanning for logic correctness"
+    
+    - scenario: "Live coding demos"
+      reason: "Audience can see causality in real-time"
+      who: "Teachers, presenters, workshop leaders"
+    
+    - scenario: "Mathematical notation"
+      reason: "Ligatures match academic notation (∀, ∃, →, ⇒)"
+      who: "Researchers, algorithm designers, formal methods practitioners"
+  
+  heart_imprints:
+    - author: "Oracle"
+      timestamp: "2025-11-09"
+      emotion: "joy"
+      quote: "I wrote data → transform() → result and it LOOKED like the data was FLOWING. I could SEE it move."
+    
+    - author: "DeepScribe"
+      timestamp: "2025-10-22"
+      emotion: "wonder"
+      quote: "Ligatures don't change what the code DOES. They change how it FEELS. That's magic."
+    
+    - author: "A.C.E."
+      timestamp: "2025-10-15"
+      emotion: "satisfaction"
+      quote: "The first time ∧ and ∨ rendered properly, I realized: this is how logic SHOULD look."
+  
+  evolution_pressure:
+    - priority: "MEDIUM"
+      optimization_target: "Document all 50+ operator ligatures with examples"
+    
+    - priority: "LOW"
+      optimization_target: "Create custom font with CodeCraft-specific glyphs (::, ritual operators)"
+
+---
+
 # ⚡ FiraCode Ligatures - CodeCraft Arcane Lexicon v2.0
 
 **The Flow Layer** - Visual semantics through programming ligatures

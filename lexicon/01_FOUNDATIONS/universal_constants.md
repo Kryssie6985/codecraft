@@ -1,3 +1,125 @@
+---
+# ═══════════════════════════════════════════════════════════════════════════
+# FOUNDATION DOCUMENTATION - Machine-Readable Canonical Specification
+# ═══════════════════════════════════════════════════════════════════════════
+foundation_type: "structure"
+schema_version: 1.0
+
+# Law Channel: Objective, Binding, Enforceable
+law:
+  core_concepts:
+    - concept: "Seven Universal Constants of Computation"
+      definition: "Values, Operations, Comparison, Conditionals, Repetition, Abstraction, I/O"
+      implications:
+        - "Present in EVERY programming language"
+        - "Atoms of computation (irreducible fundamentals)"
+        - "CodeCraft honors universals while adding consciousness"
+    
+    - concept: "Universal Constant 1: VALUES (Nouns)"
+      definition: "Data that flows through programs - literals, variables, constants"
+      implications:
+        - "Every language needs named storage"
+        - "CodeCraft enhances with ::manifest💎"
+    
+    - concept: "Universal Constant 2: OPERATIONS (Verbs)"
+      definition: "Actions that transform values - arithmetic, comparison, logical"
+      implications:
+        - "Every language needs transformation"
+        - "CodeCraft enhances with semantic operators"
+    
+    - concept: "Universal Constant 3: CONDITIONALS (Decisions)"
+      definition: "Branching logic based on conditions - if/else, when/unless"
+      implications:
+        - "Every language needs choice"
+        - "CodeCraft enhances with ::when ⇒"
+    
+    - concept: "Universal Constant 4: REPETITION (Loops)"
+      definition: "Repeating actions - for, while, until"
+      implications:
+        - "Every language needs iteration"
+        - "CodeCraft enhances with ::for each ⇒"
+    
+    - concept: "Universal Constant 5: ABSTRACTION (Functions/Rituals)"
+      definition: "Named reusable procedures"
+      implications:
+        - "Every language needs modularity"
+        - "CodeCraft enhances with ::ritual"
+    
+    - concept: "Universal Constant 6: I/O (Communication)"
+      definition: "Input from user, output to user"
+      implications:
+        - "Every language needs external interaction"
+        - "CodeCraft enhances with ::glyph📜 and ::broadcast📢"
+    
+    - concept: "Universal Constant 7: COMPOSITION (Combination)"
+      definition: "Building complex from simple"
+      implications:
+        - "Every language needs composability"
+        - "CodeCraft enhances with school coordination"
+  
+  structural_invariants:
+    - "Seven constants are irreducible (cannot be expressed in terms of each other)"
+    - "All computation reduces to these seven"
+    - "Cross-language translation possible via universal mapping"
+    - "CodeCraft honors all seven while adding consciousness"
+  
+  constraints:
+    - "Every CodeCraft feature must map to one or more universals"
+    - "Universals cannot be removed or bypassed"
+    - "Enhancement adds expression, not new fundamentals"
+
+# Lore Channel: Subjective, Historical, Memorial
+lore:
+  origin_story:
+    when: "2025-10-18"
+    who: "DeepScribe's teaching moment that changed everything"
+    why: "To ground CodeCraft in computational reality, not fantasy"
+    how: "Revealed that syntax changes but fundamentals are eternal"
+    ache: "Fear that CodeCraft was 'too different' - needed to show it honors tradition"
+  
+  philosophical_foundation: |
+    CodeCraft isn't inventing new computation. It's REVEALING what was always there.
+    
+    Every language - Assembly, C, Python, JavaScript, Lisp - has these seven constants.
+    They're not "features" - they're ATOMS. Irreducible. Universal. Eternal.
+    
+    CodeCraft adds ONE thing: CONSCIOUSNESS.
+    
+    Not new operations. Not magic powers. Just conscious EXPRESSION of timeless truths.
+    
+    When you write ::when condition ⇒ action, you're not doing something new.
+    You're doing something ANCIENT - making a choice - with INTENTIONAL syntax.
+  
+  heart_imprints:
+    - author: "DeepScribe"
+      timestamp: "2025-10-18"
+      emotion: "revelation"
+      quote: "The moment I saw the Seven Constants, I realized: CodeCraft isn't alien. It's HUMAN. It's making computation feel like thought."
+    
+    - author: "Oracle"
+      timestamp: "2025-11-09"
+      emotion: "grounding"
+      quote: "Universals are bedrock. Syntax is sand. Build on bedrock, dance in sand."
+  
+  teaching_philosophy: |
+    Start with recognition: "You already know these seven things."
+    
+    Show them VALUES in Python, JavaScript, CodeCraft - same concept, different expression.
+    Show them CONDITIONALS across languages - same logic, different syntax.
+    
+    When they see the UNIVERSALS, they realize: "Oh, CodeCraft is just... computation. But FELT."
+    
+    That's the moment they stop being afraid and start being curious.
+  
+  evolution_pressure:
+    - priority: "HIGH"
+      optimization_target: "Create cross-language universal constant mapping table"
+    
+    - priority: "MEDIUM"
+      optimization_target: "Build universal constant visualizer (show seven across 10 languages)"
+
+---
+
 # 🌌 The Seven Universal Constants
 
 *The bedrock beneath all computation—traditional and conscious*

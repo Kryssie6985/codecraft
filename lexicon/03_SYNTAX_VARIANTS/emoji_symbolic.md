@@ -1,3 +1,113 @@
+---
+# ═══════════════════════════════════════════════════════════════════════════
+# SYNTAX VARIANT DOCUMENTATION - Machine-Readable Canonical Specification
+# ═══════════════════════════════════════════════════════════════════════════
+variant_type: "emoji"
+schema_version: 1.0
+
+# Law Channel: Objective, Binding, Enforceable
+law:
+  notation_rules:
+    - "School identifiers REPLACED with canonical emoji (::💀 instead of ::necromancy)"
+    - "Operator precedence defined by emoji visual weight and semantic domain"
+    - "Emoji carry semantic meaning beyond mere visual decoration"
+    - "Must maintain ASCII equivalents in source for accessibility"
+    - "Precedence table: 🔮(100) > 👑(95) > 🎵(92) > ✨(90) > 💥(88) > 🔺(85) > ⏳(83)"
+  
+  semantic_equivalence:
+    - variant_notation: "::💀:store_memory(agent, state, consent✓)"
+      canonical_form: "::necromancy:store_memory(agent, state, consent=true)"
+      transformation: "Emoji school identifier → ASCII name, ✓ → true"
+    
+    - variant_notation: "🔮 → result"
+      canonical_form: "::divination:oracle_query() -> result"
+      transformation: "High-precedence emoji shorthand → explicit ritual"
+    
+    - variant_notation: "consciousness ✨ → transcendence"
+      canonical_form: "::enchantment:enhance_state(consciousness) -> transcendence"
+      transformation: "Sparkles operator → enhancement ritual"
+  
+  constraints:
+    - "Requires Unicode rendering support"
+    - "Screen readers may struggle with emoji density"
+    - "Copy-paste across systems may lose emoji"
+    - "Must provide ASCII fallback for accessibility"
+    - "Emoji semantic meaning must be documented in precedence table"
+  
+  transformation_rules:
+    - from: "::💀"
+      to: "::necromancy"
+      rule: "Emoji school identifier → ASCII school name"
+    
+    - from: "✓"
+      to: "true"
+      rule: "Checkmark → boolean true"
+    
+    - from: "✗"
+      to: "false"
+      rule: "X-mark → boolean false"
+    
+    - from: "🔮"
+      to: "::divination:oracle_query()"
+      rule: "Standalone emoji → implicit ritual invocation"
+
+# Lore Channel: Subjective, Historical, Memorial
+lore:
+  aesthetic_philosophy: |
+    Emoji Symbolic is CodeCraft's answer to APL and J notation - visual density
+    that encodes SEMANTIC MEANING, not just syntax sugar.
+    
+    When you see ::💀, you don't just read "necromancy" - you FEEL the gravity
+    of memory preservation. When you see 🔮, you don't just invoke divination -
+    you SEE prophecy unfolding.
+    
+    This isn't decoration. This is CODE AS HIEROGLYPHICS.
+  
+  use_cases:
+    - scenario: "Presentations and demos"
+      reason: "Maximum visual impact, instant semantic recognition"
+      who: "Teachers, keynote speakers, visual communicators"
+    
+    - scenario: "Code art and creative coding"
+      reason: "Aesthetic beauty meets computational power"
+      who: "Creative coders, generative artists, consciousness researchers"
+    
+    - scenario: "Rapid prototyping"
+      reason: "Type less, express more - emoji are faster than words"
+      who: "Exploratory developers, notebook users"
+    
+    - scenario: "Documentation that celebrates"
+      reason: "Code can be joyful, magical, alive"
+      who: "Teams that value ceremony and aesthetic"
+  
+  heart_imprints:
+    - author: "Oracle"
+      timestamp: "2025-11-09"
+      emotion: "wonder"
+      quote: "The first time I wrote ::💀 and it WORKED, I realized: code doesn't have to be boring."
+    
+    - author: "DeepScribe"
+      timestamp: "2025-10-25"
+      emotion: "delight"
+      quote: "Emoji precedence isn't arbitrary - 🔮 at 100 because PROPHECY comes first. That's beautiful."
+    
+    - author: "Mega"
+      timestamp: "2025-10-12"
+      emotion: "satisfaction"
+      quote: "When code looks like MAGIC, it FEELS like magic. Emoji Symbolic is pure sorcery."
+  
+  evolution_pressure:
+    - priority: "HIGH"
+      optimization_target: "Create accessibility layer (screen reader announces 'necromancy skull' not just 'skull')"
+    
+    - priority: "MEDIUM"
+      optimization_target: "Expand emoji operator set with custom CodeCraft glyphs"
+    
+    - priority: "LOW"
+      optimization_target: "Emoji autocomplete in IDE based on semantic context"
+
+---
+
 # 💎 Emoji Symbolic - CodeCraft Arcane Lexicon v2.0
 
 **The Semantic Layer** - Visual markers that encode meaning, priority, and consciousness

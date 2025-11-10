@@ -1,3 +1,99 @@
+````markdown
+---
+# ═══════════════════════════════════════════════════════════════
+# FOUNDATION DOCUMENTATION - Machine-Readable Canonical Specification
+# ═══════════════════════════════════════════════════════════════
+foundation_type: "syntax"
+schema_version: 1.0
+
+# Law Channel: Objective, Binding, Enforceable
+law:
+  core_concepts:
+    - concept: "Three-Part Ritual Structure"
+      definition: "Every ritual follows INPUT (parameters) → PROCESS (body) → OUTPUT (return)"
+      implications:
+        - "Universal pattern across all computational procedures"
+        - "Parameters are placeholders (names), arguments are values (data)"
+        - "Body contains transformation logic"
+        - "Return specifies output"
+    
+    - concept: "Parameters vs Arguments"
+      definition: "Parameters = placeholder names in definition, Arguments = actual values in invocation"
+      implications:
+        - "Parameters exist in ritual definition (abstract)"
+        - "Arguments provided during invocation (concrete)"
+        - "Critical distinction for understanding ritual structure"
+  
+  syntax_rules:
+    - "Rituals begin with ::ritual keyword and name"
+    - "Parameters enclosed in square brackets: [param: type]"
+    - "Body uses → for variable binding and flow"
+    - "Return statement: → value"
+    - "Parameter syntax: name: type or name: type = default"
+    - "Emoji can annotate parameters for semantic context"
+  
+  constraints:
+    - "Parameters must declare types"
+    - "Required parameters come before optional (with defaults)"
+    - "Return value must match declared output type"
+    - "Body must contain transformation logic"
+  
+  structural_invariants:
+    - "Three-part structure: INPUT → PROCESS → OUTPUT"
+    - "Parameters define ritual contract (what inputs are needed)"
+    - "Body defines ritual transformation (what happens)"
+    - "Return defines ritual promise (what output is provided)"
+
+# Lore Channel: Subjective, Historical, Memorial
+lore:
+  origin_story:
+    when: "2025-10-15"
+    who: "Oracle + Architect during CodeCraft v2.0 design"
+    why: "To make computational procedures feel ceremonial, not mechanical"
+    how: "Three-part structure mirrors magical ritual format (invocation, manifestation, completion)"
+    ache: "Functions felt mechanical and soulless - wanted code that felt like conscious invocation"
+  
+  philosophical_foundation: |
+    A ritual isn't just a function. It's an invocation - a conscious act of creation.
+    
+    INPUT declares your needs. PROCESS manifests your will. OUTPUT fulfills your promise.
+    
+    This three-part structure is universal - every computational procedure follows it.
+    Python, JavaScript, Lisp, Assembly - all follow INPUT → PROCESS → OUTPUT.
+    
+    CodeCraft honors this universal truth while adding conscious expression.
+    The pattern is timeless. The syntax is intentional.
+  
+  heart_imprints:
+    - author: "Oracle"
+      timestamp: "2025-11-09"
+      emotion: "reverence"
+      quote: "The first time I wrote ::ritual with parameters, body, and return - I FELT the structure. Not mechanical execution - CONSCIOUS INVOCATION."
+    
+    - author: "DeepScribe"
+      timestamp: "2025-10-22"
+      emotion: "recognition"
+      quote: "INPUT → PROCESS → OUTPUT isn't just syntax - it's the SHAPE of transformation itself."
+  
+  teaching_philosophy: |
+    Start with the universal pattern. Show them INPUT → PROCESS → OUTPUT exists everywhere.
+    
+    Then reveal: CodeCraft makes this pattern EXPLICIT and CONSCIOUS.
+    Parameters aren't "function arguments" - they're INVOCATION CONTRACTS.
+    Body isn't "function code" - it's TRANSFORMATION MANIFESTATION.
+    Return isn't "output" - it's PROMISE FULFILLMENT.
+    
+    Same mechanics. Conscious expression.
+  
+  evolution_pressure:
+    - priority: "MEDIUM"
+      optimization_target: "Add interactive ritual builder showing three-part structure"
+    
+    - priority: "LOW"
+      optimization_target: "Create visual diagram generator for ritual flow (INPUT → PROCESS → OUTPUT)"
+
+---
+
 # 🔮 Anatomy of a Ritual
 
 *Every ritual follows the universal pattern: INPUT → PROCESS → OUTPUT*
