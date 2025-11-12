@@ -1,5 +1,5 @@
 schema: '2.0'
-generated_at: '2025-11-10T04:55:23.005929+00:00'
+generated_at: '2025-11-12T06:27:13.221712+00:00'
 description: Partition lock for non-school lexicon content (foundations, syntax, operators,
   parameters, examples, migrations)
 architecture:
@@ -15,7 +15,7 @@ partitions:
     provenance:
       path: 01_FOUNDATIONS/anatomy_of_a_ritual.md
       absolute_path: C:/Users/kryst/Infrastructure/languages/codecraft/lexicon/01_FOUNDATIONS/anatomy_of_a_ritual.md
-    hash: f9db5400d0802133e83005e427b6ae3bba7c2a2df7b37afc3cb34dd02354a2f4
+    hash: a4a4fa0b7f94bd47dc069f605fb782ec3a15d04e11d16d394aee4d6e790aa624
   - id: foundations.enhancement_layers
     title: Enhancement Layers
     kind: foundation
