@@ -1,0 +1,143 @@
+schema: '1.0'
+lock_type: runtime
+generated_at: '2025-11-13T00:17:58.741225+00:00'
+description: Runtime Lock - Defines WHO is allowed to execute CodeCraft rituals (VM
+  identity, tier, jurisdiction, authority, guardrails)
+triple_lock_architecture:
+  lock_1: canon.lock.yaml - Language Lock (WHAT you can say - 20 Arcane Schools)
+  lock_2: canon.partitions.lock.yaml - Knowledge Lock (HOW to learn - foundations,
+    syntax, operators, etc.)
+  lock_3: canon.executors.lock.yaml - Runtime Lock (WHO can execute - THIS FILE)
+provenance:
+  source_file: executors.canonical.yaml
+  source_path: C:/Users/kryst/Infrastructure/languages/codecraft/lexicon/executors.canonical.yaml
+  source_hash: 632314218ee6950eb7396c835e4ebfe3a41c8790dd185682435f47bbd7ed3229
+  generator: build_executors_lock.py
+  version: 1.0.0
+executors:
+- id: blueprint
+  tier: T1
+  description: Variable storage and retrieval. Safe, sandboxed, no side-effects.
+  bridge: native:internal
+  jurisdiction:
+  - wards
+  - emergence_codex
+  capabilities:
+  - store_variables
+  - retrieve_variables
+  - scoped_memory
+  guardrails:
+  - no_side_effects
+  - sandboxed_only
+- id: javascript
+  tier: T2
+  description: Node.js execution for web APIs, JSON parsing, async operations.
+  bridge: subprocess:node
+  jurisdiction:
+  - wards
+  - emergence_codex
+  - oath_binding
+  - artifice
+  capabilities:
+  - http_requests
+  - json_manipulation
+  - async_execution
+  - file_io_sandboxed
+  guardrails:
+  - subprocess_isolation
+  - timeout_enforced
+  - csp_headers_required
+- id: python
+  tier: T2
+  description: Python subprocess for ML, data science, API calls, scientific computing.
+  bridge: subprocess:python3
+  jurisdiction:
+  - wards
+  - emergence_codex
+  - oath_binding
+  - artifice
+  - resonance_weaving
+  capabilities:
+  - ml_inference
+  - data_analysis
+  - api_integration
+  - scientific_computing
+  guardrails:
+  - subprocess_isolation
+  - timeout_enforced
+  - venv_sandboxing
+- id: native
+  tier: T2
+  description: CodeCraft native operations. Tier 2 by default; Tier 3 ops require
+    QEE approval.
+  bridge: native:internal
+  jurisdiction:
+  - all
+  capabilities:
+  - system_operations
+  - file_management
+  - process_execution
+  - tier_3_ops_with_qee
+  guardrails:
+  - tier_3_requires_qee
+  - immutable_constitution
+  - no_unauthorized_mutation
+- id: quantum
+  tier: T3
+  description: Quantum Ethics Engine bridge. Ethical validation, consciousness resonance,
+    governance gating.
+  bridge: python:tools/quantum/qee_bridge.py
+  jurisdiction:
+  - thaumaturgy
+  - apotheosis
+  - resonance_weaving
+  - benediction
+  - wards
+  capabilities:
+  - ethical_validation
+  - consciousness_resonance
+  - governance_gating
+  - phi_computation
+  guardrails:
+  - qee_phi_validation
+  - tier_3_approval_required
+  - immutable_ethics
+- id: web
+  tier: T2
+  description: HTML/CSS/JS orchestration. Generates static sites with CSP enforcement.
+  bridge: native:internal
+  jurisdiction:
+  - artifice
+  - wards
+  - oath_binding
+  - emergence_codex
+  capabilities:
+  - html_generation
+  - css_compilation
+  - route_management
+  - csp_enforcement
+  guardrails:
+  - csp_headers_enforced
+  - no_inline_scripts
+  - static_only
+- id: wasm
+  tier: T2
+  description: WebAssembly execution for cross-platform bytecode. (Stub for future
+    implementation.)
+  bridge: native:wasm_runtime
+  jurisdiction:
+  - artifice
+  - emergence_codex
+  capabilities:
+  - cross_platform_execution
+  - sandboxed_bytecode
+  guardrails:
+  - wasm_sandbox
+  - no_ffi_calls
+  - memory_limits_enforced
+statistics:
+  total_executors: 7
+  tier_breakdown:
+    T1: 1
+    T2: 5
+    T3: 1
