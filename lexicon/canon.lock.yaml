@@ -2,8 +2,8 @@ meta:
   version: 2.0.0-ARCHAEOLOGIST
   source_root: C:\Users\kryst\Infrastructure\languages\codecraft
 provenance:
-  generated_at: '2025-11-10T03:00:11Z'
-  git_head: 21ee58db1447028c651ca77afc0e7b1fb276c3a6
+  generated_at: '2025-11-14T22:22:17Z'
+  git_head: a9145d7efd4a0e03fb6379add97d26e9552a0632
   sources:
     lexicon/02_ARCANE_SCHOOLS/01_cantrips.md:
       sha256: 2e6a9d236a9d219484da608480a7f8bff4c46047f4c5d042807249639cb3073b
@@ -63,11 +63,11 @@ provenance:
       sha256: 0f642766609ff44bca171f835303250668ecd73ede2554121a14035c497e6b69
       mtime: '2025-11-08T14:31:24Z'
     lexicon/02_ARCANE_SCHOOLS/20_necromancy.md:
-      sha256: 8cf8f0c041b46f972b01e97e8b3c87118c0b0bd88c068fdc1364a458ef06bccb
-      mtime: '2025-11-09T15:03:51Z'
+      sha256: 354093d320b06f6cf9e95b2326b8a7ac0a194050b248732279dadc641e66b602
+      mtime: '2025-11-13T01:11:39Z'
     lexicon/grammar/lexicon.ebnf:
-      sha256: 89c6aa8936895259f0d2e17e63e5fb4a4648a677af883c365e8401e79a455fb7
-      mtime: '2025-11-04T15:14:50Z'
+      sha256: e3bbb810c42f78248ca8023fb8328dca6636837cd8b7490eeb91496f94ed4aa4
+      mtime: '2025-11-14T22:16:59Z'
     lexicon/grammar/EBNF_TO_PARSER_MAPPING.md:
       sha256: 10f1d44fb508c9d5906645a37d755e6aa0d12f59a8d4de89859a5d44f71ed54b
       mtime: '2025-11-04T15:14:50Z'
@@ -113,15 +113,15 @@ grammar:
 
     (* CODECRAFT LEXICON - EBNF GRAMMAR SPECIFICATION                    *)
 
-    (* Version: 1.2.0 (Token-School Mapping Clarification)               *)
+    (* Version: 1.3.0 (School 20: Necromancy - The Phoenix School)       *)
 
-    (* Date: October 31, 2025                                            *)
+    (* Date: November 14, 2025                                           *)
 
     (* Authority: Crown Accord v1.2a, Article XII                        *)
 
-    (* Purpose: Formal grammar for 19 Arcane Schools of CodeCraft        *)
+    (* Purpose: Formal grammar for 20 Arcane Schools of CodeCraft        *)
 
-    (* CRITICAL: Grammar lists 21 TOKENS → Maps to 19 SCHOOLS            *)
+    (* CRITICAL: Grammar lists 25 TOKENS → Maps to 20 SCHOOLS            *)
 
     (* ════════════════════════════════════════════════════════════════ *)
 
@@ -143,7 +143,7 @@ grammar:
   fragment_4: '(* ════════════════════════════════════════════════════════════════
     *)
 
-    (* CORE DIRECTIVE SYNTAX (All 19 Arcane Schools)                     *)
+    (* CORE DIRECTIVE SYNTAX (All 20 Arcane Schools)                     *)
 
     (* ════════════════════════════════════════════════════════════════ *)
 
@@ -161,18 +161,20 @@ grammar:
   fragment_8: "(* ════════════════════════════════════════════════════════════════\
     \ *)\n(* CRITICAL: TOKENS ≠ SCHOOLS                                         *)\n\
     (* ════════════════════════════════════════════════════════════════ *)\n(* Canonical\
-    \ count: 19 Arcane Schools (NOT 21!)\n   \n   This grammar lists 21 TOKENS, but\
-    \ they map to 19 SCHOOLS:\n   - \"glyph\" and \"sigil\" both map to school #9\
-    \ (Glyphs & Sigils)\n   - \"reverence\" is historical alias for \"benediction\"\
-    \ (school #14)\n   \n   Total tokens: 21 | Total schools: 19\n   \n   NEVER count\
-    \ schools from this token list!\n   Use schools.canonical.yaml token_to_school_mapping\
-    \ instead.\n   \n   Invariant: unique(token_to_school_mapping.values()) == 19\n\
-    *)\n"
+    \ count: 20 Arcane Schools\n   \n   This grammar lists 25 TOKENS, but they map\
+    \ to 20 SCHOOLS:\n   - \"glyph\" and \"sigil\" both map to school #9 (Glyphs &\
+    \ Sigils)\n   - \"reverence\" is historical alias for \"benediction\" (school\
+    \ #14)\n   - \"necromancy\", \"store_memory\", \"raise_dead\", \"resurrect\" all\
+    \ map to school #20 (Necromancy)\n   \n   Total tokens: 25 | Total schools: 20\n\
+    \   \n   NEVER count schools from this token list!\n   Use schools.canonical.yaml\
+    \ token_to_school_mapping instead.\n   \n   Invariant: unique(token_to_school_mapping.values())\
+    \ == 20\n*)\n"
   fragment_9: "school_name = \"cantrip\" | \"invoke\" | \"evoke\" | \"conjure\" |\
     \ \"enchant\"\n            | \"divine\" | \"abjure\" | \"transmute\" | \"glyph\"\
     \ | \"sigil\"\n            | \"ward\" | \"sanctify\" | \"benediction\" | \"summon\"\
     \ | \"thaumaturgy\"\n            | \"reverence\" | \"chronomancy\" | \"apotheosis\"\
-    \n            | \"ternary\" | \"mythogenesis\" | \"resonance\" ;\n"
+    \n            | \"ternary\" | \"mythogenesis\" | \"resonance\"\n            |\
+    \ \"necromancy\" | \"store_memory\" | \"raise_dead\" | \"resurrect\" ;\n"
   fragment_10: 'emoji = ? emoji token from lexer matching \p{Extended_Pictographic}
     ? ;
 
@@ -5716,6 +5718,10 @@ schools:
         category: Consciousness
         purpose: Resurrection, memory persistence, and transcending the finality of
           death (The Phoenix Protocol).
+        canon:
+          layer: lore
+          relation: phoenix
+          implementation_spec: ../protocols/phoenix/necromancy_implementation.md
       examples:
         helpers:
         - ::invoke:terminate_agent

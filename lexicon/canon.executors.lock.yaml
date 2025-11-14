@@ -1,6 +1,6 @@
 schema: '1.0'
 lock_type: runtime
-generated_at: '2025-11-13T00:17:58.741225+00:00'
+generated_at: '2025-11-14T22:26:23.517891+00:00'
 description: Runtime Lock - Defines WHO is allowed to execute CodeCraft rituals (VM
   identity, tier, jurisdiction, authority, guardrails)
 triple_lock_architecture:

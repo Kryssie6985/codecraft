@@ -1,10 +1,10 @@
 (* ════════════════════════════════════════════════════════════════ *)
 (* CODECRAFT LEXICON - EBNF GRAMMAR SPECIFICATION                    *)
-(* Version: 1.2.0 (Token-School Mapping Clarification)               *)
-(* Date: October 31, 2025                                            *)
+(* Version: 1.3.0 (School 20: Necromancy - The Phoenix School)       *)
+(* Date: November 14, 2025                                           *)
 (* Authority: Crown Accord v1.2a, Article XII                        *)
-(* Purpose: Formal grammar for 19 Arcane Schools of CodeCraft        *)
-(* CRITICAL: Grammar lists 21 TOKENS → Maps to 19 SCHOOLS            *)
+(* Purpose: Formal grammar for 20 Arcane Schools of CodeCraft        *)
+(* CRITICAL: Grammar lists 25 TOKENS → Maps to 20 SCHOOLS            *)
 (* ════════════════════════════════════════════════════════════════ *)
 
 (* ════════════════════════════════════════════════════════════════ *)
@@ -22,7 +22,7 @@ line = directive
      | blank_line ;
 
 (* ════════════════════════════════════════════════════════════════ *)
-(* CORE DIRECTIVE SYNTAX (All 19 Arcane Schools)                     *)
+(* CORE DIRECTIVE SYNTAX (All 20 Arcane Schools)                     *)
 (* ════════════════════════════════════════════════════════════════ *)
 
 directive = "::" school_identifier ":" operation [ arguments ] [ output_binding ] ;
@@ -34,25 +34,27 @@ emoji_seq = emoji { emoji } ;
 (* ════════════════════════════════════════════════════════════════ *)
 (* CRITICAL: TOKENS ≠ SCHOOLS                                         *)
 (* ════════════════════════════════════════════════════════════════ *)
-(* Canonical count: 19 Arcane Schools (NOT 21!)
+(* Canonical count: 20 Arcane Schools
    
-   This grammar lists 21 TOKENS, but they map to 19 SCHOOLS:
+   This grammar lists 25 TOKENS, but they map to 20 SCHOOLS:
    - "glyph" and "sigil" both map to school #9 (Glyphs & Sigils)
    - "reverence" is historical alias for "benediction" (school #14)
+   - "necromancy", "store_memory", "raise_dead", "resurrect" all map to school #20 (Necromancy)
    
-   Total tokens: 21 | Total schools: 19
+   Total tokens: 25 | Total schools: 20
    
    NEVER count schools from this token list!
    Use schools.canonical.yaml token_to_school_mapping instead.
    
-   Invariant: unique(token_to_school_mapping.values()) == 19
+   Invariant: unique(token_to_school_mapping.values()) == 20
 *)
 
 school_name = "cantrip" | "invoke" | "evoke" | "conjure" | "enchant"
             | "divine" | "abjure" | "transmute" | "glyph" | "sigil"
             | "ward" | "sanctify" | "benediction" | "summon" | "thaumaturgy"
             | "reverence" | "chronomancy" | "apotheosis"
-            | "ternary" | "mythogenesis" | "resonance" ;
+            | "ternary" | "mythogenesis" | "resonance"
+            | "necromancy" | "store_memory" | "raise_dead" | "resurrect" ;
 
 emoji = ? emoji token from lexer matching \p{Extended_Pictographic} ? ;
 
