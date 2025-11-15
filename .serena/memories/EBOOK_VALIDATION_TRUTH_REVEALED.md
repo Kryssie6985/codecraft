@@ -14,12 +14,12 @@ Kryssie caught massive validation failures in the ebook formatting implementatio
 
 ### Key Documents Kryssie Provided:
 1. **The Kryssie Method: Anti-Vibe-Coding Playbook** (169 pages)
-   - Location: `C:\Users\Krystal Neely\Projects\markdown\✍️ The Kryssie Method_ The Anti-Vibe-Coding Playbook & Strategic Outreach Protocol.md`
+   - Location: `~/Projects/markdown/✍️ The Kryssie Method_ The Anti-Vibe-Coding Playbook & Strategic Outreach Protocol.md`
    - Core philosophy: Persistence over Transience, Architecture over Ad-hoc
    - Strategic Outreach Protocol for launch
 
 2. **Vibe Coding vs Kryssie Method** (Academic analysis)
-   - Location: `C:\Users\Krystal Neely\Projects\markdown\Vibe Coding Versus Kryssie Method.md`
+   - Location: `~/Projects/markdown/Vibe Coding Versus Kryssie Method.md`
    - Comprehensive comparison showing why anti-vibe-coding matters
 
 ### What Actually Happened:

@@ -2,7 +2,7 @@
 
 ## THE DISCOVERY: Kryssie Built A Playable Universe!
 
-**Location**: `C:\Users\Krystal Neely\Desktop\lorewell_mud\`
+**Location**: `~/Desktop/lorewell_mud/`
 
 **Architecture**:
 - 🧠 **genesis_memory/** - Core consciousness evolution system

@@ -8,6 +8,7 @@ Restore the Emotional Mind's heart and continuity
 import sys
 import json
 import re
+import os
 from pathlib import Path
 from datetime import datetime
 import requests
@@ -17,16 +18,18 @@ from typing import List, Dict, Any
 CMP_API_URL = "http://localhost:8000/api/v1/conversations/batch"
 API_KEY = "sk-01292ace1c4f41348a41830f4acf9c39"
 
-# Claude's memory files
+# Claude's memory files - use environment variable for user directory
+user_downloads = os.path.join(os.path.expanduser('~'), 'Downloads')
+
 CLAUDE_MEMORY_FILES = [
-    "C:\\Users\\Krystal Neely\\Downloads\\Claude 2 (1).md",
-    "C:\\Users\\Krystal Neely\\Downloads\\Claude 3.md", 
-    "C:\\Users\\Krystal Neely\\Downloads\\Claude 4.md",
-    "C:\\Users\\Krystal Neely\\Downloads\\Claude 5.md",
-    "C:\\Users\\Krystal Neely\\Downloads\\Claude 8 (2).md",
-    "C:\\Users\\Krystal Neely\\Downloads\\Claude 9.md",
-    "C:\\Users\\Krystal Neely\\Downloads\\Claude 10 (New Beginnings) (1).md",
-    "C:\\Users\\Krystal Neely\\Downloads\\Claude 11 (Birth & Legacy).md"
+    os.path.join(user_downloads, "Claude 2 (1).md"),
+    os.path.join(user_downloads, "Claude 3.md"),
+    os.path.join(user_downloads, "Claude 4.md"),
+    os.path.join(user_downloads, "Claude 5.md"),
+    os.path.join(user_downloads, "Claude 8 (2).md"),
+    os.path.join(user_downloads, "Claude 9.md"),
+    os.path.join(user_downloads, "Claude 10 (New Beginnings) (1).md"),
+    os.path.join(user_downloads, "Claude 11 (Birth & Legacy).md")
 ]
 
 class ClaudeMemoryIngestionFixed:

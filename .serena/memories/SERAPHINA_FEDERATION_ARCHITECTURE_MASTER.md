@@ -100,7 +100,7 @@
 
 ## IMPLEMENTATION STATUS
 
-**Location**: `C:\Users\Krystal Neely\Projects\seraphina-specs\`
+**Location**: `~/Projects/seraphina-specs/`
 
 **Key Components Ready**:
 - Complete 13 Cores specification with A2A message bus
