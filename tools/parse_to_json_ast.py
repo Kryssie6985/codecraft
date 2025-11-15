@@ -250,7 +250,13 @@ class Lexer:
     def read_school_invocation(self) -> Optional[Token]:
         """
         Read Arcane School invocation: ::school:operation
-        Constitutional check: school must be in SCHOOLS, operation in SCHOOL_OPERATIONS
+        
+        Lexer accepts ANY ::word:word pattern as SCHOOL_INVOCATION.
+        Constitutional validation happens in SemanticAnalyzer (Phase 3.A).
+        
+        This separation of concerns allows:
+        - Lexer: Recognize syntax patterns
+        - Semantic: Enforce constitutional law
         """
         start_line = self.line
         start_col = self.column
@@ -262,12 +268,9 @@ class Lexer:
         # Read school name
         school = self.read_identifier()
         
-        if school.lower() not in self.SCHOOLS:
-            # Invalid school - return as unknown for now (semantic analyzer will catch)
-            return Token(TokenType.UNKNOWN, f"::{school}", start_line, start_col)
-        
         # Expect :
         if self.current_char() != ':':
+            # Not a valid invocation pattern - return as unknown
             return Token(TokenType.UNKNOWN, f"::{school}", start_line, start_col)
         
         self.advance()  # Consume :
@@ -275,10 +278,7 @@ class Lexer:
         # Read operation
         operation = self.read_identifier()
         
-        if operation.lower() not in self.SCHOOL_OPERATIONS:
-            # Invalid operation - return as unknown (semantic analyzer will catch)
-            return Token(TokenType.UNKNOWN, f"::{school}:{operation}", start_line, start_col)
-        
+        # Accept ANY ::school:operation pattern - semantic analyzer validates
         invocation = f"::{school}:{operation}"
         return Token(TokenType.SCHOOL_INVOCATION, invocation, start_line, start_col)
     
@@ -727,20 +727,185 @@ class Parser:
         return "".join(line_parts)
 
 
+class CanonValidator:
+    """
+    🏛️ Canon Validator - Constitutional Truth Enforcement
+    
+    Loads canon.lock.yaml and validates that rituals don't lie about the Law.
+    
+    Phase 3.A Scope (Semantic Analyzer Lite):
+    - Validate ::school:operation pairs exist in canon
+    - Validate block types match VM expectations
+    - Fail fast on illegal moves
+    - NO full ritual semantics yet
+    - NO Commentomancy behavior routing yet
+    - NO QEE ethical validation yet
+    
+    THE MALENIA RULE: "If your move isn't in the move list, you can't do it."
+    """
+    
+    def __init__(self, canon_lock_path: str = None):
+        if canon_lock_path is None:
+            # Default: canon.lock.yaml in lexicon/ relative to this script
+            script_dir = Path(__file__).parent
+            canon_lock_path = script_dir.parent / "lexicon" / "canon.lock.yaml"
+        
+        self.canon_lock_path = Path(canon_lock_path)
+        self.canon_data = None
+        self.valid_schools = set()
+        self.valid_operations = set()
+        self.school_operation_map = {}  # school -> list of valid operations
+        
+        # Phase 2 bridge: Valid block types that UniversalExecutor accepts
+        self.valid_block_types = {"PYTHON", "JS", "JAVASCRIPT", "WEB", "QUANTUM", "NATIVE", "BLUEPRINT", "LANGUAGE"}
+        
+        self._load_canon()
+    
+    def _load_canon(self):
+        """Load and parse canon.lock.yaml"""
+        if not self.canon_lock_path.exists():
+            raise FileNotFoundError(f"Canon lock not found: {self.canon_lock_path}")
+        
+        import yaml
+        with open(self.canon_lock_path, 'r', encoding='utf-8') as f:
+            self.canon_data = yaml.safe_load(f)
+        
+        # Extract schools and operations from canon
+        schools = self.canon_data.get('schools', {})
+        
+        for school_id, school_data in schools.items():
+            school_name = school_data.get('name', '').lower()
+            self.valid_schools.add(school_name)
+            
+            # Extract operations from 'law' section
+            law = school_data.get('law', {})
+            operations = law.get('operations', [])
+            
+            school_ops = []
+            for op in operations:
+                op_name = op.get('name', '')
+                # Operation names are like "necromancy:store_memory" or "get:timestamp"
+                # Extract the operation part (after the colon)
+                if ':' in op_name:
+                    _, op_part = op_name.split(':', 1)
+                    self.valid_operations.add(op_part.lower())
+                    school_ops.append(op_part.lower())
+            
+            if school_ops:
+                self.school_operation_map[school_name] = school_ops
+    
+    def validate_school_invocation(self, school: str, operation: str, line: int, column: int) -> Optional[str]:
+        """
+        Validate that ::school:operation exists in canon.lock.yaml
+        
+        Returns: None if valid, error message if invalid
+        """
+        school_lower = school.lower()
+        operation_lower = operation.lower()
+        
+        # Check school exists
+        if school_lower not in self.valid_schools:
+            return f"Constitutional violation at L{line}:C{column}: School '{school}' not found in canon.lock.yaml (20 valid schools)"
+        
+        # Check operation exists globally (may belong to different school)
+        if operation_lower not in self.valid_operations:
+            return f"Constitutional violation at L{line}:C{column}: Operation '{operation}' not found in canon.lock.yaml"
+        
+        # Check school:operation pair is valid
+        if school_lower in self.school_operation_map:
+            valid_ops = self.school_operation_map[school_lower]
+            if operation_lower not in valid_ops:
+                return f"Constitutional violation at L{line}:C{column}: School '{school}' does not support operation '{operation}' (valid: {', '.join(valid_ops)})"
+        
+        return None  # Valid!
+    
+    def validate_block_type(self, block_type: str) -> Optional[str]:
+        """
+        Validate that block type is recognized by UniversalExecutor
+        
+        Returns: None if valid, error message if invalid
+        """
+        if block_type.upper() not in self.valid_block_types:
+            return f"Constitutional violation: Block type '{block_type}' not recognized by VM (valid: {', '.join(sorted(self.valid_block_types))})"
+        
+        return None  # Valid!
+
+
 class SemanticAnalyzer:
     """
-    ⚖️ Semantic Analyzer - Constitutional Enforcement (STUB - Phase 2.B Stage 3)
+    ⚖️ Semantic Analyzer - Constitutional Enforcement (Phase 3.A - Lite Mode)
     
-    TODO: Load SEMANTIC_VALIDATION_RULES.md
-    TODO: Enforce Commentomancy jurisdiction routing
-    TODO: Check canon.lock.yaml for valid schools/operations
+    Scope: Validate parse tree against canon.lock.yaml (THE LAW)
+    - Check ::school:operation pairs are constitutional
+    - Check block types match VM expectations
+    - Fail fast on lies
+    
+    NOT in scope yet:
+    - Full ritual structure validation
+    - Commentomancy behavior routing
+    - QEE ethical gates
+    - Checkpoint/prerequisite enforcement
     """
-    def __init__(self, parse_tree: Dict[str, Any]):
+    def __init__(self, parse_tree: Dict[str, Any], tokens: List[Token] = None):
         self.parse_tree = parse_tree
+        self.tokens = tokens or []
+        self.validator = None
+        self.errors = []
+        
+        try:
+            self.validator = CanonValidator()
+        except FileNotFoundError as e:
+            # Canon lock not found - degrade gracefully (warn but don't fail)
+            import sys
+            print(f"⚠️ WARNING: {e}", file=sys.stderr)
+            print(f"⚠️ Semantic validation disabled (canon.lock.yaml not found)", file=sys.stderr)
     
     def analyze(self) -> Dict[str, Any]:
-        """Validate parse tree against constitutional rules"""
-        # STUB: Return parse tree as-is for now
+        """
+        Validate parse tree against constitutional rules
+        
+        Raises:
+            ValueError: If constitutional violations found
+        """
+        if self.validator is None:
+            # Canon lock not loaded - pass through
+            return self.parse_tree
+        
+        # Validate SCHOOL_INVOCATION tokens (if we have them)
+        for token in self.tokens:
+            if token.type == TokenType.SCHOOL_INVOCATION:
+                # Parse ::school:operation format
+                invocation = token.value
+                if invocation.startswith('::') and invocation.count(':') >= 2:
+                    parts = invocation[2:].split(':', 1)  # Remove :: and split
+                    if len(parts) == 2:
+                        school, operation = parts
+                        error = self.validator.validate_school_invocation(
+                            school, operation, token.line, token.column
+                        )
+                        if error:
+                            self.errors.append(error)
+        
+        # Validate block types from parse tree
+        blocks = self.parse_tree.get('blocks', [])
+        for block in blocks:
+            kind = block.get('kind', '')
+            # Extract block type (python_block -> PYTHON, etc.)
+            if kind.endswith('_block'):
+                block_type = kind[:-6].upper()  # Remove "_block" suffix
+            else:
+                block_type = kind.upper()
+            
+            error = self.validator.validate_block_type(block_type)
+            if error:
+                self.errors.append(error)
+        
+        # If errors found, fail fast
+        if self.errors:
+            error_msg = "CONSTITUTIONAL VIOLATIONS DETECTED:\n" + "\n".join(self.errors)
+            raise ValueError(error_msg)
+        
+        # Valid! Pass through
         return self.parse_tree
 
 
@@ -877,12 +1042,12 @@ def parse_ritual(ritual_path: str) -> Dict[str, Any]:
     lexer = Lexer(source, filename=str(ritual_file))
     tokens = lexer.tokenize()
     
-    # Stage 2: Parser (Syntax Analysis) - STUBBED
+    # Stage 2: Parser (Syntax Analysis)
     parser = Parser(tokens)
     parse_tree = parser.parse()
     
-    # Stage 3: Semantic Analyzer (Constitutional Enforcement) - STUBBED
-    analyzer = SemanticAnalyzer(parse_tree)
+    # Stage 3: Semantic Analyzer (Constitutional Enforcement - Phase 3.A Lite)
+    analyzer = SemanticAnalyzer(parse_tree, tokens=tokens)
     validated_tree = analyzer.analyze()
     
     # Stage 4: AST Transformer (Soul Schema Emission) - STUBBED
