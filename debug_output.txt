@@ -1,9 +1,0 @@
-=== CANONICAL LINES (first 20 and last 20) ===
-Traceback (most recent call last):
-  File "C:\Users\Krystal Neely\infrastructure\languages\codecraft\scripts\debug_canon.py", line 12, in <module>
-    print(f"{i:4d}: {repr(line)}")
-    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Python313\Lib\encodings\cp1252.py", line 19, in encode
-    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
-           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-UnicodeEncodeError: 'charmap' codec can't encode character '\U0001f30c' in position 9: character maps to <undefined>
